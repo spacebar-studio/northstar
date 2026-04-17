@@ -1523,6 +1523,1338 @@ function ProcessPage(){
   );
 }
 
+// ─── Design System Page ───────────────────────────────────────────────
+function DesignSystemPage(){
+  var secState = useState("principles");
+  var dsSec = secState[0];
+  var setDsSec = secState[1];
+
+  var DS_NAV = [
+    {id:"principles",la:"Design Principles",ic:"\u25C6"},
+    {id:"colors",la:"Color Palette",ic:"\u25CF"},
+    {id:"typography",la:"Typography",ic:"\u0054"},
+    {id:"spacing",la:"Spacing Scale",ic:"\u25A1"},
+    {id:"components",la:"Components",ic:"\u25A3"},
+    {id:"motion",la:"Motion & Animation",ic:"\u25B7"},
+    {id:"patterns",la:"Patterns & Usage",ic:"\u25E7"},
+    {id:"icons",la:"Icons & Indicators",ic:"\u2605"},
+    {id:"layouts",la:"Layout System",ic:"\u25EB"}
+  ];
+
+  var SH = {fontSize:12,color:C.ac,fontWeight:600,marginBottom:10,textTransform:"uppercase",letterSpacing:"0.06em",fontFamily:FT};
+
+  return (
+    <div style={{display:"flex",flex:1,overflow:"hidden"}}>
+      {/* Sidebar */}
+      <div style={{width:200,background:C.s1,borderRight:"1px solid "+C.bd,display:"flex",flexDirection:"column",flexShrink:0,overflow:"auto"}}>
+        <div style={{padding:"14px 10px"}}>
+          <div style={{fontSize:11,fontWeight:600,color:C.t3,textTransform:"uppercase",letterSpacing:"0.08em",padding:"0 8px",marginBottom:10,fontFamily:FT}}>Design System</div>
+          {DS_NAV.map(function(item){
+            var isA = dsSec===item.id;
+            return (
+              <button key={item.id} onClick={function(){setDsSec(item.id);}} style={{width:"100%",padding:"7px 10px",borderRadius:6,border:"none",background:isA?C.tlB:"transparent",color:isA?C.tl:C.t2,cursor:"pointer",display:"flex",alignItems:"center",gap:8,marginBottom:2,fontFamily:FT,fontSize:11,fontWeight:isA?600:400,textAlign:"left",transition:"all 0.15s"}}
+                onMouseEnter={function(e){if(!isA)e.currentTarget.style.background=C.s2;}}
+                onMouseLeave={function(e){if(!isA)e.currentTarget.style.background="transparent";}}>
+                <span style={{fontSize:12,opacity:0.6}}>{item.ic}</span>
+                {item.la}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      {/* Content */}
+      <div style={{flex:1,overflow:"auto",padding:"24px 32px"}}>
+        {dsSec==="principles" && <DSPrinciples SH={SH}/>}
+        {dsSec==="colors" && <DSColors SH={SH}/>}
+        {dsSec==="typography" && <DSTypography SH={SH}/>}
+        {dsSec==="spacing" && <DSSpacing SH={SH}/>}
+        {dsSec==="components" && <DSComponents SH={SH}/>}
+        {dsSec==="motion" && <DSMotion SH={SH}/>}
+        {dsSec==="patterns" && <DSPatterns SH={SH}/>}
+        {dsSec==="icons" && <DSIcons SH={SH}/>}
+        {dsSec==="layouts" && <DSLayouts SH={SH}/>}
+      </div>
+    </div>
+  );
+}
+
+// ─── DS: Design Principles ───
+function DSPrinciples({SH}){
+  return (
+    <div className="fu" style={{maxWidth:900}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Design Principles</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:24,fontFamily:FB,lineHeight:1.6}}>The foundational principles that guide every design decision in NorthStar.</p>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:24}}>
+        {[
+          ["Calm Nominal, Sharp Anomaly","The interface stays quiet and ambient during normal operations, then becomes assertive and directive when something goes wrong. Information density adapts to urgency.",C.tl],
+          ["Progressive Disclosure","Start with the overview, drill into detail on demand. Operators see what they need at each level without being overwhelmed by everything at once.",C.ac],
+          ["Trust Through Transparency","AI recommendations always show their reasoning. Raw telemetry is visible alongside AI interpretation. The operator decides, the system explains.",C.vi],
+          ["Resilience by Design","Failover pathways, beam alternatives, and spectrum options are visible before they're needed. The interface actively shows recovery paths.",C.am],
+          ["Decision-Quality Context","Every screen answers: What's happening? Is it normal? What should I do? Information hierarchy is tuned for time-critical decision-making.",C.li],
+          ["Dual-Use Coherence","Commercial and government operators share the same system with role-based progressive disclosure. Priority surfaces adapt without separate products.",C.rd]
+        ].map(function(p,i){
+          return (
+            <Card key={i} anim style={{borderLeft:"3px solid "+p[2],padding:16}}>
+              <div style={{fontSize:14,fontWeight:600,color:"#fff",marginBottom:6,fontFamily:FT}}>{p[0]}</div>
+              <p style={{fontSize:12,color:C.t2,lineHeight:1.6,margin:0,fontFamily:FB}}>{p[1]}</p>
+            </Card>
+          );
+        })}
+      </div>
+      <Card anim style={{marginBottom:20}}>
+        <div style={SH}>Visual Design Philosophy</div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10}}>
+          {[
+            ["Dark-First","Dark backgrounds reduce eye strain during extended monitoring sessions and make status colors pop with clarity."],
+            ["Monospace Precision","GeistMono for data, IDs, and labels creates scannable columns. Pixelify Sans for descriptions adds warmth while remaining legible."],
+            ["Minimal Chrome","Borders are subtle, surfaces are layered by opacity, and decoration is purposeful. Every pixel earns its place."]
+          ].map(function(item,i){
+            return (
+              <div key={i} style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+                <div style={{fontSize:12,fontWeight:600,color:C.tl,marginBottom:6,fontFamily:FT}}>{item[0]}</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>{item[1]}</p>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+      <Card anim>
+        <div style={SH}>Information Hierarchy</div>
+        <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:14,fontFamily:FB}}>NorthStar uses a consistent four-level information hierarchy across every screen.</p>
+        <div style={{display:"flex",gap:10}}>
+          {[
+            ["L1: KPI","At-a-glance metrics for instant situational awareness","22px / 600wt / #fff"],
+            ["L2: Map/Chart","Spatial and temporal context for pattern recognition","SVG / dynamic"],
+            ["L3: Table","Detailed listings for scanning and selection","12px / FB / rows"],
+            ["L4: Detail Panel","Deep-dive on demand with full context","Overlay / 18px title"]
+          ].map(function(item,i){
+            return (
+              <div key={i} style={{flex:1,padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd,borderTop:"2px solid "+C.tl}}>
+                <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>{item[0]}</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,marginBottom:4,fontFamily:FB}}>{item[1]}</p>
+                <Mono>{item[2]}</Mono>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+// ─── DS: Colors ───
+function DSColors({SH}){
+  var hoverState = useState(null);
+  var hov = hoverState[0];
+  var setHov = hoverState[1];
+
+  function Swatch({name,hex,desc,sub}){
+    var isH = hov===name;
+    return (
+      <div onMouseEnter={function(){setHov(name);}} onMouseLeave={function(){setHov(null);}}
+        style={{background:C.s1,border:"1px solid "+(isH?C.acD:C.bd),borderRadius:10,overflow:"hidden",cursor:"pointer",transition:"all 0.2s",transform:isH?"translateY(-2px)":"translateY(0)"}}>
+        <div style={{height:56,background:hex,position:"relative"}}>
+          {isH && <div className="fi" style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",background:"rgba(0,0,0,0.4)",fontSize:11,color:"#fff",fontFamily:MN,fontWeight:500}}>{hex}</div>}
+        </div>
+        <div style={{padding:"10px 12px"}}>
+          <div style={{fontSize:12,fontWeight:600,color:"#fff",fontFamily:FT}}>{name}</div>
+          <div style={{fontSize:10,color:C.t3,fontFamily:FB,marginTop:2}}>{desc}</div>
+          {sub && <div style={{fontSize:10,color:C.t3,fontFamily:MN,marginTop:3}}>{sub}</div>}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="fu" style={{maxWidth:900}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Color Palette</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:24,fontFamily:FB,lineHeight:1.6}}>Hover over any swatch to reveal its hex value. Colors are organized by function.</p>
+
+      <div style={SH}>Backgrounds & Surfaces</div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:10,marginBottom:24}}>
+        <Swatch name="bg" hex={C.bg} desc="Primary background" sub="Base layer"/>
+        <Swatch name="s1" hex={C.s1} desc="Card surface" sub="Cards, panels"/>
+        <Swatch name="s2" hex={C.s2} desc="Elevated surface" sub="Headers, nested"/>
+        <Swatch name="s3" hex={C.s3} desc="Highest surface" sub="Hover states"/>
+        <Swatch name="s4" hex={C.s4} desc="Compact surface" sub="Nav bar"/>
+      </div>
+
+      <div style={SH}>Text Hierarchy</div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10,marginBottom:24}}>
+        <Swatch name="t1" hex={C.t1} desc="Primary text" sub="Body, labels"/>
+        <Swatch name="t2" hex={C.t2} desc="Secondary text" sub="Descriptions"/>
+        <Swatch name="t3" hex={C.t3} desc="Tertiary text" sub="Captions, muted"/>
+      </div>
+
+      <div style={SH}>Semantic Colors</div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:10,marginBottom:24}}>
+        <Swatch name="Teal" hex={C.tl} desc="Success / Nominal" sub="Primary action"/>
+        <Swatch name="Lime" hex={C.li} desc="Highlight / Active" sub="Emphasis"/>
+        <Swatch name="Amber" hex={C.am} desc="Warning / Degraded" sub="Caution state"/>
+        <Swatch name="Red" hex={C.rd} desc="Critical / Error" sub="Alert state"/>
+        <Swatch name="Violet" hex={C.vi} desc="Info / Accent" sub="Secondary info"/>
+      </div>
+
+      <div style={SH}>Color Application</div>
+      <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:14,fontFamily:FB}}>Each semantic color has three variants for layered usage:</p>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:10,marginBottom:24}}>
+        {[
+          ["Teal",C.tl,C.tlB,C.tlD],
+          ["Lime",C.li,C.liB,C.liD],
+          ["Amber",C.am,C.amB,C.amD],
+          ["Red",C.rd,C.rdB,C.rdD],
+          ["Violet",C.vi,C.viB,"rgba(107,138,230,0.2)"]
+        ].map(function(c){
+          return (
+            <div key={c[0]} style={{background:C.s1,borderRadius:10,border:"1px solid "+C.bd,overflow:"hidden"}}>
+              <div style={{padding:"8px 10px",fontSize:11,fontWeight:600,color:c[1],fontFamily:FT}}>{c[0]}</div>
+              <div style={{display:"flex",flexDirection:"column"}}>
+                <div style={{padding:"10px 12px",background:c[1],display:"flex",justifyContent:"space-between"}}>
+                  <span style={{fontSize:10,color:C.bg,fontFamily:MN,fontWeight:600}}>Foreground</span>
+                </div>
+                <div style={{padding:"10px 12px",background:c[2],borderTop:"1px solid "+C.bd}}>
+                  <span style={{fontSize:10,color:c[1],fontFamily:MN}}>Background</span>
+                </div>
+                <div style={{padding:"10px 12px",background:"transparent",borderTop:"1px solid "+c[3]}}>
+                  <span style={{fontSize:10,color:c[1],fontFamily:MN}}>Border</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <Card anim>
+        <div style={SH}>Usage Rules</div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+          {[
+            ["Status Mapping","Teal = Nominal/Online, Amber = Warning/Degraded, Red = Critical/Error, Violet = Info/Commissioning, Neutral = Planned/Inactive"],
+            ["Contrast","Primary text (#E8EAED) on dark backgrounds maintains WCAG AA. Use t2 for secondary, t3 only for muted captions."],
+            ["Backgrounds","Never use semantic foreground colors as backgrounds directly. Use the B (background) variant at 4-8% opacity."],
+            ["Borders","Default border is #262E38 (bd). Active/focus states use the D (dark) variant of the relevant semantic color."]
+          ].map(function(r,i){
+            return (
+              <div key={i} style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+                <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>{r[0]}</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>{r[1]}</p>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+// ─── DS: Typography ───
+function DSTypography({SH}){
+  return (
+    <div className="fu" style={{maxWidth:900}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Typography</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:24,fontFamily:FB,lineHeight:1.6}}>NorthStar uses two typefaces, each serving a distinct functional purpose.</p>
+
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginBottom:24}}>
+        <Card anim>
+          <div style={{fontSize:11,fontWeight:600,color:C.tl,textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:12,fontFamily:FT}}>Primary: GeistMono</div>
+          <div style={{fontSize:28,fontWeight:700,color:"#fff",marginBottom:4,fontFamily:FT}}>Aa Bb Cc 123</div>
+          <div style={{fontSize:14,fontWeight:400,color:C.t2,marginBottom:12,fontFamily:FT}}>ABCDEFGHIJKLMNOPQRSTUVWXYZ</div>
+          <p style={{fontSize:11,color:C.t3,lineHeight:1.5,fontFamily:FB}}>Used for headers, labels, IDs, timestamps, navigation, buttons, and KPI values. Its monospace nature creates scannable columns and precise data alignment.</p>
+          <div style={{marginTop:12,display:"flex",gap:4,flexWrap:"wrap"}}>
+            <Badge type="info">Headers</Badge><Badge type="info">Labels</Badge><Badge type="info">KPIs</Badge><Badge type="info">Navigation</Badge><Badge type="info">Buttons</Badge>
+          </div>
+        </Card>
+        <Card anim>
+          <div style={{fontSize:11,fontWeight:600,color:C.tl,textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:12,fontFamily:FT}}>Secondary: Pixelify Sans</div>
+          <div style={{fontSize:28,fontWeight:700,color:"#fff",marginBottom:4,fontFamily:FB}}>Aa Bb Cc 123</div>
+          <div style={{fontSize:14,fontWeight:400,color:C.t2,marginBottom:12,fontFamily:FB}}>ABCDEFGHIJKLMNOPQRSTUVWXYZ</div>
+          <p style={{fontSize:11,color:C.t3,lineHeight:1.5,fontFamily:FB}}>Used for body text, descriptions, paragraphs, and longer-form content. Adds warmth and readability to descriptive text while maintaining character.</p>
+          <div style={{marginTop:12,display:"flex",gap:4,flexWrap:"wrap"}}>
+            <Badge type="neutral">Body text</Badge><Badge type="neutral">Descriptions</Badge><Badge type="neutral">Paragraphs</Badge>
+          </div>
+        </Card>
+      </div>
+
+      <div style={SH}>Type Scale</div>
+      <Card anim style={{marginBottom:24,padding:0,overflow:"hidden"}}>
+        {[
+          [28,"Page title",700,FT,"#fff","Page-level headers on major screens"],
+          [22,"Section title",700,FT,"#fff","KPI values, welcome title"],
+          [20,"Screen title",600,FT,"#fff","Screen headers (Alerts, Gallery, Planner)"],
+          [18,"Detail title",600,FT,"#fff","Detail panel headers"],
+          [15,"Card title",600,FT,"#fff","Mission names, prominent card headers"],
+          [14,"Section header",600,FT,"#fff","Card section titles, key info"],
+          [13,"Body large",600,FT,C.t1,"Copilot title, nav label"],
+          [12,"Body",400,FB,C.t1,"Standard body text, descriptions"],
+          [11,"Caption",500,FT,C.t2,"Buttons, labels, small text"],
+          [10,"Micro",600,FT,C.t3,"Table headers, uppercase labels"]
+        ].map(function(t,i){
+          return (
+            <div key={i} style={{display:"flex",alignItems:"center",padding:"12px 16px",borderBottom:"1px solid "+C.bd,gap:16,transition:"background 0.12s"}}
+              onMouseEnter={function(e){e.currentTarget.style.background=C.s2;}}
+              onMouseLeave={function(e){e.currentTarget.style.background="transparent";}}>
+              <div style={{width:50,fontSize:10,color:C.t3,fontFamily:MN,textAlign:"right"}}>{t[0]}px</div>
+              <div style={{flex:1,fontSize:t[0],fontWeight:t[2],fontFamily:t[3],color:t[4],lineHeight:1.3,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{t[1]}</div>
+              <div style={{width:90,fontSize:10,color:C.t3,fontFamily:MN}}>{t[2]} wt</div>
+              <div style={{width:180,fontSize:10,color:C.t3,fontFamily:FB}}>{t[5]}</div>
+            </div>
+          );
+        })}
+      </Card>
+
+      <div style={SH}>Font Weights</div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10,marginBottom:24}}>
+        {[
+          [400,"Regular","Body text, default"],
+          [500,"Medium","Buttons, secondary emphasis"],
+          [600,"Semibold","Labels, section headers, card titles"],
+          [700,"Bold","Page titles, KPI values, emphasis"]
+        ].map(function(w,i){
+          return (
+            <Card key={i} anim>
+              <div style={{fontSize:24,fontWeight:w[0],color:"#fff",marginBottom:8,fontFamily:FT}}>Ag</div>
+              <div style={{fontSize:11,fontWeight:600,color:C.tl,fontFamily:FT}}>{w[0]} {w[1]}</div>
+              <div style={{fontSize:10,color:C.t3,marginTop:3,fontFamily:FB}}>{w[2]}</div>
+            </Card>
+          );
+        })}
+      </div>
+
+      <Card anim>
+        <div style={SH}>Line Heights</div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:10}}>
+          {[[1,"Tight","KPI values, numbers"],[1.3,"Compact","Headers"],[1.4,"Snug","Short descriptions"],[1.5,"Normal","Body text"],[1.6,"Relaxed","Paragraphs, long text"]].map(function(l,i){
+            return (
+              <div key={i} style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+                <div style={{fontSize:18,fontWeight:600,color:C.tl,fontFamily:FT,marginBottom:4}}>{l[0]}</div>
+                <div style={{fontSize:11,fontWeight:500,color:"#fff",fontFamily:FT}}>{l[1]}</div>
+                <div style={{fontSize:10,color:C.t3,marginTop:2,fontFamily:FB}}>{l[2]}</div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+// ─── DS: Spacing ───
+function DSSpacing({SH}){
+  return (
+    <div className="fu" style={{maxWidth:900}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Spacing Scale</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:24,fontFamily:FB,lineHeight:1.6}}>Spacing is applied consistently using a base-2/4 scale. Hover to see the measurement.</p>
+
+      <div style={SH}>Gap Scale (Flex/Grid)</div>
+      <Card anim style={{marginBottom:24}}>
+        {[2,3,4,5,6,8,10,12,16,24].map(function(g,i){
+          return (
+            <div key={i} style={{display:"flex",alignItems:"center",gap:12,padding:"8px 0",borderBottom:"1px solid "+C.bd}}>
+              <div style={{width:50,fontSize:11,fontWeight:600,color:C.tl,fontFamily:MN,textAlign:"right"}}>{g}px</div>
+              <div style={{display:"flex",gap:g}}>
+                <div style={{width:20,height:20,background:C.tlB,border:"1px solid "+C.tlD,borderRadius:4}}/>
+                <div style={{width:20,height:20,background:C.tlB,border:"1px solid "+C.tlD,borderRadius:4}}/>
+                <div style={{width:20,height:20,background:C.tlB,border:"1px solid "+C.tlD,borderRadius:4}}/>
+              </div>
+              <div style={{fontSize:10,color:C.t3,fontFamily:FB}}>
+                {g<=4?"Minimal":g<=6?"Small":g<=10?"Medium":g<=16?"Large":"Section"}
+              </div>
+            </div>
+          );
+        })}
+      </Card>
+
+      <div style={SH}>Padding Scale</div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10,marginBottom:24}}>
+        {[
+          ["2px 7px","Badge, tag"],
+          ["4px 11px","Button (sm)"],
+          ["4px 12px","Tab item"],
+          ["6px 14px","Button (default)"],
+          ["8px 12px","Table cell, input"],
+          ["14px 16px","KPI card"],
+          ["16px","Card (default)"],
+          ["16px 20px","Detail panel"],
+          ["36px 40px","Modal dialog"]
+        ].map(function(p,i){
+          return (
+            <div key={i} style={{background:C.s1,borderRadius:10,border:"1px solid "+C.bd,overflow:"hidden"}}>
+              <div style={{padding:p[0],background:C.tlB,border:"1px dashed "+C.tlD,margin:8,borderRadius:6}}>
+                <div style={{background:C.s2,borderRadius:4,padding:6,fontSize:10,color:C.t3,fontFamily:MN,textAlign:"center"}}>{p[0]}</div>
+              </div>
+              <div style={{padding:"6px 10px",borderTop:"1px solid "+C.bd}}>
+                <div style={{fontSize:10,color:C.t2,fontFamily:FB}}>{p[1]}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div style={SH}>Border Radius</div>
+      <div style={{display:"flex",gap:12,flexWrap:"wrap",marginBottom:24}}>
+        {[
+          [4,"Minimal"],[6,"Small (btns)"],[8,"Medium"],[10,"Standard (cards)"],[12,"Large"],[16,"XL (modals)"],[18,"Pill (tabs)"],[20,"Badge"],["50%","Circle"]
+        ].map(function(r,i){
+          return (
+            <div key={i} style={{textAlign:"center"}}>
+              <div style={{width:52,height:52,background:C.tlB,border:"2px solid "+C.tl,borderRadius:r[0],margin:"0 auto 6px",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:C.tl,fontFamily:MN}}>{typeof r[0]==="number"?r[0]+"px":r[0]}</div>
+              <div style={{fontSize:10,color:C.t3,fontFamily:FB}}>{r[1]}</div>
+            </div>
+          );
+        })}
+      </div>
+
+      <Card anim>
+        <div style={SH}>Spacing Usage Rules</div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+          {[
+            ["Component spacing","Use gap:8-10 between sibling components within a section. Use gap:16-24 between sections."],
+            ["Card padding","Standard cards use 16px. Compact cards (copilot) use 12px. Detail panels use 16px 20px."],
+            ["Margin bottom","6px after labels, 10-12px between card sections, 16-20px between major sections, 32px between page sections."],
+            ["Table density","6px 12px for headers, 8px 12px for rows. Gap of 5px between columns."]
+          ].map(function(r,i){
+            return (
+              <div key={i} style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+                <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>{r[0]}</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>{r[1]}</p>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+// ─── DS: Components ───
+function DSComponents({SH}){
+  var subState = useState("badge");
+  var sub = subState[0];
+  var setSub = subState[1];
+  var hState = useState({});
+  var hov = hState[0];
+  var setHov = hState[1];
+  var loadState = useState(false);
+  var loading = loadState[0];
+  var setLoading = loadState[1];
+  var progState = useState(0);
+  var simProg = progState[0];
+  var setSimProg = progState[1];
+  var chipState = useState("All");
+  var chipActive = chipState[0];
+  var setChipActive = chipState[1];
+  var tabState = useState("Tab 1");
+  var tabActive = tabState[0];
+  var setTabActive = tabState[1];
+  var expState = useState(false);
+  var expanded = expState[0];
+  var setExpanded = expState[1];
+
+  useEffect(function(){
+    if(loading){
+      var iv = setInterval(function(){
+        setSimProg(function(p){
+          if(p>=100){setLoading(false);return 0;}
+          return p+3;
+        });
+      },80);
+      return function(){clearInterval(iv);};
+    }
+  },[loading]);
+
+  var COMP_NAV = [
+    {id:"badge",la:"Badge"},{id:"button",la:"Button"},{id:"tabs",la:"Sliding Tabs"},{id:"kpi",la:"KPI Card"},
+    {id:"card",la:"Card"},{id:"table",la:"Table"},{id:"chips",la:"Chips/Filters"},{id:"bar",la:"Progress Bar"},
+    {id:"chart",la:"Mini Chart"},{id:"detail",la:"Detail Panel"},{id:"mono",la:"Mono Text"},
+    {id:"form",la:"Form Input"},{id:"copilot",la:"Copilot Card"}
+  ];
+
+  return (
+    <div className="fu" style={{maxWidth:960}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Component Library</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:16,fontFamily:FB,lineHeight:1.6}}>Interactive component catalog. Click on a component to explore its variants and states.</p>
+
+      <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:20}}>
+        {COMP_NAV.map(function(c){
+          return <Btn key={c.id} sm active={sub===c.id} onClick={function(){setSub(c.id);}}>{c.la}</Btn>;
+        })}
+      </div>
+
+      {/* Badge */}
+      {sub==="badge" && (
+        <div className="fi">
+          <Card anim style={{marginBottom:16}}>
+            <div style={SH}>Badge</div>
+            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Status and severity indicators with semantic color mapping. Used inline with text or as standalone labels.</p>
+            <div style={{marginBottom:16}}>
+              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Variants</div>
+              <div style={{display:"flex",gap:8,flexWrap:"wrap",alignItems:"center"}}>
+                <Badge type="success">Success</Badge>
+                <Badge type="warning">Warning</Badge>
+                <Badge type="critical">Critical</Badge>
+                <Badge type="info">Info</Badge>
+                <Badge type="cyan">Cyan</Badge>
+                <Badge type="neutral">Neutral</Badge>
+              </div>
+            </div>
+            <div style={{marginBottom:16}}>
+              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>In Context</div>
+              <div style={{display:"flex",gap:12,alignItems:"center"}}>
+                <div style={{display:"flex",gap:4}}><Badge type="success">Online</Badge><Badge type="cyan">8 sats</Badge></div>
+                <div style={{display:"flex",gap:4}}><Badge type="critical">P0</Badge><span style={{fontSize:12,color:C.t1,fontFamily:FB}}>EagleWatch</span></div>
+                <div style={{display:"flex",gap:4}}><Badge type="warning">Degraded</Badge><Badge type="neutral">APAC</Badge></div>
+              </div>
+            </div>
+            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use success for nominal/online states. Warning for degraded/caution. Critical for errors and P0 priority. Info/cyan for informational metadata. Neutral for inactive or classification labels.</p>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Button */}
+      {sub==="button" && (
+        <div className="fi">
+          <Card anim style={{marginBottom:16}}>
+            <div style={SH}>Button</div>
+            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Primary and secondary buttons with small variants. Hover over each to see interactive states.</p>
+            <div style={{marginBottom:20}}>
+              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Primary</div>
+              <div style={{display:"flex",gap:8,alignItems:"center"}}>
+                <Btn primary>Primary Action</Btn>
+                <Btn primary sm>Small Primary</Btn>
+              </div>
+            </div>
+            <div style={{marginBottom:20}}>
+              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Secondary (Default)</div>
+              <div style={{display:"flex",gap:8,alignItems:"center"}}>
+                <Btn>Secondary</Btn>
+                <Btn sm>Small</Btn>
+              </div>
+            </div>
+            <div style={{marginBottom:20}}>
+              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Active State (Selected)</div>
+              <div style={{display:"flex",gap:8,alignItems:"center"}}>
+                <Btn active>Active</Btn>
+                <Btn sm active>Active Small</Btn>
+                <Btn>Inactive</Btn>
+              </div>
+            </div>
+            <div style={{marginBottom:16}}>
+              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Button Groups</div>
+              <div style={{display:"flex",gap:4}}>
+                <Btn sm primary>Apply</Btn>
+                <Btn sm>Simulate</Btn>
+                <Btn sm>Edit</Btn>
+                <Btn sm>Cancel</Btn>
+              </div>
+            </div>
+            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use primary (teal fill) for the single most important action. Use secondary (border only) for all other actions. Use sm variant in dense contexts like table rows, copilot cards, and toolbars. Max one primary button per visual group.</p>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Sliding Tabs */}
+      {sub==="tabs" && (
+        <div className="fi">
+          <Card anim style={{marginBottom:16}}>
+            <div style={SH}>Sliding Tabs</div>
+            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Segmented control for filtering or switching views. Active tab shows a teal border ring. Click tabs below to interact.</p>
+            <div style={{marginBottom:20}}>
+              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Interactive Demo</div>
+              <SlidingTabs items={["Tab 1","Tab 2","Tab 3","Tab 4"]} active={tabActive} onSelect={setTabActive}/>
+              <div style={{marginTop:10,padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+                <span style={{fontSize:12,color:C.t1,fontFamily:FB}}>Selected: </span>
+                <span style={{fontSize:12,color:C.tl,fontWeight:600,fontFamily:FT}}>{tabActive}</span>
+              </div>
+            </div>
+            <div style={{marginBottom:16}}>
+              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>In Context: Severity Filter</div>
+              <SlidingTabs items={["All","Critical","Warning","Info"]} active="All" onSelect={function(){}}/>
+            </div>
+            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use for mutually exclusive filter sets with 2-6 options. Wraps when options overflow. The pill background container provides visual grouping. Not for navigation between pages.</p>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* KPI */}
+      {sub==="kpi" && (
+        <div className="fi">
+          <Card anim style={{marginBottom:16}}>
+            <div style={SH}>KPI Card</div>
+            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Key Performance Indicator cards for at-a-glance metrics. Animated on entry with fade-up. Each has label, value, and optional subtitle.</p>
+            <div style={{marginBottom:20}}>
+              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Standard KPIs</div>
+              <div style={{display:"flex",gap:8}}>
+                <KPI label="Satellites" value="7/8" sub="tracked"/>
+                <KPI label="Sites" value="5/7" sub="1 degraded"/>
+                <KPI label="Throughput" value="4.8 Gbps" sub="Peak 6.2"/>
+                <KPI label="Incidents" value="6" sub="2 critical"/>
+              </div>
+            </div>
+            <div style={{marginBottom:16}}>
+              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Without Subtitle</div>
+              <div style={{display:"flex",gap:8}}>
+                <KPI label="Status" value="Applied"/>
+                <KPI label="Confidence" value="94%"/>
+                <KPI label="Impact" value="Nominal"/>
+              </div>
+            </div>
+            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Place KPI rows at the top of screens for instant situational awareness. Use 3-5 KPIs per row. Values should be concise (numbers, percentages, short words). Subtitles provide context without detail. Always use tabular-nums for numeric alignment.</p>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Card */}
+      {sub==="card" && (
+        <div className="fi">
+          <Card anim style={{marginBottom:16}}>
+            <div style={SH}>Card</div>
+            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Primary container component. Cards can be static, clickable (with hover lift), or animated on entry. Hover over the interactive cards below.</p>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:16}}>
+              <Card>
+                <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:4,fontFamily:FT}}>Static Card</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Default card with no interaction. Used for display content.</p>
+              </Card>
+              <Card onClick={function(){}} anim>
+                <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:4,fontFamily:FT}}>Clickable Card</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Hover to see border glow and lift effect.</p>
+              </Card>
+              <Card anim style={{borderColor:C.tlD}}>
+                <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:4,fontFamily:FT}}>Accent Border</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Teal border for emphasis or active state.</p>
+              </Card>
+            </div>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:16}}>
+              <Card style={{borderColor:C.rdD}}>
+                <div style={{fontSize:12,fontWeight:600,color:C.rd,marginBottom:4,fontFamily:FT}}>Critical Border</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Red border for critical states.</p>
+              </Card>
+              <Card style={{borderColor:C.amD}}>
+                <div style={{fontSize:12,fontWeight:600,color:C.am,marginBottom:4,fontFamily:FT}}>Warning Border</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Amber border for warnings.</p>
+              </Card>
+              <Card style={{padding:0,overflow:"hidden"}}>
+                <div style={{padding:"10px 14px",borderBottom:"1px solid "+C.bd}}>
+                  <span style={{fontSize:12,fontWeight:600,color:"#fff",fontFamily:FT}}>Header Card</span>
+                </div>
+                <div style={{padding:14}}>
+                  <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Card with header section.</p>
+                </div>
+              </Card>
+            </div>
+            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Cards are the primary grouping container. Use border-color for semantic state (teal=success, amber=warning, red=critical). Clickable cards get hover lift and border glow. Use padding:0 with overflow:hidden for header-card patterns. Animate entry with the anim prop.</p>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Table */}
+      {sub==="table" && (
+        <div className="fi">
+          <Card anim style={{marginBottom:16}}>
+            <div style={SH}>Table (TH + TR)</div>
+            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Grid-based table with header and interactive rows. Rows highlight on hover and support active (selected) state. Click rows to see active state.</p>
+            <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+              <TH cols={[{l:"ID",w:"80px"},{l:"Name"},{l:"Status",w:"90px"},{l:"Region",w:"100px"},{l:"Health",w:"80px"}]}/>
+              {[
+                ["NS-001","Sentinel-7A","Nominal","CONUS-W","98%"],
+                ["NS-003","Aegis-12","Degraded","GEO","72%"],
+                ["NS-005","Pathfinder-9","Critical","LEO","41%"]
+              ].map(function(r,i){
+                return (
+                  <TR key={i} cols={[{w:"80px"},{},{w:"90px"},{w:"100px"},{w:"80px"}]}
+                    active={hov.tableRow===i} onClick={function(){setHov(Object.assign({},hov,{tableRow:hov.tableRow===i?null:i}));}}
+                    vals={[
+                      <Mono>{r[0]}</Mono>,
+                      <span style={{fontWeight:500}}>{r[1]}</span>,
+                      <Badge type={r[2]==="Nominal"?"success":r[2]==="Degraded"?"warning":"critical"}>{r[2]}</Badge>,
+                      <span style={{color:C.t2}}>{r[3]}</span>,
+                      <span>{r[4]}</span>
+                    ]}/>
+                );
+              })}
+            </Card>
+            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Tables use CSS Grid for column alignment. TH defines column labels with uppercase styling. TR highlights on hover (s4 background) and shows acB background when active. Use Mono for IDs and timestamps. Use Badge for status columns. Column widths should be explicit for data-heavy columns.</p>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Chips */}
+      {sub==="chips" && (
+        <div className="fi">
+          <Card anim style={{marginBottom:16}}>
+            <div style={SH}>Chips / Filter Buttons</div>
+            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Inline filter pills built from small buttons. Click to toggle active state.</p>
+            <div style={{marginBottom:16}}>
+              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Interactive Demo</div>
+              <Chips items={["All","Critical","Warning","Info","Nominal"]} active={chipActive} set={setChipActive}/>
+              <div style={{marginTop:8,fontSize:11,color:C.t2,fontFamily:FB}}>Selected: <span style={{color:C.tl,fontWeight:600,fontFamily:FT}}>{chipActive}</span></div>
+            </div>
+            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use chips for quick inline filtering (severity, type, category). Always include an "All" option. The active chip shows the acB background and acD border. Chips wrap on overflow. Prefer SlidingTabs for pill-contained filters, Chips for inline filter rows.</p>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Progress Bar */}
+      {sub==="bar" && (
+        <div className="fi">
+          <Card anim style={{marginBottom:16}}>
+            <div style={SH}>Progress Bar</div>
+            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Horizontal progress indicator with animated fill and percentage label. Click the button to see it animate.</p>
+            <div style={{marginBottom:16}}>
+              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Static Examples</div>
+              <div style={{display:"flex",flexDirection:"column",gap:10}}>
+                <div><div style={{fontSize:10,color:C.t3,marginBottom:3,fontFamily:FT}}>25%</div><BarC pct={25}/></div>
+                <div><div style={{fontSize:10,color:C.t3,marginBottom:3,fontFamily:FT}}>62%</div><BarC pct={62}/></div>
+                <div><div style={{fontSize:10,color:C.t3,marginBottom:3,fontFamily:FT}}>100%</div><BarC pct={100}/></div>
+                <div><div style={{fontSize:10,color:C.t3,marginBottom:3,fontFamily:FT}}>Warning (amber)</div><BarC pct={45} color={C.am}/></div>
+                <div><div style={{fontSize:10,color:C.t3,marginBottom:3,fontFamily:FT}}>Critical (red)</div><BarC pct={18} color={C.rd}/></div>
+              </div>
+            </div>
+            <div style={{marginBottom:16}}>
+              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Live Animation</div>
+              <BarC pct={loading?simProg:0} color={simProg>=100?C.tl:C.ac}/>
+              <div style={{marginTop:8}}>
+                <Btn sm primary onClick={function(){setSimProg(0);setLoading(true);}}>
+                  {loading?"Running...":"Start Simulation"}
+                </Btn>
+              </div>
+            </div>
+            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use teal for standard progress, amber for warning thresholds, red for critical states. The bar transitions width over 0.6s for smooth animation. Always show the percentage label. Height is 3px for an unobtrusive presence.</p>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Mini Chart */}
+      {sub==="chart" && (
+        <div className="fi">
+          <Card anim style={{marginBottom:16}}>
+            <div style={SH}>Mini Chart (Sparkline)</div>
+            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>SVG-based sparkline chart for inline trend visualization. Supports threshold lines and custom colors.</p>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:16}}>
+              <Card>
+                <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>Teal (Nominal)</div>
+                <MC data={[14.2,13.8,14.5,13.1,14.8,14.0,13.5,14.2,15.1,14.6,13.9,14.3]} color={C.tl}/>
+              </Card>
+              <Card>
+                <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>With Threshold</div>
+                <MC data={[8.1,7.5,7.2,6.8,6.5,6.1,6.3,6.0,5.8,6.1,5.9,6.1]} color={C.am} thr={5}/>
+              </Card>
+              <Card>
+                <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>Critical Trend</div>
+                <MC data={[5.2,4.8,4.1,3.7,3.2,2.8,2.5,2.3,2.1,2.3,2.0,2.3]} color={C.rd} thr={5}/>
+              </Card>
+              <Card>
+                <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>Violet Accent</div>
+                <MC data={[10.5,10.8,10.2,10.6,10.9,10.3,10.7,10.1,10.5,10.4,10.8,10.5]} color={C.vi}/>
+              </Card>
+            </div>
+            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use sparklines for telemetry trends in cards and detail panels. Default height is 55px. Threshold lines appear as dashed red lines. Color should match the semantic state of the data. Provide 8-12 data points for readable trends.</p>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Detail Panel */}
+      {sub==="detail" && (
+        <div className="fi">
+          <Card anim style={{marginBottom:16}}>
+            <div style={SH}>Detail Panel (DP)</div>
+            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Full-screen overlay for deep-dive views. Contains a back button, title, and flexible content area. Click "Open Detail" to see the panel pattern rendered inline.</p>
+            <div style={{marginBottom:16}}>
+              <Btn sm primary onClick={function(){setExpanded(!expanded);}}>{expanded?"Close Detail":"Open Detail Preview"}</Btn>
+            </div>
+            {expanded && (
+              <div className="fi" style={{border:"1px solid "+C.bd,borderRadius:10,overflow:"hidden",background:C.bg}}>
+                <div style={{padding:"16px 20px"}}>
+                  <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:16}}>
+                    <button onClick={function(){setExpanded(false);}} style={{background:C.acB,border:"1px solid "+C.acD,borderRadius:6,padding:"4px 12px",color:C.ac,fontSize:11,fontWeight:500,cursor:"pointer",fontFamily:FT}}>Back</button>
+                    <h1 style={{fontSize:18,fontWeight:600,color:"#fff",fontFamily:FT}}>Detail: Sentinel-7A</h1>
+                  </div>
+                  <div style={{display:"flex",gap:8,marginBottom:12}}>
+                    <KPI label="Health" value="98%" sub="Nominal"/>
+                    <KPI label="Orbit" value="LEO" sub="550 km"/>
+                    <KPI label="Link" value="14.2 dB" sub="Margin"/>
+                  </div>
+                  <Card style={{borderColor:C.tlD,padding:12}}>
+                    <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>Telemetry</div>
+                    <MC data={[14.2,13.8,14.5,13.1,14.8,14.0,13.5,14.2,15.1,14.6,13.9,14.3]} color={C.tl}/>
+                  </Card>
+                </div>
+              </div>
+            )}
+            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd,marginTop:16}}>
+              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Detail panels overlay the screen content. Always include a Back button and title. Use KPI row at top for key metrics. Content below can use any layout pattern (timeline, form, grid, charts). Panel fades in with the fi animation class.</p>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Mono */}
+      {sub==="mono" && (
+        <div className="fi">
+          <Card anim style={{marginBottom:16}}>
+            <div style={SH}>Mono Text</div>
+            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Monospace-styled inline text for IDs, timestamps, and technical values.</p>
+            <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:16}}>
+              <div style={{display:"flex",alignItems:"center",gap:12}}>
+                <span style={{width:80,fontSize:10,color:C.t3,fontFamily:FT}}>Timestamp</span>
+                <Mono>14:22:08</Mono>
+              </div>
+              <div style={{display:"flex",alignItems:"center",gap:12}}>
+                <span style={{width:80,fontSize:10,color:C.t3,fontFamily:FT}}>ID</span>
+                <Mono>NS-001</Mono>
+              </div>
+              <div style={{display:"flex",alignItems:"center",gap:12}}>
+                <span style={{width:80,fontSize:10,color:C.t3,fontFamily:FT}}>Command</span>
+                <Mono>GET_LINK_STATUS</Mono>
+              </div>
+              <div style={{display:"flex",alignItems:"center",gap:12}}>
+                <span style={{width:80,fontSize:10,color:C.t3,fontFamily:FT}}>Data Rate</span>
+                <Mono>150 Mbps</Mono>
+              </div>
+            </div>
+            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use Mono for machine-generated values: IDs, timestamps, commands, data rates, hex codes. Rendered at 11px in t2 color. Provides visual distinction from human-readable body text.</p>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Form Input */}
+      {sub==="form" && (
+        <div className="fi">
+          <Card anim style={{marginBottom:16}}>
+            <div style={SH}>Form Input</div>
+            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Text inputs used in edit and configuration panels. Dark surface with subtle border.</p>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:16}}>
+              <div>
+                <div style={{fontSize:11,fontWeight:600,color:C.t1,marginBottom:3,fontFamily:FT}}>Filled</div>
+                <div style={{padding:"8px 12px",borderRadius:6,border:"1px solid "+C.bd,background:C.s2,fontSize:12,color:"#fff",fontFamily:FB}}>Sentinel-7A</div>
+              </div>
+              <div>
+                <div style={{fontSize:11,fontWeight:600,color:C.t1,marginBottom:3,fontFamily:FT}}>Placeholder</div>
+                <div style={{padding:"8px 12px",borderRadius:6,border:"1px solid "+C.bd,background:C.s2,fontSize:12,color:C.t3,fontFamily:FB}}>Enter value...</div>
+              </div>
+              <div>
+                <div style={{fontSize:11,fontWeight:600,color:C.t1,marginBottom:3,fontFamily:FT}}>Focus State</div>
+                <div style={{padding:"8px 12px",borderRadius:6,border:"1px solid "+C.tlD,background:C.s2,fontSize:12,color:"#fff",fontFamily:FB,boxShadow:"0 0 0 2px rgba(154,197,185,0.1)"}}>Active editing</div>
+              </div>
+              <div>
+                <div style={{fontSize:11,fontWeight:600,color:C.t1,marginBottom:3,fontFamily:FT}}>With Label</div>
+                <div style={{padding:"8px 12px",borderRadius:6,border:"1px solid "+C.bd,background:C.s2,fontSize:12,color:"#fff",fontFamily:FB}}>P1 - High</div>
+              </div>
+            </div>
+            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Inputs use s2 background with bd border. Focus state shows teal border with subtle glow. Labels above inputs use 11px FT semibold. Place inputs in 2-column grids for edit/config panels. 14px margin between input groups.</p>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Copilot Card */}
+      {sub==="copilot" && (
+        <div className="fi">
+          <Card anim style={{marginBottom:16}}>
+            <div style={SH}>Copilot Card</div>
+            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>AI recommendation card used in the Copilot sidebar. Contains severity badge, title, description, expandable reasoning, and action buttons.</p>
+            <div style={{maxWidth:320,marginBottom:16}}>
+              <Card anim style={{borderColor:C.rdD,padding:12,marginBottom:8}}>
+                <div style={{display:"flex",alignItems:"center",gap:4,marginBottom:5}}>
+                  <Badge type="critical">Critical</Badge>
+                  <span style={{fontSize:12,fontWeight:600,color:"#fff",fontFamily:FT}}>Reroute Pathfinder-9</span>
+                </div>
+                <p style={{fontSize:11,color:C.t1,lineHeight:1.5,marginBottom:6,fontFamily:FB}}>Darwin link margin critically low. Paumalu B-06 available with 14.1 dB margin.</p>
+                <details>
+                  <summary style={{fontSize:10,color:C.tl,cursor:"pointer",fontWeight:500,fontFamily:FT}}>Why this recommendation</summary>
+                  <p style={{fontSize:11,color:C.t2,lineHeight:1.4,marginTop:3,paddingLeft:6,borderLeft:"2px solid "+C.tlD,fontFamily:FB}}>Margin 2.3 dB {"<"} 5 dB threshold. Scintillation forecast 3+ hours.</p>
+                </details>
+                <div style={{display:"flex",gap:3,marginTop:6}}>
+                  <Btn sm primary>Apply</Btn>
+                  <Btn sm>Simulate</Btn>
+                </div>
+              </Card>
+              <Card anim style={{borderColor:C.acD,padding:12}}>
+                <div style={{display:"flex",alignItems:"center",gap:4,marginBottom:5}}>
+                  <Badge type="info">Info</Badge>
+                  <span style={{fontSize:12,fontWeight:600,color:"#fff",fontFamily:FT}}>Optimize Cape beams</span>
+                </div>
+                <p style={{fontSize:11,color:C.t1,lineHeight:1.5,marginBottom:6,fontFamily:FB}}>11/18 beams active. Rebalance frees 3 for ShieldNet.</p>
+                <details>
+                  <summary style={{fontSize:10,color:C.tl,cursor:"pointer",fontWeight:500,fontFamily:FT}}>Why this recommendation</summary>
+                  <p style={{fontSize:11,color:C.t2,lineHeight:1.4,marginTop:3,paddingLeft:6,borderLeft:"2px solid "+C.tlD,fontFamily:FB}}>B-12,14,16 on completed passes. ShieldNet needs 2 at 15:00.</p>
+                </details>
+                <div style={{display:"flex",gap:3,marginTop:6}}>
+                  <Btn sm primary>Apply</Btn>
+                  <Btn sm>Simulate</Btn>
+                </div>
+              </Card>
+            </div>
+            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Copilot cards live in the 300px right sidebar. Border color matches severity (red=critical, amber=warning, default=info). The "Why this recommendation" uses a details/summary pattern for progressive disclosure. Always provide Apply and Simulate actions. The copilot indicator uses a gl (glow) animated dot.</p>
+            </div>
+          </Card>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── DS: Motion ───
+function DSMotion({SH}){
+  var playState = useState({});
+  var plays = playState[0];
+  var setPlays = playState[1];
+  function toggle(k){setPlays(function(p){var n={};for(var x in p)n[x]=p[x];n[k]=!n[k];return n;});}
+
+  return (
+    <div className="fu" style={{maxWidth:900}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Motion & Animation</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:24,fontFamily:FB,lineHeight:1.6}}>Purposeful animation that guides attention and communicates state. Click "Play" to trigger each animation.</p>
+
+      <div style={SH}>Entrance Animations</div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:12,marginBottom:24}}>
+        {[
+          ["fu","Fade Up","translateY(10px) to 0, opacity 0 to 1","0.4s ease-out","Cards, KPIs, sections"],
+          ["fi","Fade In","opacity 0 to 1","0.3s ease-out","Detail panels, expanded content"],
+          ["si","Slide In","translateX(-6px) to 0, opacity 0 to 1","0.3s ease-out","Timeline items, list entries"]
+        ].map(function(a){
+          return (
+            <Card key={a[0]} style={{overflow:"hidden"}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+                <div style={{fontSize:12,fontWeight:600,color:"#fff",fontFamily:FT}}>{a[1]}</div>
+                <Btn sm onClick={function(){toggle(a[0]);setTimeout(function(){toggle(a[0]);},600);}}>Play</Btn>
+              </div>
+              <div style={{height:48,display:"flex",alignItems:"center",justifyContent:"center",background:C.s2,borderRadius:6,marginBottom:8}}>
+                {plays[a[0]] ? (
+                  <div className={a[0]} style={{padding:"8px 16px",background:C.tlB,border:"1px solid "+C.tlD,borderRadius:6,fontSize:11,color:C.tl,fontFamily:FT}}>Animated Element</div>
+                ) : (
+                  <div style={{fontSize:10,color:C.t3,fontFamily:FB}}>Click Play</div>
+                )}
+              </div>
+              <div style={{fontSize:10,color:C.t3,fontFamily:MN,marginBottom:2}}>{a[3]}</div>
+              <div style={{fontSize:10,color:C.t2,fontFamily:FB}}>{a[4]}</div>
+            </Card>
+          );
+        })}
+      </div>
+
+      <div style={SH}>Continuous Animations</div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:12,marginBottom:24}}>
+        <Card>
+          <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:8,fontFamily:FT}}>Glow (gl)</div>
+          <div style={{display:"flex",justifyContent:"center",marginBottom:8}}>
+            <div className="gl" style={{width:40,height:40,borderRadius:"50%",background:C.tl,display:"flex",alignItems:"center",justifyContent:"center"}}>
+              <div style={{width:12,height:12,borderRadius:"50%",background:"#fff"}}/>
+            </div>
+          </div>
+          <div style={{fontSize:10,color:C.t3,fontFamily:MN}}>2s ease-in-out infinite</div>
+          <div style={{fontSize:10,color:C.t2,fontFamily:FB,marginTop:2}}>Copilot indicator, active elements</div>
+        </Card>
+        <Card>
+          <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:8,fontFamily:FT}}>Bounce (bo)</div>
+          <div style={{display:"flex",justifyContent:"center",marginBottom:8}}>
+            <div className="bo" style={{padding:"6px 14px",background:C.tl,borderRadius:6,fontSize:11,color:C.bg,fontWeight:600,fontFamily:FT}}>CTA Button</div>
+          </div>
+          <div style={{fontSize:10,color:C.t3,fontFamily:MN}}>1s ease-in-out infinite</div>
+          <div style={{fontSize:10,color:C.t2,fontFamily:FB,marginTop:2}}>Call-to-action emphasis</div>
+        </Card>
+        <Card>
+          <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:8,fontFamily:FT}}>Pulse (pu)</div>
+          <div style={{display:"flex",justifyContent:"center",marginBottom:8}}>
+            <div className="pu" style={{fontSize:12,color:C.tl,fontWeight:600,fontFamily:MN}}>LIVE</div>
+          </div>
+          <div style={{fontSize:10,color:C.t3,fontFamily:MN}}>2s ease-in-out infinite</div>
+          <div style={{fontSize:10,color:C.t2,fontFamily:FB,marginTop:2}}>Live indicator, attention pulse</div>
+        </Card>
+      </div>
+
+      <div style={SH}>Hover Transitions</div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:24}}>
+        <Card>
+          <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:8,fontFamily:FT}}>Card Hover</div>
+          <p style={{fontSize:11,color:C.t2,marginBottom:10,fontFamily:FB}}>Cards lift 1px and border glows on hover. Try it:</p>
+          <Card onClick={function(){}}>
+            <div style={{fontSize:11,color:C.t1,fontFamily:FB,textAlign:"center"}}>Hover over me</div>
+          </Card>
+          <div style={{fontSize:10,color:C.t3,fontFamily:MN,marginTop:8}}>border-color 0.2s, transform 0.15s</div>
+        </Card>
+        <Card>
+          <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:8,fontFamily:FT}}>Button Hover</div>
+          <p style={{fontSize:11,color:C.t2,marginBottom:10,fontFamily:FB}}>Buttons transition all properties smoothly. Try it:</p>
+          <div style={{display:"flex",gap:6}}>
+            <Btn primary>Primary</Btn>
+            <Btn>Secondary</Btn>
+          </div>
+          <div style={{fontSize:10,color:C.t3,fontFamily:MN,marginTop:8}}>all 0.15s</div>
+        </Card>
+      </div>
+
+      <div style={SH}>Staggered Entry</div>
+      <Card anim style={{marginBottom:24}}>
+        <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:12,fontFamily:FB}}>Timeline items and list entries use staggered animation delays for a cascading entrance effect.</p>
+        <div style={{marginBottom:8}}>
+          <Btn sm onClick={function(){toggle("stagger");setTimeout(function(){toggle("stagger");},2000);}}>Play Staggered Entry</Btn>
+        </div>
+        {plays.stagger && [0,1,2,3,4].map(function(i){
+          return (
+            <div key={i} className="si" style={{display:"flex",gap:10,padding:"6px 0",borderBottom:"1px solid "+C.bd,animationDelay:i*0.08+"s"}}>
+              <Mono>14:22:0{i}</Mono>
+              <div style={{width:6,height:6,borderRadius:"50%",background:C.tl,marginTop:5,flexShrink:0}}/>
+              <span style={{fontSize:12,color:C.t1,fontFamily:FB}}>Timeline entry {i+1}</span>
+            </div>
+          );
+        })}
+      </Card>
+
+      <Card anim>
+        <div style={SH}>Special Effects</div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10}}>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>mGlow</div>
+            <div style={{animation:"mGlow 2s ease-in-out infinite",padding:"10px 14px",borderRadius:8,background:C.s1,fontSize:11,color:C.tl,textAlign:"center",fontFamily:FT}}>Memento Tab</div>
+            <div style={{fontSize:10,color:C.t3,marginTop:6,fontFamily:FB}}>Subtle box-shadow pulse for attention</div>
+          </div>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>vGlow</div>
+            <div style={{animation:"vGlow 2s ease-in-out infinite",padding:"10px 14px",borderRadius:8,background:C.s1,fontSize:11,color:C.tl,textAlign:"center",fontFamily:FT}}>Featured Card</div>
+            <div style={{fontSize:10,color:C.t3,marginTop:6,fontFamily:FB}}>Inset + outer glow for featured content</div>
+          </div>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>pcGlow</div>
+            <div style={{animation:"pcGlow 4s ease-in-out infinite",padding:"10px 14px",borderRadius:8,background:C.s1,fontSize:11,color:C.tl,textAlign:"center",fontFamily:FT}}>Ambient Card</div>
+            <div style={{fontSize:10,color:C.t3,marginTop:6,fontFamily:FB}}>Slow ambient glow for passive attention</div>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+// ─── DS: Patterns & Usage ───
+function DSPatterns({SH}){
+  return (
+    <div className="fu" style={{maxWidth:900}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Patterns & Usage</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:24,fontFamily:FB,lineHeight:1.6}}>Recurring design patterns and their application contexts across NorthStar.</p>
+
+      <div style={SH}>Screen Anatomy</div>
+      <Card anim style={{marginBottom:20}}>
+        <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:14,fontFamily:FB}}>Every operational screen follows a consistent top-to-bottom structure.</p>
+        <div style={{display:"flex",flexDirection:"column",gap:6}}>
+          {[
+            ["1. Header Bar","Screen title + navigation buttons + action button","Top of screen",C.tl],
+            ["2. KPI Row","3-5 metric cards for instant situational awareness","Below header",C.ac],
+            ["3. Primary Content","Map, chart, table, or card grid as the main data display","Center",C.vi],
+            ["4. Secondary Content","Supporting tables, lists, or smaller cards","Below primary",C.am],
+            ["5. Detail Panel","Overlay panel triggered by row/card click","On interaction",C.li]
+          ].map(function(s,i){
+            return (
+              <div key={i} style={{display:"flex",gap:12,padding:"10px 14px",background:C.s2,borderRadius:8,border:"1px solid "+C.bd,borderLeft:"3px solid "+s[3],alignItems:"center"}}>
+                <div style={{width:140,fontSize:12,fontWeight:600,color:s[3],fontFamily:FT}}>{s[0]}</div>
+                <div style={{flex:1,fontSize:11,color:C.t1,fontFamily:FB}}>{s[1]}</div>
+                <div style={{fontSize:10,color:C.t3,fontFamily:MN}}>{s[2]}</div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      <div style={SH}>Detail Panel Layouts</div>
+      <Card anim style={{marginBottom:20}}>
+        <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:14,fontFamily:FB}}>Ten distinct detail panel layout patterns handle different information types.</p>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+          {[
+            ["Apply (ApplyD)","Timeline + KPI sidebar. For action execution confirmation with step-by-step progress."],
+            ["Simulate (SimD)","Progress bar + split panels. For simulation runs with live progress and results reveal."],
+            ["Edit (EditD)","Two-column form. For property editing with grouped fields and save/cancel actions."],
+            ["Investigate (InvD)","Cross-layer timeline + root cause. For anomaly investigation with AI analysis."],
+            ["Correlate (CorD)","SVG graph visualization. For showing relationships between anomalies and systems."],
+            ["Generic (GenD)","Flexible fields + charts + body. The fallback for any detail view."],
+            ["New Mission (NewMsnD)","Wizard form. For creating new missions with structured input."],
+            ["New Command (NewCmdD)","Command entry + safety panel. For sending satellite commands with safety checks."],
+            ["Run Sim (RunSimD)","Live metrics. For running what-if simulations with real-time parameter display."],
+            ["Configure (ConfigD)","Grouped settings. For system configuration with categorized toggles and values."]
+          ].map(function(d,i){
+            return (
+              <div key={i} style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+                <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>{d[0]}</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>{d[1]}</p>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      <div style={SH}>Navigation Patterns</div>
+      <Card anim style={{marginBottom:20}}>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10}}>
+          {[
+            ["Tour Bar","Top header with pill buttons for page-level navigation between Overview, Demo, Process, etc. Uses button group in s2 container."],
+            ["Side Navigation","168px left panel with collapsible section groups. Active item shows teal background and font weight. Sub-items indent under parent."],
+            ["Breadcrumb via Back","Detail panels use Back button rather than breadcrumbs. One level deep only. Back clears the detail overlay."]
+          ].map(function(n,i){
+            return (
+              <div key={i} style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+                <div style={{fontSize:12,fontWeight:600,color:C.tl,marginBottom:6,fontFamily:FT}}>{n[0]}</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>{n[1]}</p>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      <div style={SH}>Interaction Patterns</div>
+      <Card anim>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+          {[
+            ["Click to Drill","Clicking a table row, card, or map element opens a detail panel overlay with full context."],
+            ["Filter to Narrow","Chips and SlidingTabs filter list content in place. Always include an All option for reset."],
+            ["Hover to Preview","Cards lift and glow on hover. Table rows highlight. Map elements show labels."],
+            ["Expand to Reveal","Details/summary pattern for progressive disclosure (Copilot reasoning, process AI notes)."],
+            ["Simulate Before Apply","Two-step action pattern: Simulate first to preview impact, then Apply to execute."],
+            ["Stagger to Guide","Timeline entries and list items animate in with sequential delays to guide reading order."]
+          ].map(function(p,i){
+            return (
+              <div key={i} style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+                <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>{p[0]}</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>{p[1]}</p>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+// ─── DS: Icons & Indicators ───
+function DSIcons({SH}){
+  return (
+    <div className="fu" style={{maxWidth:900}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Icons & Indicators</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:24,fontFamily:FB,lineHeight:1.6}}>NorthStar uses Unicode symbols and colored dots instead of icon libraries for maximum performance and consistency.</p>
+
+      <div style={SH}>Navigation Icons</div>
+      <Card anim style={{marginBottom:20}}>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:10}}>
+          {NAV.map(function(n){
+            return (
+              <div key={n.id} style={{textAlign:"center",padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+                <div style={{fontSize:24,marginBottom:6}}>{n.ic}</div>
+                <div style={{fontSize:10,fontWeight:600,color:C.tl,fontFamily:FT}}>{n.la}</div>
+                <div style={{fontSize:10,color:C.t3,fontFamily:MN,marginTop:2}}>{n.ic}</div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      <div style={SH}>Status Indicators</div>
+      <Card anim style={{marginBottom:20}}>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12}}>
+          {[
+            ["Online / Nominal",C.tl,"Filled circle, 5px on map"],
+            ["Degraded / Warning",C.am,"Pulsing ring around dot"],
+            ["Critical / Error",C.rd,"Alert state, high contrast"],
+            ["Planned / Offline",C.t3,"Muted, low opacity"]
+          ].map(function(s,i){
+            return (
+              <div key={i} style={{textAlign:"center",padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+                <div style={{display:"flex",justifyContent:"center",marginBottom:8}}>
+                  <div style={{position:"relative"}}>
+                    <div style={{width:14,height:14,borderRadius:"50%",background:s[1]}}/>
+                    {i===1 && <div style={{position:"absolute",inset:-4,borderRadius:"50%",border:"1.5px solid "+s[1],opacity:0.3,animation:"pu 2s ease-in-out infinite"}}/>}
+                  </div>
+                </div>
+                <div style={{fontSize:11,fontWeight:600,color:s[1],fontFamily:FT,marginBottom:2}}>{s[0]}</div>
+                <div style={{fontSize:10,color:C.t3,fontFamily:FB}}>{s[2]}</div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      <div style={SH}>Copilot Indicator</div>
+      <Card anim style={{marginBottom:20}}>
+        <div style={{display:"flex",alignItems:"center",gap:16}}>
+          <div style={{display:"flex",alignItems:"center",gap:6}}>
+            <div className="gl" style={{width:7,height:7,borderRadius:"50%",background:C.tl}}/>
+            <span style={{fontSize:13,fontWeight:600,color:"#fff",fontFamily:FT}}>NorthStar Copilot</span>
+          </div>
+          <div className="pu" style={{fontSize:10,color:C.tl,fontFamily:MN,fontWeight:500}}>LIVE</div>
+        </div>
+        <p style={{fontSize:11,color:C.t2,lineHeight:1.5,marginTop:8,fontFamily:FB}}>The Copilot uses a continuously glowing (gl) 7px teal dot to indicate active AI monitoring. The LIVE text pulses (pu) to reinforce real-time state.</p>
+      </Card>
+
+      <div style={SH}>Map Markers</div>
+      <Card anim>
+        <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:14,fontFamily:FB}}>Ground stations and satellites use distinct visual treatments on the LiveMap.</p>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:8,fontFamily:FT}}>Ground Stations</div>
+            <div style={{display:"flex",gap:16,alignItems:"center",marginBottom:6}}>
+              <div style={{display:"flex",alignItems:"center",gap:6}}>
+                <div style={{width:10,height:10,borderRadius:"50%",background:C.tl}}/>
+                <span style={{fontSize:10,color:C.t2,fontFamily:FB}}>Online</span>
+              </div>
+              <div style={{display:"flex",alignItems:"center",gap:6}}>
+                <div style={{width:10,height:10,borderRadius:"50%",background:C.am}}/>
+                <span style={{fontSize:10,color:C.t2,fontFamily:FB}}>Degraded</span>
+              </div>
+              <div style={{display:"flex",alignItems:"center",gap:6}}>
+                <div style={{width:10,height:10,borderRadius:"50%",background:C.vi}}/>
+                <span style={{fontSize:10,color:C.t2,fontFamily:FB}}>Commissioning</span>
+              </div>
+            </div>
+            <p style={{fontSize:10,color:C.t3,fontFamily:FB}}>5px filled circles with pulsing ring for degraded. Name label above in t2.</p>
+          </div>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:8,fontFamily:FT}}>Satellites</div>
+            <div style={{display:"flex",gap:16,alignItems:"center",marginBottom:6}}>
+              <div style={{display:"flex",alignItems:"center",gap:6}}>
+                <div style={{width:5,height:5,borderRadius:"50%",background:C.tl}}/>
+                <span style={{fontSize:10,color:C.t2,fontFamily:FB}}>Nominal</span>
+              </div>
+              <div style={{display:"flex",alignItems:"center",gap:6}}>
+                <div style={{width:5,height:5,borderRadius:"50%",background:C.am}}/>
+                <span style={{fontSize:10,color:C.t2,fontFamily:FB}}>Degraded</span>
+              </div>
+              <div style={{display:"flex",alignItems:"center",gap:6}}>
+                <div style={{width:5,height:5,borderRadius:"50%",background:C.rd}}/>
+                <span style={{fontSize:10,color:C.t2,fontFamily:FB}}>Critical</span>
+              </div>
+            </div>
+            <p style={{fontSize:10,color:C.t3,fontFamily:FB}}>2.5px dots with dashed link lines to ground stations. Name abbreviation in t3.</p>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+// ─── DS: Layout System ───
+function DSLayouts({SH}){
+  return (
+    <div className="fu" style={{maxWidth:900}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Layout System</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:24,fontFamily:FB,lineHeight:1.6}}>NorthStar uses CSS Flexbox and Grid for all layouts. No media queries; optimized for desktop 1200px+.</p>
+
+      <div style={SH}>App Shell</div>
+      <Card anim style={{marginBottom:20}}>
+        <div style={{border:"2px solid "+C.tl,borderRadius:8,overflow:"hidden"}}>
+          <div style={{height:28,background:C.s4,borderBottom:"1px solid "+C.bd,display:"flex",alignItems:"center",padding:"0 8px",gap:4}}>
+            <div style={{width:6,height:6,borderRadius:"50%",background:C.tl}}/>
+            <span style={{fontSize:9,color:C.t2,fontFamily:FT}}>Header Bar (tour tabs)</span>
+          </div>
+          <div style={{display:"flex",height:140}}>
+            <div style={{width:100,background:C.s1,borderRight:"1px solid "+C.bd,display:"flex",alignItems:"center",justifyContent:"center"}}>
+              <span style={{fontSize:9,color:C.t3,fontFamily:FT,transform:"rotate(-90deg)",whiteSpace:"nowrap"}}>Side Nav (168px)</span>
+            </div>
+            <div style={{flex:1,display:"flex"}}>
+              <div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",background:C.bg}}>
+                <span style={{fontSize:9,color:C.t2,fontFamily:FT}}>Screen Content (flex: 1)</span>
+              </div>
+              <div style={{width:80,background:C.s1,borderLeft:"1px solid "+C.bd,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <span style={{fontSize:8,color:C.t3,fontFamily:FT,transform:"rotate(-90deg)",whiteSpace:"nowrap"}}>Copilot (300px)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style={{display:"flex",gap:8,marginTop:10,fontSize:10,color:C.t3,fontFamily:FB}}>
+          <span>Flex column (root) → Flex row (body) → Side nav + Content + Optional Copilot</span>
+        </div>
+      </Card>
+
+      <div style={SH}>Grid Patterns</div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:24}}>
+        {[
+          ["KPI Row","display: flex, gap: 8","Horizontal flex with equal items. Each KPI uses flex:1 minWidth:0."],
+          ["Card Grid","gridTemplateColumns: repeat(auto-fill, minmax(320px, 1fr))","Responsive grid for mission cards and similar collections."],
+          ["Two Column","gridTemplateColumns: 1fr 1fr","Used in overview page, edit panels, and documentation sections."],
+          ["Split Panel","gridTemplateColumns: 2fr 1fr or 3fr 2fr","Main content + sidebar layout for detail views and investigation panels."]
+        ].map(function(g,i){
+          return (
+            <Card key={i}>
+              <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:4,fontFamily:FT}}>{g[0]}</div>
+              <div style={{fontSize:10,color:C.tl,fontFamily:MN,marginBottom:6}}>{g[1]}</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>{g[2]}</p>
+            </Card>
+          );
+        })}
+      </div>
+
+      <div style={SH}>Content Widths</div>
+      <Card anim style={{marginBottom:20}}>
+        <div style={{display:"flex",flexDirection:"column",gap:8}}>
+          {[
+            ["Side Navigation","168px","Fixed width, flex-shrink: 0"],
+            ["Copilot Panel","300px","Fixed width, right side, flex-shrink: 0"],
+            ["Pass Detail Sidebar","280px","Context panel for selected table row"],
+            ["Overview Page","max-width: 1000px","Centered with auto margins, 40px 48px padding"],
+            ["Screen Content","flex: 1","Fills remaining space, 16px 20px padding"],
+            ["Modal Dialog","max-width: 420px","Centered overlay, 36px 40px padding"]
+          ].map(function(w,i){
+            return (
+              <div key={i} style={{display:"flex",alignItems:"center",padding:"8px 12px",background:C.s2,borderRadius:6,border:"1px solid "+C.bd,gap:12}}>
+                <div style={{width:160,fontSize:11,fontWeight:600,color:"#fff",fontFamily:FT}}>{w[0]}</div>
+                <div style={{width:180,fontSize:11,color:C.tl,fontFamily:MN}}>{w[1]}</div>
+                <div style={{flex:1,fontSize:11,color:C.t2,fontFamily:FB}}>{w[2]}</div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      <Card anim>
+        <div style={SH}>Overflow & Scrolling</div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+          {[
+            ["App Shell","100vh height with overflow: hidden. Inner panels scroll independently."],
+            ["Screen Content","overflow: auto on the content area. Side nav is fixed."],
+            ["Tables","Card with padding:0 and overflow:hidden clips table corners. Table body scrolls with page."],
+            ["Detail Panels","Full height with overflow: auto. Back button stays at top of scrollable area."]
+          ].map(function(o,i){
+            return (
+              <div key={i} style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+                <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>{o[0]}</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>{o[1]}</p>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+    </div>
+  );
+}
+
 function DemoView({nId,sId,detail,nav,goD,back}){
   var sk = nId+"-"+sId;
   var Comp = SC[sk] || CmdOv;
@@ -1670,17 +3002,18 @@ function AINativePage(){
   );
 }
 
-var tourTabs = ["Overview","Demo","Process","Docs","AI-Native","Field Notes","Memento"];
+var tourTabs = ["Overview","Demo","Process","Design System","Docs","AI-Native","Field Notes","Memento"];
 var tourDescs = [
   "Product overview with problem statement, solution, design principles, the value of design, and an interactive demo preview.",
   "Fully interactive prototype with 21 screens across 7 domains. Click any element to explore detail pages.",
   "Complete design process documentation with the 20/60/20 AI approach, IA, user journeys, and step-by-step process.",
+  "Interactive design system with color palette, typography, spacing, component library, motion design, patterns, and layout documentation.",
   "Screen-by-screen documentation with descriptions, category and page filters.",
   "How NorthStar embeds intelligence into the operator experience with Copilot recommendations and AI-driven resilience.",
   "Reflections on the space infrastructure industry, design thinking, and the ground segment opportunity.",
   "A personal postcard to the Northwood Space team with a letter of interest."
 ];
-var tourKeys = ["overview","demo","process","docs","ainative","fieldnotes","memento"];
+var tourKeys = ["overview","demo","process","designsystem","docs","ainative","fieldnotes","memento"];
 
 export default function NorthStarV2(){
   var pageState = useState("overview");
@@ -1703,7 +3036,7 @@ export default function NorthStarV2(){
   var setTp = tpState[1];
 
   useEffect(function(){
-    if(ob>0 && ob<=7){
+    if(ob>0 && ob<=8){
       var btn = document.getElementById("ns-tour-btn-"+(ob-1));
       if(btn){
         var r = btn.getBoundingClientRect();
@@ -1719,7 +3052,7 @@ export default function NorthStarV2(){
   return (
     <div style={{width:"100%",height:"100vh",background:C.bg,fontFamily:FT,color:C.t1,display:"flex",flexDirection:"column",overflow:"hidden"}}>
       <style dangerouslySetInnerHTML={{__html:CSS}}/>
-      {ob>0 && ob<=7 && (
+      {ob>0 && ob<=8 && (
         <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.75)",zIndex:9998}}/>
       )}
       {ob===0 && (
@@ -1737,7 +3070,7 @@ export default function NorthStarV2(){
           </div>
         </div>
       )}
-      <div style={{display:"flex",gap:8,padding:"7px 12px",borderBottom:"1px solid "+C.bd,background:C.s4,alignItems:"center",flexShrink:0,position:"relative",zIndex:ob>0&&ob<=7?10000:1}}>
+      <div style={{display:"flex",gap:8,padding:"7px 12px",borderBottom:"1px solid "+C.bd,background:C.s4,alignItems:"center",flexShrink:0,position:"relative",zIndex:ob>0&&ob<=8?10000:1}}>
         <div style={{display:"flex",alignItems:"center",gap:6,marginRight:10}}>
           <Logo size={18}/>
           <span style={{fontSize:13,fontWeight:600,color:"#fff",fontFamily:FT}}>NorthStar</span>
@@ -1761,14 +3094,14 @@ export default function NorthStarV2(){
           })}
         </div>
       </div>
-      {ob>0 && ob<=7 && tp && (
+      {ob>0 && ob<=8 && tp && (
         <div className="fu" style={{position:"fixed",top:tp.y,left:tp.x-140,background:C.s1,borderRadius:12,padding:"16px 20px",width:280,boxShadow:"0 12px 40px rgba(0,0,0,.4)",zIndex:10002,border:"1px solid "+C.bd}}>
           <div style={{position:"absolute",top:-6,left:"50%",marginLeft:-6,width:12,height:12,background:C.s1,transform:"rotate(45deg)",borderLeft:"1px solid "+C.bd,borderTop:"1px solid "+C.bd}}/>
           <div style={{fontSize:14,fontWeight:600,color:"#fff",marginBottom:6,fontFamily:FT}}>{tourTabs[ob-1]}</div>
           <p style={{fontSize:12,color:C.t2,lineHeight:1.6,margin:"0 0 12px",fontFamily:FB}}>{tourDescs[ob-1]}</p>
           <div style={{display:"flex",justifyContent:ob>1?"space-between":"flex-end"}}>
             {ob>1 && (<Btn sm onClick={function(){setOb(ob-1);}}>← Prev</Btn>)}
-            {ob<7 ? (
+            {ob<8 ? (
               <Btn sm primary onClick={function(){setOb(ob+1);}}>Next →</Btn>
             ) : (
               <Btn sm primary onClick={function(){setOb(-1);setPage("overview");}}>Let's go!</Btn>
@@ -1782,6 +3115,7 @@ export default function NorthStarV2(){
       {page==="ainative" && <AINativePage/>}
       {page==="docs" && <DocsPage goD={goD}/>}
       {page==="process" && <ProcessPage/>}
+      {page==="designsystem" && <DesignSystemPage/>}
       {page==="demo" && <DemoView nId={nId} sId={sId} detail={detail} nav={nav} goD={goD} back={back}/>}
     </div>
   );
