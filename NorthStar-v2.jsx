@@ -1565,7 +1565,10 @@ function DesignSystemPage(){
     {cat:"Patterns",items:[
       {id:"patterns",la:"Patterns & Usage"},
       {id:"layouts",la:"Layout System"},
-      {id:"icons",la:"Icons & Indicators"}
+      {id:"icons",la:"Icons & Indicators"},
+      {id:"glassmorphism",la:"Glassmorphism"},
+      {id:"feedback",la:"Feedback & States"},
+      {id:"datahierarchy",la:"Data Hierarchy"}
     ]},
     {cat:"Guidelines",items:[
       {id:"usage",la:"Usage Rules"},
@@ -1633,6 +1636,9 @@ function DesignSystemPage(){
         {dsSec==="patterns" && <DSPatterns SH={SH}/>}
         {dsSec==="icons" && <DSIcons SH={SH}/>}
         {dsSec==="layouts" && <DSLayouts SH={SH}/>}
+        {dsSec==="glassmorphism" && <DSGlassmorphism SH={SH}/>}
+        {dsSec==="feedback" && <DSFeedback SH={SH}/>}
+        {dsSec==="datahierarchy" && <DSDataHierarchy SH={SH}/>}
         {dsSec==="usage" && <DSUsageRules SH={SH}/>}
         {dsSec==="accessibility" && <DSAccessibility SH={SH}/>}
       </div>
@@ -1654,6 +1660,9 @@ function DSOverview({SH,setDsSec}){
     {id:"patterns",la:"Patterns & Usage",de:"Screen anatomy, 10 detail panel layouts, 3 navigation patterns, and 6 interaction patterns used across all 21 screens.",cat:"Patterns"},
     {id:"layouts",la:"Layout System",de:"App shell structure, 5 grid patterns, content width specs, and overflow/scrolling behavior for every panel type.",cat:"Patterns"},
     {id:"icons",la:"Icons & Indicators",de:"Unicode navigation icons, 4-state status indicators, copilot glow indicator, and map marker specifications.",cat:"Patterns"},
+    {id:"glassmorphism",la:"Glassmorphism",de:"Dark glass surfaces with backdrop blur for overlays and highlighted containers on gradient backgrounds.",cat:"Patterns"},
+    {id:"feedback",la:"Feedback & States",de:"Loading spinners, skeleton screens, alert notifications, empty states, and status indicators for operator feedback.",cat:"Patterns"},
+    {id:"datahierarchy",la:"Data Hierarchy",de:"Four-level progressive disclosure: KPI scan to trend chart to data table to detail view.",cat:"Patterns"},
     {id:"usage",la:"Usage Rules",de:"Consolidated do's and don'ts for color, typography, components, motion, and layout across the system.",cat:"Guidelines"},
     {id:"accessibility",la:"Accessibility",de:"WCAG contrast compliance, color-not-only encoding, font size minimums, and interactive target sizing.",cat:"Guidelines"}
   ];
@@ -1665,7 +1674,7 @@ function DSOverview({SH,setDsSec}){
       </div>
       <p style={{fontSize:13,color:C.t1,lineHeight:1.7,marginBottom:10,fontFamily:FB,maxWidth:700}}>The complete design language behind NorthStar, a speculative AI-native ground operations console for Northwood Space. Every color, component, and interaction pattern documented and interactive.</p>
       <div style={{display:"flex",gap:6,marginBottom:28}}>
-        <Badge type="success">13 Sections</Badge>
+        <Badge type="success">16 Sections</Badge>
         <Badge type="info">13 Components</Badge>
         <Badge type="neutral">Interactive</Badge>
       </div>
@@ -1715,7 +1724,7 @@ function DSOverview({SH,setDsSec}){
           <KPI label="Type Steps" value="10" sub="10px–28px"/>
           <KPI label="Components" value="13" sub="interactive"/>
           <KPI label="Animations" value="12" sub="entrance + loops"/>
-          <KPI label="Sections" value="13" sub="across 6 categories"/>
+          <KPI label="Sections" value="16" sub="across 6 categories"/>
         </div>
       </Card>
     </div>
@@ -3274,6 +3283,298 @@ function DSLayouts({SH}){
               </div>
             );
           })}
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+// ─── DS: Glassmorphism ───
+function DSGlassmorphism({SH}){
+  var gHov = useState(null);
+  var gh = gHov[0];
+  var setGh = gHov[1];
+  return (
+    <div className="fu" style={{maxWidth:900}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Glassmorphism</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:24,fontFamily:FB,lineHeight:1.6}}>Translucent surfaces with backdrop blur for elevated content on dark backgrounds. NorthStar uses dark glass for overlays, panels, and highlighted containers.</p>
+
+      <div style={SH}>Live Demo</div>
+      <Card anim style={{marginBottom:20,padding:0,overflow:"hidden"}}>
+        <div style={{height:260,position:"relative",background:"linear-gradient(135deg,"+C.s1+" 0%,"+C.bg+" 25%,rgba(154,197,185,0.08) 50%,"+C.bg+" 75%,rgba(107,138,230,0.06) 100%)",backgroundSize:"400% 400%",animation:"wave 14s ease infinite"}}>
+          <div style={{position:"absolute",inset:0,display:"flex",gap:16,alignItems:"center",justifyContent:"center",padding:24}}>
+            <div onMouseEnter={function(){setGh("g1");}} onMouseLeave={function(){setGh(null);}} style={{padding:"20px 24px",background:"rgba(15,20,25,0.72)",backdropFilter:"blur(12px)",WebkitBackdropFilter:"blur(12px)",border:"1px solid rgba(154,197,185,0.15)",borderRadius:10,width:200,transition:"all 0.2s",transform:gh==="g1"?"translateY(-2px)":"none",boxShadow:gh==="g1"?"0 8px 24px rgba(0,0,0,0.3)":"none"}}>
+              <div style={{fontSize:14,fontWeight:600,color:"#fff",marginBottom:4,fontFamily:FT}}>Dark Glass</div>
+              <div style={{fontSize:12,color:C.t2,fontFamily:FB}}>72% dark opacity</div>
+              <div style={{fontSize:11,fontFamily:MN,color:C.t3,marginTop:6}}>blur(12px)</div>
+            </div>
+            <div onMouseEnter={function(){setGh("g2");}} onMouseLeave={function(){setGh(null);}} style={{padding:"20px 24px",background:"rgba(15,20,25,0.55)",backdropFilter:"blur(8px)",WebkitBackdropFilter:"blur(8px)",border:"1px solid rgba(154,197,185,0.1)",borderRadius:10,width:200,transition:"all 0.2s",transform:gh==="g2"?"translateY(-2px)":"none",boxShadow:gh==="g2"?"0 8px 24px rgba(0,0,0,0.3)":"none"}}>
+              <div style={{fontSize:14,fontWeight:600,color:"#fff",marginBottom:4,fontFamily:FT}}>Lighter Glass</div>
+              <div style={{fontSize:12,color:C.t2,fontFamily:FB}}>55% dark opacity</div>
+              <div style={{fontSize:11,fontFamily:MN,color:C.t3,marginTop:6}}>blur(8px)</div>
+            </div>
+            <div onMouseEnter={function(){setGh("g3");}} onMouseLeave={function(){setGh(null);}} style={{padding:"20px 24px",background:"rgba(15,20,25,0.9)",backdropFilter:"blur(16px)",WebkitBackdropFilter:"blur(16px)",border:"1px solid "+C.bd,borderRadius:10,width:200,transition:"all 0.2s",transform:gh==="g3"?"translateY(-2px)":"none",boxShadow:gh==="g3"?"0 8px 24px rgba(0,0,0,0.3)":"none"}}>
+              <div style={{fontSize:14,fontWeight:600,color:"#fff",marginBottom:4,fontFamily:FT}}>Near Solid</div>
+              <div style={{fontSize:12,color:C.t2,fontFamily:FB}}>90% dark opacity</div>
+              <div style={{fontSize:11,fontFamily:MN,color:C.t3,marginTop:6}}>blur(16px)</div>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      <div style={SH}>Glass with Accent Borders</div>
+      <Card anim style={{marginBottom:20}}>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:12}}>
+          <div style={{padding:16,background:"rgba(15,20,25,0.65)",backdropFilter:"blur(10px)",WebkitBackdropFilter:"blur(10px)",border:"1px solid "+C.tlD,borderRadius:10}}>
+            <div style={{fontSize:12,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>Teal Glass</div>
+            <div style={{fontSize:11,color:C.t2,fontFamily:FB}}>For nominal/success context</div>
+          </div>
+          <div style={{padding:16,background:"rgba(15,20,25,0.65)",backdropFilter:"blur(10px)",WebkitBackdropFilter:"blur(10px)",border:"1px solid "+C.amD,borderRadius:10}}>
+            <div style={{fontSize:12,fontWeight:600,color:C.am,marginBottom:4,fontFamily:FT}}>Amber Glass</div>
+            <div style={{fontSize:11,color:C.t2,fontFamily:FB}}>For warning/degraded context</div>
+          </div>
+          <div style={{padding:16,background:"rgba(15,20,25,0.65)",backdropFilter:"blur(10px)",WebkitBackdropFilter:"blur(10px)",border:"1px solid "+C.rdD,borderRadius:10}}>
+            <div style={{fontSize:12,fontWeight:600,color:C.rd,marginBottom:4,fontFamily:FT}}>Red Glass</div>
+            <div style={{fontSize:11,color:C.t2,fontFamily:FB}}>For critical/error context</div>
+          </div>
+        </div>
+      </Card>
+
+      <div style={SH}>Specification</div>
+      <Card anim>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:6,fontFamily:FT}}>Properties</div>
+            {[["Background","rgba(15,20,25, 0.55-0.90)"],["Backdrop filter","blur(8px) - blur(16px)"],["Border","1px solid rgba(tl, 0.1-0.15)"],["Border radius","10px (matches Card)"],["Webkit prefix","Required for Safari"]].map(function(s,i){
+              return <div key={i} style={{display:"flex",gap:8,padding:"3px 0"}}><span style={{fontSize:10,color:C.t3,fontFamily:FT,width:100}}>{s[0]}</span><span style={{fontSize:10,color:C.tl,fontFamily:MN}}>{s[1]}</span></div>;
+            })}
+          </div>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:6,fontFamily:FT}}>Usage Rules</div>
+            {["Use only on gradient or animated backgrounds","Use dark glass (72-90%) for readability on dark themes","Never nest glass inside glass","Pair with accent borders for semantic context","Add hover lift (translateY -2px) for interactive glass cards","Include -webkit-backdropFilter for Safari support"].map(function(r,i){
+              return <div key={i} style={{display:"flex",gap:6,padding:"3px 0",fontSize:10,color:C.t2,fontFamily:FB}}><span style={{color:C.tl}}>+</span>{r}</div>;
+            })}
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+// ─── DS: Feedback & States ───
+function DSFeedback({SH}){
+  var fbLoad = useState(false);
+  var isLoading = fbLoad[0];
+  var setIsLoading = fbLoad[1];
+  useEffect(function(){
+    if(isLoading){var t=setTimeout(function(){setIsLoading(false);},3000);return function(){clearTimeout(t);};}
+  },[isLoading]);
+
+  return (
+    <div className="fu" style={{maxWidth:900}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Feedback & States</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:24,fontFamily:FB,lineHeight:1.6}}>How NorthStar communicates status, progress, and outcomes to operators.</p>
+
+      <div style={SH}>Loading States</div>
+      <Card anim style={{marginBottom:20}}>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:12,marginBottom:16}}>
+          <div style={{textAlign:"center",padding:20,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.t1,marginBottom:12,fontFamily:FT}}>Spinner</div>
+            <div style={{display:"flex",justifyContent:"center",marginBottom:8}}>
+              <div style={{width:24,height:24,border:"3px solid "+C.s4,borderTopColor:C.tl,borderRadius:"50%",animation:"fu .7s linear infinite"}}/>
+            </div>
+            <div style={{fontSize:9,color:C.t3,fontFamily:MN}}>border + borderTopColor</div>
+          </div>
+          <div style={{textAlign:"center",padding:20,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.t1,marginBottom:12,fontFamily:FT}}>Skeleton</div>
+            <div style={{display:"flex",flexDirection:"column",gap:6}}>
+              <div style={{height:10,background:C.s4,borderRadius:4,width:"80%",animation:"pu 1.5s ease-in-out infinite"}}/>
+              <div style={{height:10,background:C.s4,borderRadius:4,width:"60%",animation:"pu 1.5s ease-in-out infinite",animationDelay:".2s"}}/>
+              <div style={{height:10,background:C.s4,borderRadius:4,width:"40%",animation:"pu 1.5s ease-in-out infinite",animationDelay:".4s"}}/>
+            </div>
+            <div style={{fontSize:9,color:C.t3,fontFamily:MN,marginTop:8}}>Staggered pulse delays</div>
+          </div>
+          <div style={{textAlign:"center",padding:20,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.t1,marginBottom:12,fontFamily:FT}}>Button Loading</div>
+            <div style={{display:"flex",justifyContent:"center"}}>
+              <Btn sm primary onClick={function(){setIsLoading(true);}}>
+                {isLoading ? "Saving\u2026" : "Click to Load"}
+              </Btn>
+            </div>
+            <div style={{fontSize:9,color:C.t3,fontFamily:MN,marginTop:8}}>Disabled + text change</div>
+          </div>
+        </div>
+      </Card>
+
+      <div style={SH}>Alert Types</div>
+      <Card anim style={{marginBottom:20}}>
+        <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:14,fontFamily:FB}}>Inline notification cards with severity color and semantic badge.</p>
+        <div style={{display:"flex",flexDirection:"column",gap:8}}>
+          {[
+            {type:"success",msg:"Reroute applied successfully \u2014 Pathfinder-9 now on Paumalu B-06",bg:C.tl},
+            {type:"warning",msg:"Darwin link margin approaching threshold \u2014 3 hours forecast",bg:C.am},
+            {type:"critical",msg:"Cape Town ground station offline \u2014 failover initiated",bg:C.rd},
+            {type:"info",msg:"New Copilot recommendation available for beam optimization",bg:C.vi}
+          ].map(function(a,i){
+            return (
+              <div key={i} className="fu" style={{display:"flex",alignItems:"center",gap:10,padding:"10px 14px",background:a.bg+"10",border:"1px solid "+a.bg+"30",borderRadius:8,animationDelay:i*0.08+"s"}}>
+                <span style={{flex:1,fontSize:12,color:C.t1,fontFamily:FB}}>{a.msg}</span>
+                <Badge type={a.type}>{a.type.charAt(0).toUpperCase()+a.type.slice(1)}</Badge>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      <div style={SH}>Empty States</div>
+      <Card anim style={{marginBottom:20}}>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+          <div style={{padding:24,background:C.s2,borderRadius:8,textAlign:"center",border:"1px dashed "+C.bd}}>
+            <div style={{fontSize:28,marginBottom:8,opacity:0.3}}>{"\u2205"}</div>
+            <div style={{fontSize:13,fontWeight:600,color:C.t1,marginBottom:4,fontFamily:FT}}>No active incidents</div>
+            <div style={{fontSize:11,color:C.t3,marginBottom:12,fontFamily:FB}}>Incidents will appear here when detected.</div>
+            <Btn sm primary>Run Diagnostics</Btn>
+          </div>
+          <div style={{padding:24,background:C.s2,borderRadius:8,textAlign:"center",border:"1px dashed "+C.bd}}>
+            <div style={{fontSize:28,marginBottom:8,opacity:0.3}}>{"\uD83D\uDD0D"}</div>
+            <div style={{fontSize:13,fontWeight:600,color:C.t1,marginBottom:4,fontFamily:FT}}>No results found</div>
+            <div style={{fontSize:11,color:C.t3,marginBottom:12,fontFamily:FB}}>Try adjusting your filters or search criteria.</div>
+            <Btn sm>Clear Filters</Btn>
+          </div>
+        </div>
+      </Card>
+
+      <div style={SH}>Status Indicators</div>
+      <Card anim>
+        <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:14,fontFamily:FB}}>Colored dots indicate system or element health at a glance. Size and animation convey severity.</p>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:12}}>
+          {[
+            {la:"Online",c:C.tl,desc:"Nominal operation"},
+            {la:"Degraded",c:C.am,desc:"Attention needed"},
+            {la:"Critical",c:C.rd,desc:"Immediate action"},
+            {la:"Syncing",c:C.ac,desc:"Data refreshing",pulse:true},
+            {la:"Offline",c:C.t3,desc:"Inactive/planned"}
+          ].map(function(s,i){
+            return (
+              <div key={i} style={{textAlign:"center",padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+                <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:8,marginBottom:8}}>
+                  <div style={{width:10,height:10,borderRadius:"50%",background:s.c,animation:s.pulse?"pu 1.5s ease-in-out infinite":"none",boxShadow:i===0?"0 0 6px "+s.c+"60":"none"}}/>
+                </div>
+                <div style={{fontSize:11,fontWeight:600,color:s.c,fontFamily:FT}}>{s.la}</div>
+                <div style={{fontSize:10,color:C.t3,fontFamily:FB,marginTop:2}}>{s.desc}</div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+// ─── DS: Data Hierarchy ───
+function DSDataHierarchy({SH}){
+  return (
+    <div className="fu" style={{maxWidth:900}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Data Hierarchy</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:24,fontFamily:FB,lineHeight:1.6}}>NorthStar follows a four-level progressive disclosure pattern: summary metrics lead to trends, which lead to detailed tables, which open rich detail views.</p>
+
+      <div style={SH}>Progressive Disclosure Flow</div>
+      <Card anim style={{marginBottom:20}}>
+        <div style={{display:"flex",gap:8,alignItems:"center",marginBottom:20,flexWrap:"wrap"}}>
+          {["KPI Summary","Trend Chart","Data Table","Detail View"].map(function(step,i){
+            return (
+              <React.Fragment key={i}>
+                <div style={{padding:"10px 16px",background:i===0?C.tlB:C.s2,border:"1px solid "+(i===0?C.tlD:C.bd),borderRadius:8,textAlign:"center"}}>
+                  <div style={{fontSize:12,fontWeight:600,color:i===0?C.tl:C.t1,fontFamily:FT}}>{step}</div>
+                  <div style={{fontSize:9,color:C.t3,marginTop:2,fontFamily:FB}}>{["Scan","Identify","Analyze","Act"][i]}</div>
+                </div>
+                {i<3 && <div style={{fontSize:14,color:C.t3}}>{"\u2192"}</div>}
+              </React.Fragment>
+            );
+          })}
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+          {[
+            ["Level 1 \u2014 KPI Summary","3-5 KPI cards in a horizontal row give operators a 2-second system health scan. Click any KPI to drill down.","KPI component \u00B7 flex row \u00B7 gap 8"],
+            ["Level 2 \u2014 Trend Chart","Sparkline charts show temporal patterns. Color matches semantic state. Threshold lines flag danger zones.","MC component \u00B7 Card wrapper \u00B7 anim entrance"],
+            ["Level 3 \u2014 Data Table","Grid-based tables with inline badges, progress bars, and clickable rows for detailed exploration.","TH/TR components \u00B7 Badge + BarC renders"],
+            ["Level 4 \u2014 Detail View","Full-screen overlays with back navigation, KPI row, charts, and action buttons. 10 layout variants.","Detail layouts \u00B7 Back button \u00B7 overlay pattern"]
+          ].map(function(level,i){
+            return (
+              <div key={i} style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.bd,borderLeft:"3px solid "+[C.tl,C.am,C.vi,C.li][i]}}>
+                <div style={{fontSize:12,fontWeight:600,color:[C.tl,C.am,C.vi,C.li][i],marginBottom:4,fontFamily:FT}}>{level[0]}</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.5,marginBottom:6,fontFamily:FB}}>{level[1]}</p>
+                <div style={{fontSize:9,color:C.t3,fontFamily:MN,padding:"3px 6px",background:C.s1,borderRadius:4,display:"inline-block"}}>{level[2]}</div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      <div style={SH}>Live Example \u2014 Drill-Down Flow</div>
+      <Card anim style={{marginBottom:20}}>
+        <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:14,fontFamily:FB}}>Each level adds depth without overwhelming the operator. Here is a complete flow from KPI to table.</p>
+        <div style={{marginBottom:16}}>
+          <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>LEVEL 1: KPI SCAN</div>
+          <div style={{display:"flex",gap:8}}>
+            <KPI label="Satellites" value="7/8" sub="tracked"/>
+            <KPI label="Sites" value="5/7" sub="1 degraded"/>
+            <KPI label="Link Margin" value="14.2 dB" sub="avg"/>
+            <KPI label="Incidents" value="3" sub="1 critical"/>
+          </div>
+        </div>
+        <div style={{marginBottom:16}}>
+          <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>LEVEL 2: TREND</div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+            <Card>
+              <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>Link Margin Trend</div>
+              <MC data={[14.2,13.8,14.5,13.1,14.8,14.0,13.5,14.2,15.1,14.6,13.9,14.3]} color={C.tl}/>
+            </Card>
+            <Card>
+              <div style={{fontSize:11,fontWeight:600,color:C.am,marginBottom:4,fontFamily:FT}}>Degraded Site</div>
+              <MC data={[8.1,7.5,7.2,6.8,6.5,6.1,6.3,6.0,5.8,6.1,5.9,6.1]} color={C.am} thr={5}/>
+            </Card>
+          </div>
+        </div>
+        <div>
+          <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>LEVEL 3: DATA TABLE</div>
+          <Card style={{padding:0,overflow:"hidden"}}>
+            <TH cols={[{l:"ID",w:"80px"},{l:"Satellite"},{l:"Status",w:"90px"},{l:"Link",w:"80px"},{l:"Health",w:"80px"}]}/>
+            {[
+              ["NS-001","Sentinel-7A","Nominal","14.2 dB","98%"],
+              ["NS-003","Aegis-12","Degraded","6.1 dB","72%"],
+              ["NS-005","Pathfinder-9","Critical","2.3 dB","41%"]
+            ].map(function(r,i){
+              return (
+                <TR key={i} cols={[{w:"80px"},{},{w:"90px"},{w:"80px"},{w:"80px"}]}
+                  vals={[
+                    <Mono>{r[0]}</Mono>,
+                    <span style={{fontWeight:500}}>{r[1]}</span>,
+                    <Badge type={r[2]==="Nominal"?"success":r[2]==="Degraded"?"warning":"critical"}>{r[2]}</Badge>,
+                    <span style={{color:r[2]==="Critical"?C.rd:C.t2,fontFamily:MN,fontSize:11}}>{r[3]}</span>,
+                    <span>{r[4]}</span>
+                  ]}/>
+              );
+            })}
+          </Card>
+        </div>
+      </Card>
+
+      <div style={SH}>Design Principles</div>
+      <Card anim>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.tlD}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:6,fontFamily:FT}}>Do</div>
+            {["Start with 3-5 KPIs for instant situational awareness","Use click-to-drill on KPIs, charts, and table rows","Show trend direction before raw data","Use badges for status, bars for completion","Animate entry at each drill level with fu/fi"].map(function(r,i){
+              return <div key={i} style={{display:"flex",gap:6,padding:"3px 0",fontSize:11,color:C.t1,fontFamily:FB}}><span style={{color:C.tl}}>+</span>{r}</div>;
+            })}
+          </div>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.rdD}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.rd,marginBottom:6,fontFamily:FT}}>Don't</div>
+            {["Show raw tables without KPI context above","Skip levels \u2014 don't jump from KPI directly to detail","Put more than 6 KPIs in a single row","Use tables for fewer than 3 rows \u2014 use cards","Open detail panels without a Back button"].map(function(r,i){
+              return <div key={i} style={{display:"flex",gap:6,padding:"3px 0",fontSize:11,color:C.t1,fontFamily:FB}}><span style={{color:C.rd}}>{"\u2212"}</span>{r}</div>;
+            })}
+          </div>
         </div>
       </Card>
     </div>

@@ -26,10 +26,13 @@ A comprehensive design system extracted from the NorthStar v2 speculative produc
 9. [Patterns & Usage](#9-patterns--usage)
 10. [Icons & Indicators](#10-icons--indicators)
 11. [Layout System](#11-layout-system)
+12. [Glassmorphism](#12-glassmorphism)
+13. [Feedback & States](#13-feedback--states)
+14. [Data Hierarchy](#14-data-hierarchy)
 
 **Guidelines**
-12. [Usage Rules](#12-usage-rules)
-13. [Accessibility](#13-accessibility)
+15. [Usage Rules](#15-usage-rules)
+16. [Accessibility](#16-accessibility)
 
 ---
 
@@ -843,7 +846,137 @@ NorthStar uses Unicode symbols instead of icon libraries for maximum performance
 
 ---
 
-## 12. Usage Rules
+## 12. Glassmorphism
+
+Translucent surfaces with backdrop blur for elevated content on dark backgrounds.
+
+### Dark Glass Properties
+
+| Property | Value |
+|---|---|
+| Background | `rgba(15, 20, 25, 0.55–0.90)` |
+| Backdrop filter | `blur(8px)` to `blur(16px)` |
+| Border | `1px solid rgba(154, 197, 185, 0.1–0.15)` |
+| Border radius | `10px` (matches Card) |
+| Webkit prefix | `-webkit-backdrop-filter` required for Safari |
+
+### Opacity Levels
+
+| Level | Opacity | Use Case |
+|---|---|---|
+| Light Glass | 55% | Overlays where background context matters |
+| Standard Glass | 72% | Default for glass cards and panels |
+| Near Solid | 90% | Overlays requiring high text readability |
+
+### Accent Glass Variants
+
+Glass cards can use semantic border colors for contextual emphasis:
+- **Teal Glass** (`tlD` border): Nominal/success context
+- **Amber Glass** (`amD` border): Warning/degraded context
+- **Red Glass** (`rdD` border): Critical/error context
+
+### Usage Rules
+
+| Do | Don't |
+|---|---|
+| Use only on gradient or animated backgrounds | Don't nest glass inside glass |
+| Use dark glass (72–90%) for readability on dark themes | Don't apply glass on solid dark backgrounds (no visible effect) |
+| Pair with accent borders for semantic context | Don't use light glass (< 50%) — text becomes unreadable |
+| Add hover lift (`translateY(-2px)`) for interactive glass | Don't mix glass and non-glass cards in the same row |
+| Include `-webkit-backdropFilter` for Safari support | Don't apply glass to small elements like badges or buttons |
+
+---
+
+## 13. Feedback & States
+
+How NorthStar communicates status, progress, and outcomes to operators.
+
+### Loading States
+
+| Pattern | Implementation | Use Case |
+|---|---|---|
+| **Spinner** | 24px circle with `border` + `borderTopColor` in teal, `animation: fu .7s linear infinite` | Inline loading within buttons or cards |
+| **Skeleton** | Rectangular bars with `background: s4`, `animation: pu 1.5s ease-in-out infinite`, staggered delays | Placeholder for content-heavy areas during data fetch |
+| **Button Loading** | Text change to "Saving…" / "Running…" with disabled state | Inline feedback for button-triggered actions |
+| **Progress Bar** | `BarC` component with animated width transition over 0.6s | Simulation runs, multi-step processes |
+
+### Alert Types
+
+Inline notification cards with severity color and semantic badge:
+
+| Severity | Background | Border | Badge | Example |
+|---|---|---|---|---|
+| Success | `tl` at 10% | `tl` at 30% | `success` | "Reroute applied successfully" |
+| Warning | `am` at 10% | `am` at 30% | `warning` | "Link margin approaching threshold" |
+| Critical | `rd` at 10% | `rd` at 30% | `critical` | "Ground station offline — failover initiated" |
+| Info | `vi` at 10% | `vi` at 30% | `info` | "New Copilot recommendation available" |
+
+### Empty States
+
+Empty states use a centered layout with:
+- Large faded icon/symbol (28px, 30% opacity)
+- Bold title (13px, FT, t1)
+- Description text (11px, FB, t3)
+- Action button (Btn sm or sm primary)
+- Container: `padding: 24px`, `background: s2`, `border: 1px dashed bd`, `border-radius: 8px`
+
+### Status Indicators
+
+| State | Color | Animation | Use Case |
+|---|---|---|---|
+| Online | `tl` | None (solid glow) | Nominal operation |
+| Degraded | `am` | None | Attention needed |
+| Critical | `rd` | None | Immediate action required |
+| Syncing | `ac` | `pu 1.5s ease infinite` | Data refreshing |
+| Offline | `t3` | None | Inactive or planned |
+
+---
+
+## 14. Data Hierarchy
+
+NorthStar follows a four-level progressive disclosure pattern for data exploration.
+
+### The Four Levels
+
+| Level | Component | Purpose | Interaction |
+|---|---|---|---|
+| **1 — KPI Summary** | `KPI` in flex row | 2-second system health scan | Click KPI to drill down |
+| **2 — Trend Chart** | `MC` (sparkline) in Card | Identify temporal patterns and threshold proximity | Click chart for detail |
+| **3 — Data Table** | `TH` + `TR` grid | Detailed exploration with sortable data, badges, bars | Click row for detail view |
+| **4 — Detail View** | Overlay with Back button | Full context with KPIs, charts, timeline, actions | Back button to return |
+
+### Progressive Disclosure Flow
+
+```
+KPI Summary  →  Trend Chart  →  Data Table  →  Detail View
+   (Scan)        (Identify)      (Analyze)       (Act)
+```
+
+Each level adds depth without overwhelming the operator. The flow ensures:
+- Operators start with the big picture (KPIs)
+- Trends provide direction before raw data
+- Tables enable comparison and filtering
+- Detail views provide full context for action
+
+### Design Principles
+
+**Do:**
+- Start with 3–5 KPIs for instant situational awareness
+- Use click-to-drill on KPIs, charts, and table rows
+- Show trend direction before raw data
+- Use badges for status columns, bars for completion
+- Animate entry at each drill level with `fu`/`fi`
+
+**Don't:**
+- Show raw tables without KPI context above
+- Skip levels — don't jump from KPI directly to detail
+- Put more than 6 KPIs in a single row
+- Use tables for fewer than 3 rows — use cards instead
+- Open detail panels without a Back button
+
+---
+
+## 15. Usage Rules
 
 Consolidated do's and don'ts for applying the design system consistently.
 
@@ -931,7 +1064,7 @@ Consolidated do's and don'ts for applying the design system consistently.
 
 ---
 
-## 13. Accessibility
+## 16. Accessibility
 
 ### Color Contrast (WCAG 2.1)
 
