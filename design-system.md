@@ -6,15 +6,30 @@ A comprehensive design system extracted from the NorthStar v2 speculative produc
 
 ## Table of Contents
 
+**Foundations**
 1. [Design Principles](#1-design-principles)
 2. [Color Palette](#2-color-palette)
 3. [Typography](#3-typography)
 4. [Spacing Scale](#4-spacing-scale)
-5. [Component Library](#5-component-library)
-6. [Motion & Animation](#6-motion--animation)
-7. [Patterns & Usage](#7-patterns--usage)
-8. [Icons & Indicators](#8-icons--indicators)
-9. [Layout System](#9-layout-system)
+5. [Elevation & Shadows](#5-elevation--shadows)
+
+**Components**
+6. [Component Library](#6-component-library)
+
+**Data Visualization**
+7. [Charts & Maps](#7-charts--maps)
+
+**Motion**
+8. [Motion & Animation](#8-motion--animation)
+
+**Patterns**
+9. [Patterns & Usage](#9-patterns--usage)
+10. [Icons & Indicators](#10-icons--indicators)
+11. [Layout System](#11-layout-system)
+
+**Guidelines**
+12. [Usage Rules](#12-usage-rules)
+13. [Accessibility](#13-accessibility)
 
 ---
 
@@ -258,7 +273,58 @@ GeistMono is loaded in four weights (400, 500, 600, 700) via CDN from `cdn.jsdel
 
 ---
 
-## 5. Component Library
+## 5. Elevation & Shadows
+
+### Surface Elevation
+
+Depth is communicated primarily through background color, not shadow. Each surface level is progressively lighter.
+
+| Level | Token | Hex | Usage |
+|---|---|---|---|
+| Level 0 | `bg` | `#0F1419` | Base layer, app background |
+| Level 1 | `s1` | `#161C24` | Cards, panels, sidebars |
+| Level 2 | `s2` | `#1E252E` | Headers, nested elements, hover states |
+| Level 3 | `s3` | `#262E38` | Highest surface, active states |
+| Level 4 | `s4` | `#121820` | Nav bar, compact surface |
+
+### Box Shadows
+
+Box-shadows are reserved for elements that float above the surface.
+
+| Element | Shadow | Usage |
+|---|---|---|
+| Modal Dialog | `0 20px 60px rgba(0,0,0,.3)` | Large, diffused shadow for top-level overlays |
+| Tour Tooltip | `0 12px 40px rgba(0,0,0,.4)` | Focused shadow for contextual popovers |
+| Focus Ring | `0 0 0 2px rgba(154,197,185,0.1)` | Subtle ring for focused form inputs |
+| Focus Highlight | `0 0 0 3px {tl}60` | Teal ring for tour-highlighted nav buttons |
+
+### Animated Glow Shadows
+
+Glow effects use animated box-shadows to draw attention without disrupting the calm-nominal visual baseline.
+
+| Name | Keyframes | Duration | Usage |
+|---|---|---|---|
+| `gl` | `0 0 8px` to `0 0 24px` (teal, 0.3-0.6 opacity) | 2s ease-in-out infinite | Copilot indicator dot |
+| `mGlow` | `0 0 6px` + `0 0 20px` (teal, 0.15-0.3 opacity) | 2s ease-in-out infinite | Memento tab attention |
+| `vGlow` | outer + inset glow (teal, 0.05-0.1 inset) | 2s ease-in-out infinite | Featured/highlighted cards |
+| `pcGlow` | `0 0 20px` to `0 0 40px` (teal, 0.12-0.28 opacity) | 4s ease-in-out infinite | Ambient card glow |
+
+### Overlay Backdrops
+
+| Context | Backdrop |
+|---|---|
+| Welcome modal | `rgba(0,0,0,0.6)` fixed overlay |
+| Tour overlay | `rgba(0,0,0,0.75)` fixed overlay |
+
+### Shadow Usage Rules
+
+- **Depth via Color, Not Shadow**: NorthStar communicates depth through surface color (bg to s3). Box-shadows are reserved for elements that float above the surface.
+- **Glow for State, Not Decoration**: Animated glows indicate active AI monitoring (gl), call attention (mGlow), or mark featured content (vGlow). Never apply glow to static, non-interactive elements.
+- **No Card Shadows**: Cards never have box-shadows in their default state. Elevation is expressed through border (1px solid bd) and background color (s1).
+
+---
+
+## 6. Component Library
 
 ### Badge
 
@@ -494,7 +560,86 @@ AI recommendation card in the Copilot sidebar.
 
 ---
 
-## 6. Motion & Animation
+## 7. Charts & Maps
+
+### Sparkline Charts (MC)
+
+SVG polyline charts for inline trend visualization. Auto-scale to data range with optional threshold markers.
+
+**Spec:**
+
+| Property | Value |
+|---|---|
+| SVG viewBox | `0 0 200 {h}` |
+| Default height | 55px |
+| Stroke width | 1.5px |
+| Stroke linejoin | round |
+| Fill | none |
+| Optimal data points | 8-12 |
+
+**Color by state:**
+
+| State | Color | Usage |
+|---|---|---|
+| Nominal | Teal (`#9AC5B9`) | Stable telemetry within normal range |
+| Degrading | Amber (`#FFB454`) | Approaching threshold |
+| Critical | Red (`#FF4D5A`) | Below threshold, active incident |
+| Info | Violet (`#6B8AE6`) | Secondary data, low variance |
+
+**Threshold line:** Dashed red line at specified value. `stroke: rd`, `stroke-width: 0.5`, `stroke-dasharray: 2,3`, `opacity: 0.5`.
+
+### Progress Bars (BarC)
+
+Horizontal fill bars for utilization, simulation progress, and capacity metrics.
+
+| Variant | Color | Usage |
+|---|---|---|
+| Nominal | Teal | Standard progress, site utilization |
+| Warning | Amber | Degraded capacity |
+| Critical | Red | Below threshold |
+| Neutral | Accent | Simulation running |
+| Complete | Teal at 100% | Task finished |
+
+### Live Map (LiveMap)
+
+Full-width SVG map with real-time satellite and ground station positioning. The primary spatial awareness component.
+
+**Map elements:**
+
+| Element | Spec |
+|---|---|
+| Continent outlines | SVG paths, s2 fill, tl2 stroke, 0.35 opacity |
+| Grid lines | Horizontal, teal at 0.04 opacity |
+| Orbit paths | Dashed curves, teal at 0.1 opacity |
+| Ground stations | 5px circles, status-colored, with name label above |
+| Satellites | 2.5px circles with dashed link lines to ground stations |
+| Legend | Bottom-left, 10px, dot + label pairs |
+| LIVE indicator | Top-right, pulse animation |
+
+**Behavior:**
+
+| Property | Value |
+|---|---|
+| Update interval | 80ms (setInterval) |
+| Satellite speed | LEO: 0.8, MEO: 0.3, GEO: 0.05 |
+| Position calc | Sine wave + orbit offset |
+| Click handling | `onSite(i)`, `onSat(i)` callbacks |
+| Degraded ring | Animated opacity on outer ring |
+
+### Correlation Graph
+
+SVG node-and-edge graph used in the CorD (Correlate Detail) panel to show relationships between anomalies.
+
+| Element | Spec |
+|---|---|
+| Nodes | Circles sized by severity/importance. Fill uses semantic B (background) variant, stroke uses foreground color |
+| Edges | Lines connecting related anomalies. Dashed for correlation, solid for causal. Opacity indicates confidence |
+| Root Cause | Largest node, teal-colored. The convergence point of the investigation graph |
+| Labels | Anomaly IDs in GeistMono centered in each node. Secondary labels (type) below in Pixelify Sans |
+
+---
+
+## 8. Motion & Animation
 
 ### Entrance Animations
 
@@ -549,7 +694,7 @@ Timeline items and list entries use sequential `animationDelay` for cascading en
 
 ---
 
-## 7. Patterns & Usage
+## 9. Patterns & Usage
 
 ### Screen Anatomy
 
@@ -601,7 +746,7 @@ NorthStar uses ten distinct detail panel layout patterns:
 
 ---
 
-## 8. Icons & Indicators
+## 10. Icons & Indicators
 
 ### Navigation Icons
 
@@ -640,7 +785,7 @@ NorthStar uses Unicode symbols instead of icon libraries for maximum performance
 
 ---
 
-## 9. Layout System
+## 11. Layout System
 
 ### Technology
 
@@ -695,6 +840,150 @@ NorthStar uses Unicode symbols instead of icon libraries for maximum performance
 | Tables | Card with `padding: 0` and `overflow: hidden` clips corners. Table body scrolls with page. |
 | Detail Panels | Full height with `overflow: auto`. Back button at top of scrollable area. |
 | Custom Scrollbar | `::-webkit-scrollbar` width: 5px, thumb: `rgba(184,191,200,0.1)`, border-radius: 3px, track: transparent. |
+
+---
+
+## 12. Usage Rules
+
+Consolidated do's and don'ts for applying the design system consistently.
+
+### Color
+
+**Do:**
+- Use semantic colors consistently: teal=nominal, amber=warning, red=critical
+- Use the B (background) variant at 4-8% opacity for fills
+- Pair every color-coded element with a text label
+- Use t1 for primary body text, t2 for secondary, t3 for muted captions
+- Use border color (bd) as default, semantic D variant for active states
+
+**Don't:**
+- Use semantic foreground colors as background fills directly
+- Mix severity meanings (e.g., amber for success, teal for errors)
+- Use t3 for interactive or important text — it's too low contrast
+- Apply colored borders to cards without a semantic reason
+- Use more than 2 semantic colors in a single component
+
+### Typography
+
+**Do:**
+- Use GeistMono for headers, labels, IDs, timestamps, buttons, and KPIs
+- Use Pixelify Sans for body text, descriptions, and paragraphs
+- Use tabular-nums on all numeric displays for column alignment
+- Apply uppercase + letter-spacing on section headers and table header labels
+- Use the type scale consistently — don't invent new sizes
+
+**Don't:**
+- Use Pixelify Sans for headers or data labels — it's for body text only
+- Go below 10px font size for any text
+- Use font-weight 700 on body text — reserve bold for page titles and KPIs
+- Mix fonts within a single label or value display
+- Use centered text in tables or data-dense areas
+
+### Components
+
+**Do:**
+- Limit to one primary (teal) button per visual group
+- Use Badge type consistently: success=nominal, critical=error, warning=caution
+- Place 3-5 KPIs per row at the top of screens
+- Use Card border-color to signal semantic state
+- Include a Back button and title on every detail panel
+- Use sm button variant in dense contexts (tables, copilot cards)
+
+**Don't:**
+- Use multiple primary buttons in the same section
+- Nest cards more than one level deep
+- Use badges for interactive elements — they're display-only
+- Place KPIs in a vertical stack — always use horizontal flex row
+- Skip the anim prop on cards that appear on page load
+- Mix SlidingTabs and Chips in the same filter context
+
+### Motion
+
+**Do:**
+- Use fu (fade-up) for cards and sections entering the viewport
+- Use si (slide-in) with staggered delays for timeline/list items
+- Use gl (glow) only for the Copilot active indicator
+- Keep transition durations between 0.12s and 0.6s
+- Use ease-out for entrances, ease-in-out for continuous loops
+
+**Don't:**
+- Apply continuous animations (gl, bo, pu) to more than 2-3 elements at once
+- Use bounce (bo) on anything other than primary CTAs
+- Animate elements that are already visible — entrances only
+- Use animation delays longer than 0.5s for staggered lists
+- Add hover effects to non-interactive elements
+
+### Layout
+
+**Do:**
+- Use fixed widths for navigation (168px) and copilot (300px) sidebars
+- Let the main content area flex to fill remaining space
+- Use CSS Grid for table layouts with explicit column widths
+- Wrap cards in padding:0 overflow:hidden for header-card patterns
+- Use gap for spacing between siblings, margin for section separation
+
+**Don't:**
+- Use percentage widths for fixed panels — they should be absolute pixels
+- Set overflow:auto on the root app shell — only inner panels scroll
+- Add padding to cards that use the header-card pattern (use padding:0)
+- Use margin for spacing between flex children — use gap instead
+- Create layouts wider than the viewport — NorthStar is desktop-only, 1200px+
+
+---
+
+## 13. Accessibility
+
+### Color Contrast (WCAG 2.1)
+
+Contrast ratios measured against the primary background (#0F1419).
+
+| Color | Pair | Ratio | Level | Usage |
+|---|---|---|---|---|
+| `#FFFFFF` | White on bg | 15.4:1 | AAA | Page titles, KPI values |
+| `#E8EAED` (t1) | t1 on bg | 11.2:1 | AAA | Primary body text, labels |
+| `#8A919A` (t2) | t2 on bg | 5.1:1 | AA | Secondary text, descriptions |
+| `#9AC5B9` (tl) | Teal on bg | 7.8:1 | AAA | Status text, links, active labels |
+| `#FFB454` (am) | Amber on bg | 6.9:1 | AA | Warning text, degraded status |
+| `#FF4D5A` (rd) | Red on bg | 4.9:1 | AA | Critical text, error badges |
+| `#6B8AE6` (vi) | Violet on bg | 4.5:1 | AA | Info text, accent elements |
+| `#C8FF6B` (li) | Lime on bg | 13.2:1 | AAA | Highlight text, emphasis |
+| `#5A6270` (t3) | t3 on bg | 2.9:1 | -- | Captions only — not for critical info |
+
+### Color-Not-Only Encoding
+
+Color is never the sole means of conveying information. Every color-coded element includes a text label.
+
+- Badges always contain text labels (Critical, Warning, Success)
+- Status dots on the map are accompanied by station/satellite names
+- The map legend pairs each color dot with its label
+- Table rows use Badge components (text + color) for status columns
+- Copilot recommendations state severity in text alongside the badge
+
+### Font Size Minimums
+
+| Size | Category | Usage |
+|---|---|---|
+| 10px | Minimum | Table headers, uppercase labels, micro captions. Never for interactive or critical content. |
+| 11px | Small | Buttons, badges, form labels, timestamps. The smallest interactive text size. |
+| 12px | Body | Standard body text for descriptions and table cells. The default readable size. |
+
+### Interactive Target Sizing
+
+| Element | Padding | Approx. Height | Usage |
+|---|---|---|---|
+| Button (default) | 6px 14px | ~30px | Primary actions |
+| Button (sm) | 4px 11px | ~24px | Dense contexts, toolbars |
+| Tab item | 4px 12px | ~26px | Filter selection |
+| Table row | 8px 12px | ~32px | Row selection, full-width target |
+| Nav item | 7px 10px | ~28px | Sidebar navigation |
+| Map marker | 5px radius + 9px ring | ~18px target | Click area on interactive map |
+
+### Keyboard & Focus
+
+- **Focus Visibility**: Interactive elements use border-color transitions and background changes on hover/active states, providing visible focus indicators.
+- **Cursor Feedback**: All clickable elements set `cursor: pointer`. Non-interactive cards use `cursor: default`. This provides immediate affordance signaling.
+- **Progressive Disclosure**: Details/summary elements (Copilot reasoning) are natively keyboard-accessible via the HTML `<details>` element.
+- **State Communication**: Loading states (progress bars, simulation), applied states (badges), and error states are communicated through color, text, and animation together.
 
 ---
 

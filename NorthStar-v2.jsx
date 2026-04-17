@@ -1525,20 +1525,40 @@ function ProcessPage(){
 
 // ─── Design System Page ───────────────────────────────────────────────
 function DesignSystemPage(){
-  var secState = useState("principles");
+  var secState = useState("overview");
   var dsSec = secState[0];
   var setDsSec = secState[1];
+  var hovState = useState(null);
+  var navHov = hovState[0];
+  var setNavHov = hovState[1];
 
-  var DS_NAV = [
-    {id:"principles",la:"Design Principles",ic:"\u25C6"},
-    {id:"colors",la:"Color Palette",ic:"\u25CF"},
-    {id:"typography",la:"Typography",ic:"\u0054"},
-    {id:"spacing",la:"Spacing Scale",ic:"\u25A1"},
-    {id:"components",la:"Components",ic:"\u25A3"},
-    {id:"motion",la:"Motion & Animation",ic:"\u25B7"},
-    {id:"patterns",la:"Patterns & Usage",ic:"\u25E7"},
-    {id:"icons",la:"Icons & Indicators",ic:"\u2605"},
-    {id:"layouts",la:"Layout System",ic:"\u25EB"}
+  var DS_CATS = [
+    {cat:null,items:[{id:"overview",la:"Overview"}]},
+    {cat:"Foundations",items:[
+      {id:"principles",la:"Design Principles"},
+      {id:"colors",la:"Color Palette"},
+      {id:"typography",la:"Typography"},
+      {id:"spacing",la:"Spacing Scale"},
+      {id:"elevation",la:"Elevation & Shadows"}
+    ]},
+    {cat:"Components",items:[
+      {id:"components",la:"Component Library"}
+    ]},
+    {cat:"Data Visualization",items:[
+      {id:"dataviz",la:"Charts & Maps"}
+    ]},
+    {cat:"Motion",items:[
+      {id:"motion",la:"Motion & Animation"}
+    ]},
+    {cat:"Patterns",items:[
+      {id:"patterns",la:"Patterns & Usage"},
+      {id:"layouts",la:"Layout System"},
+      {id:"icons",la:"Icons & Indicators"}
+    ]},
+    {cat:"Guidelines",items:[
+      {id:"usage",la:"Usage Rules"},
+      {id:"accessibility",la:"Accessibility"}
+    ]}
   ];
 
   var SH = {fontSize:12,color:C.ac,fontWeight:600,marginBottom:10,textTransform:"uppercase",letterSpacing:"0.06em",fontFamily:FT};
@@ -1546,34 +1566,134 @@ function DesignSystemPage(){
   return (
     <div style={{display:"flex",flex:1,overflow:"hidden"}}>
       {/* Sidebar */}
-      <div style={{width:200,background:C.s1,borderRight:"1px solid "+C.bd,display:"flex",flexDirection:"column",flexShrink:0,overflow:"auto"}}>
-        <div style={{padding:"14px 10px"}}>
-          <div style={{fontSize:11,fontWeight:600,color:C.t3,textTransform:"uppercase",letterSpacing:"0.08em",padding:"0 8px",marginBottom:10,fontFamily:FT}}>Design System</div>
-          {DS_NAV.map(function(item){
-            var isA = dsSec===item.id;
-            return (
-              <button key={item.id} onClick={function(){setDsSec(item.id);}} style={{width:"100%",padding:"7px 10px",borderRadius:6,border:"none",background:isA?C.tlB:"transparent",color:isA?C.tl:C.t2,cursor:"pointer",display:"flex",alignItems:"center",gap:8,marginBottom:2,fontFamily:FT,fontSize:11,fontWeight:isA?600:400,textAlign:"left",transition:"all 0.15s"}}
-                onMouseEnter={function(e){if(!isA)e.currentTarget.style.background=C.s2;}}
-                onMouseLeave={function(e){if(!isA)e.currentTarget.style.background="transparent";}}>
-                <span style={{fontSize:12,opacity:0.6}}>{item.ic}</span>
-                {item.la}
-              </button>
-            );
-          })}
+      <div style={{width:220,background:C.s1,borderRight:"1px solid "+C.bd,flexShrink:0,overflow:"auto",padding:"16px 0"}}>
+        <div style={{padding:"0 16px 16px",borderBottom:"1px solid "+C.bd,marginBottom:8}}>
+          <div style={{display:"flex",alignItems:"center",gap:6}}>
+            <Logo size={16}/>
+            <span style={{fontSize:14,fontWeight:700,color:C.t1,fontFamily:FT}}>Design System</span>
+          </div>
+          <div style={{fontSize:11,color:C.t3,marginTop:2,fontFamily:FB}}>NorthStar v2</div>
         </div>
+        {DS_CATS.map(function(group){
+          return (
+            <div key={group.cat||"top"} style={{marginBottom:4}}>
+              {group.cat && (
+                <div style={{fontSize:10,fontWeight:600,color:C.t3,textTransform:"uppercase",letterSpacing:"0.06em",padding:"8px 16px 4px",fontFamily:FT}}>{group.cat}</div>
+              )}
+              {group.items.map(function(item){
+                var isA = dsSec===item.id;
+                return (
+                  <div key={item.id} onClick={function(){setDsSec(item.id);}}
+                    onMouseEnter={function(){setNavHov(item.id);}}
+                    onMouseLeave={function(){setNavHov(null);}}
+                    style={{padding:group.cat?"6px 16px 6px 24px":"6px 16px",fontSize:12,fontWeight:isA?600:400,color:isA?C.tl:navHov===item.id?C.t1:C.t2,background:isA?C.tlB:navHov===item.id?C.s2:"transparent",borderRight:isA?"2px solid "+C.tl:"2px solid transparent",cursor:"pointer",transition:"all 0.15s",fontFamily:FT}}>
+                    {item.la}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
       </div>
       {/* Content */}
       <div style={{flex:1,overflow:"auto",padding:"24px 32px"}}>
+        {dsSec==="overview" && <DSOverview SH={SH} setDsSec={setDsSec}/>}
         {dsSec==="principles" && <DSPrinciples SH={SH}/>}
         {dsSec==="colors" && <DSColors SH={SH}/>}
         {dsSec==="typography" && <DSTypography SH={SH}/>}
         {dsSec==="spacing" && <DSSpacing SH={SH}/>}
+        {dsSec==="elevation" && <DSElevation SH={SH}/>}
         {dsSec==="components" && <DSComponents SH={SH}/>}
+        {dsSec==="dataviz" && <DSDataViz SH={SH}/>}
         {dsSec==="motion" && <DSMotion SH={SH}/>}
         {dsSec==="patterns" && <DSPatterns SH={SH}/>}
         {dsSec==="icons" && <DSIcons SH={SH}/>}
         {dsSec==="layouts" && <DSLayouts SH={SH}/>}
+        {dsSec==="usage" && <DSUsageRules SH={SH}/>}
+        {dsSec==="accessibility" && <DSAccessibility SH={SH}/>}
       </div>
+    </div>
+  );
+}
+
+// ─── DS: Overview ───
+function DSOverview({SH,setDsSec}){
+  var sections = [
+    {id:"principles",la:"Design Principles",de:"The foundational principles guiding every decision in NorthStar, from calm-nominal/sharp-anomaly to dual-use coherence.",cat:"Foundations"},
+    {id:"colors",la:"Color Palette",de:"5 surface tones, 3-tier text hierarchy, and 5 semantic color families, each with foreground, background, and border variants.",cat:"Foundations"},
+    {id:"typography",la:"Typography",de:"Two typefaces (GeistMono + Pixelify Sans), a 10-step type scale from 10px to 28px, 4 font weights, and 5 line heights.",cat:"Foundations"},
+    {id:"spacing",la:"Spacing Scale",de:"Gap, padding, and margin scales built on a base-2/4 system, plus 9 border-radius tokens from 4px to circle.",cat:"Foundations"},
+    {id:"elevation",la:"Elevation & Shadows",de:"Surface layering, modal and tooltip shadows, and animated glow effects (mGlow, vGlow, pcGlow) for depth and attention.",cat:"Foundations"},
+    {id:"components",la:"Component Library",de:"13 interactive components — Badge, Button, Tabs, KPI, Card, Table, Chips, Progress Bar, Sparkline, Detail Panel, Mono, Form Input, and Copilot Card.",cat:"Components"},
+    {id:"dataviz",la:"Charts & Maps",de:"Sparkline charts, progress bars, the LiveMap with satellite/site markers, and correlation graph patterns for data visualization.",cat:"Data Viz"},
+    {id:"motion",la:"Motion & Animation",de:"3 entrance animations, 3 continuous loops, hover transitions, staggered entry patterns, and special glow effects — all playable.",cat:"Motion"},
+    {id:"patterns",la:"Patterns & Usage",de:"Screen anatomy, 10 detail panel layouts, 3 navigation patterns, and 6 interaction patterns used across all 21 screens.",cat:"Patterns"},
+    {id:"layouts",la:"Layout System",de:"App shell structure, 5 grid patterns, content width specs, and overflow/scrolling behavior for every panel type.",cat:"Patterns"},
+    {id:"icons",la:"Icons & Indicators",de:"Unicode navigation icons, 4-state status indicators, copilot glow indicator, and map marker specifications.",cat:"Patterns"},
+    {id:"usage",la:"Usage Rules",de:"Consolidated do's and don'ts for color, typography, components, motion, and layout across the system.",cat:"Guidelines"},
+    {id:"accessibility",la:"Accessibility",de:"WCAG contrast compliance, color-not-only encoding, font size minimums, and interactive target sizing.",cat:"Guidelines"}
+  ];
+  return (
+    <div className="fu" style={{maxWidth:900}}>
+      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
+        <Logo size={28}/>
+        <h1 style={{fontSize:22,fontWeight:700,color:"#fff",fontFamily:FT}}>NorthStar Design System</h1>
+      </div>
+      <p style={{fontSize:13,color:C.t1,lineHeight:1.7,marginBottom:10,fontFamily:FB,maxWidth:700}}>The complete design language behind NorthStar, a speculative AI-native ground operations console for Northwood Space. Every color, component, and interaction pattern documented and interactive.</p>
+      <div style={{display:"flex",gap:6,marginBottom:28}}>
+        <Badge type="success">13 Sections</Badge>
+        <Badge type="info">13 Components</Badge>
+        <Badge type="neutral">Interactive</Badge>
+      </div>
+
+      <Card anim style={{marginBottom:24,borderColor:C.tlD,padding:20}}>
+        <div style={SH}>How to Use This System</div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:12}}>
+          {[
+            ["Explore","Navigate sections in the left panel. Each section is self-contained with live examples, specs, and usage rules."],
+            ["Interact","Components are interactive — hover buttons, click tabs, toggle filters, play animations. See every state in context."],
+            ["Reference","Every token, value, and pattern is documented with exact specs. Use this as the source of truth for building on NorthStar."]
+          ].map(function(item,i){
+            return (
+              <div key={i} style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+                <div style={{fontSize:12,fontWeight:600,color:C.tl,marginBottom:6,fontFamily:FT}}>{item[0]}</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>{item[1]}</p>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      <div style={SH}>What's Inside</div>
+      {["Foundations","Components","Data Viz","Motion","Patterns","Guidelines"].map(function(cat){
+        var items = sections.filter(function(s){return s.cat===cat;});
+        return (
+          <div key={cat} style={{marginBottom:16}}>
+            <div style={{fontSize:10,fontWeight:600,color:C.t3,textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:6,fontFamily:FT}}>{cat}</div>
+            <div style={{display:"grid",gridTemplateColumns:"repeat("+Math.min(items.length,3)+",1fr)",gap:10}}>
+              {items.map(function(s){
+                return (
+                  <Card key={s.id} anim onClick={function(){setDsSec(s.id);}} style={{padding:14}}>
+                    <div style={{fontSize:13,fontWeight:600,color:"#fff",marginBottom:6,fontFamily:FT}}>{s.la}</div>
+                    <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>{s.de}</p>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+
+      <Card anim style={{marginTop:8}}>
+        <div style={SH}>At a Glance</div>
+        <div style={{display:"flex",gap:8}}>
+          <KPI label="Colors" value="26" sub="tokens"/>
+          <KPI label="Type Steps" value="10" sub="10px–28px"/>
+          <KPI label="Components" value="13" sub="interactive"/>
+          <KPI label="Animations" value="12" sub="entrance + loops"/>
+          <KPI label="Sections" value="13" sub="across 6 categories"/>
+        </div>
+      </Card>
     </div>
   );
 }
@@ -1911,6 +2031,112 @@ function DSSpacing({SH}){
             ["Card padding","Standard cards use 16px. Compact cards (copilot) use 12px. Detail panels use 16px 20px."],
             ["Margin bottom","6px after labels, 10-12px between card sections, 16-20px between major sections, 32px between page sections."],
             ["Table density","6px 12px for headers, 8px 12px for rows. Gap of 5px between columns."]
+          ].map(function(r,i){
+            return (
+              <div key={i} style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+                <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>{r[0]}</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>{r[1]}</p>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+// ─── DS: Elevation & Shadows ───
+function DSElevation({SH}){
+  return (
+    <div className="fu" style={{maxWidth:900}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Elevation & Shadows</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:24,fontFamily:FB,lineHeight:1.6}}>NorthStar uses surface layering and box-shadows to create depth hierarchy. Shadows are reserved for overlays and attention states.</p>
+
+      <div style={SH}>Surface Elevation</div>
+      <Card anim style={{marginBottom:24}}>
+        <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:14,fontFamily:FB}}>Depth is primarily communicated through background color, not shadow. Each surface level is slightly lighter.</p>
+        <div style={{display:"flex",gap:0,borderRadius:10,overflow:"hidden",border:"1px solid "+C.bd}}>
+          {[
+            ["Level 0",C.bg,"bg","Base layer, app background"],
+            ["Level 1",C.s1,"s1","Cards, panels, sidebars"],
+            ["Level 2",C.s2,"s2","Headers, nested elements, hover"],
+            ["Level 3",C.s3,"s3","Highest surface, active states"],
+            ["Level 4",C.s4,"s4","Nav bar, compact surface"]
+          ].map(function(s,i){
+            return (
+              <div key={i} style={{flex:1,padding:"20px 14px",background:s[1],textAlign:"center"}}>
+                <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:4,fontFamily:FT}}>{s[0]}</div>
+                <div style={{fontSize:10,color:C.tl,fontFamily:MN,marginBottom:4}}>{s[2]}</div>
+                <div style={{fontSize:10,color:C.t3,fontFamily:FB}}>{s[3]}</div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      <div style={SH}>Box Shadows</div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:24}}>
+        <Card anim>
+          <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:8,fontFamily:FT}}>Modal Dialog</div>
+          <div style={{display:"flex",justifyContent:"center",padding:20}}>
+            <div style={{width:160,padding:16,background:C.s1,borderRadius:16,border:"1px solid "+C.bd,boxShadow:"0 20px 60px rgba(0,0,0,.3)",textAlign:"center"}}>
+              <div style={{fontSize:11,color:C.t1,fontFamily:FB}}>Modal</div>
+            </div>
+          </div>
+          <div style={{fontSize:10,color:C.tl,fontFamily:MN}}>box-shadow: 0 20px 60px rgba(0,0,0,.3)</div>
+          <div style={{fontSize:10,color:C.t3,marginTop:2,fontFamily:FB}}>Large, diffused shadow for top-level overlays</div>
+        </Card>
+        <Card anim>
+          <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:8,fontFamily:FT}}>Tour Tooltip</div>
+          <div style={{display:"flex",justifyContent:"center",padding:20}}>
+            <div style={{width:160,padding:16,background:C.s1,borderRadius:12,border:"1px solid "+C.bd,boxShadow:"0 12px 40px rgba(0,0,0,.4)",textAlign:"center"}}>
+              <div style={{fontSize:11,color:C.t1,fontFamily:FB}}>Tooltip</div>
+            </div>
+          </div>
+          <div style={{fontSize:10,color:C.tl,fontFamily:MN}}>box-shadow: 0 12px 40px rgba(0,0,0,.4)</div>
+          <div style={{fontSize:10,color:C.t3,marginTop:2,fontFamily:FB}}>Focused shadow for contextual popovers</div>
+        </Card>
+      </div>
+
+      <div style={SH}>Animated Glow Shadows</div>
+      <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:14,fontFamily:FB}}>Glow effects use animated box-shadows to draw attention without disrupting the calm-nominal visual baseline.</p>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:12,marginBottom:24}}>
+        <Card>
+          <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:8,fontFamily:FT}}>gl (Copilot Glow)</div>
+          <div style={{display:"flex",justifyContent:"center",marginBottom:10}}>
+            <div className="gl" style={{width:48,height:48,borderRadius:"50%",background:C.s2,display:"flex",alignItems:"center",justifyContent:"center"}}>
+              <div style={{width:10,height:10,borderRadius:"50%",background:C.tl}}/>
+            </div>
+          </div>
+          <div style={{fontSize:10,color:C.tl,fontFamily:MN,marginBottom:2}}>0 0 8px to 0 0 24px</div>
+          <div style={{fontSize:10,color:C.t3,fontFamily:FB}}>rgba(154,197,185, 0.3-0.6)</div>
+        </Card>
+        <Card>
+          <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:8,fontFamily:FT}}>mGlow (Attention)</div>
+          <div style={{display:"flex",justifyContent:"center",marginBottom:10}}>
+            <div style={{animation:"mGlow 2s ease-in-out infinite",padding:"10px 20px",borderRadius:8,background:C.s2,fontSize:11,color:C.tl,fontFamily:FT}}>Element</div>
+          </div>
+          <div style={{fontSize:10,color:C.tl,fontFamily:MN,marginBottom:2}}>0 0 6px + 0 0 20px</div>
+          <div style={{fontSize:10,color:C.t3,fontFamily:FB}}>Outer glow pulse for tab attention</div>
+        </Card>
+        <Card>
+          <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:8,fontFamily:FT}}>vGlow (Featured)</div>
+          <div style={{display:"flex",justifyContent:"center",marginBottom:10}}>
+            <div style={{animation:"vGlow 2s ease-in-out infinite",padding:"10px 20px",borderRadius:8,background:C.s2,fontSize:11,color:C.tl,fontFamily:FT}}>Featured</div>
+          </div>
+          <div style={{fontSize:10,color:C.tl,fontFamily:MN,marginBottom:2}}>outer + inset glow</div>
+          <div style={{fontSize:10,color:C.t3,fontFamily:FB}}>Inset + outer for highlighted cards</div>
+        </Card>
+      </div>
+
+      <Card anim>
+        <div style={SH}>Shadow Usage Rules</div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+          {[
+            ["Depth via Color, Not Shadow","NorthStar communicates depth through surface color (bg to s3). Box-shadows are reserved for elements that float above the surface: modals, tooltips, and popovers."],
+            ["Glow for State, Not Decoration","Animated glows indicate active AI monitoring (gl), call attention (mGlow), or mark featured content (vGlow). Never apply glow to static, non-interactive elements."],
+            ["Overlay Backdrops","Modals use rgba(0,0,0,0.6) fixed backdrop. Tour overlays use rgba(0,0,0,0.75). These dim the layer beneath to focus attention."],
+            ["No Card Shadows","Cards never have box-shadows in their default state. Elevation is expressed through border (1px solid bd) and background color (s1)."]
           ].map(function(r,i){
             return (
               <div key={i} style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
@@ -2427,6 +2653,148 @@ function DSComponents({SH}){
   );
 }
 
+// ─── DS: Data Visualization ───
+function DSDataViz({SH}){
+  return (
+    <div className="fu" style={{maxWidth:900}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Charts & Maps</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:24,fontFamily:FB,lineHeight:1.6}}>Data visualization patterns used across NorthStar for telemetry, progress, spatial awareness, and relationship mapping.</p>
+
+      <div style={SH}>Sparkline Charts (MC)</div>
+      <Card anim style={{marginBottom:20}}>
+        <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:14,fontFamily:FB}}>SVG polyline charts for inline trend visualization. Auto-scale to data range with optional threshold markers.</p>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:14}}>
+          <Card>
+            <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
+              <span style={{fontSize:11,fontWeight:600,color:C.tl,fontFamily:FT}}>Nominal Trend</span>
+              <Badge type="success">Teal</Badge>
+            </div>
+            <MC data={[14.2,13.8,14.5,13.1,14.8,14.0,13.5,14.2,15.1,14.6,13.9,14.3]} color={C.tl}/>
+            <div style={{fontSize:10,color:C.t3,marginTop:4,fontFamily:FB}}>Stable telemetry within normal range</div>
+          </Card>
+          <Card>
+            <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
+              <span style={{fontSize:11,fontWeight:600,color:C.am,fontFamily:FT}}>Degrading + Threshold</span>
+              <Badge type="warning">Amber</Badge>
+            </div>
+            <MC data={[8.1,7.5,7.2,6.8,6.5,6.1,6.3,6.0,5.8,6.1,5.9,6.1]} color={C.am} thr={5}/>
+            <div style={{fontSize:10,color:C.t3,marginTop:4,fontFamily:FB}}>Approaching threshold (dashed red line at 5 dB)</div>
+          </Card>
+          <Card>
+            <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
+              <span style={{fontSize:11,fontWeight:600,color:C.rd,fontFamily:FT}}>Critical Decline</span>
+              <Badge type="critical">Red</Badge>
+            </div>
+            <MC data={[5.2,4.8,4.1,3.7,3.2,2.8,2.5,2.3,2.1,2.3,2.0,2.3]} color={C.rd} thr={5}/>
+            <div style={{fontSize:10,color:C.t3,marginTop:4,fontFamily:FB}}>Below threshold, active incident</div>
+          </Card>
+          <Card>
+            <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
+              <span style={{fontSize:11,fontWeight:600,color:C.vi,fontFamily:FT}}>Stable (Violet)</span>
+              <Badge type="info">Info</Badge>
+            </div>
+            <MC data={[10.5,10.8,10.2,10.6,10.9,10.3,10.7,10.1,10.5,10.4,10.8,10.5]} color={C.vi}/>
+            <div style={{fontSize:10,color:C.t3,marginTop:4,fontFamily:FB}}>Secondary data with low variance</div>
+          </Card>
+        </div>
+        <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+          <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>SPEC</div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8}}>
+            {[["SVG viewBox","0 0 200 {h}"],["Default height","55px"],["Stroke width","1.5px"],["Data points","8-12 optimal"],["Threshold","dashed red, 0.5px"],["Color","matches semantic state"]].map(function(s,i){
+              return <div key={i}><span style={{fontSize:10,color:C.t3,fontFamily:FT}}>{s[0]}: </span><span style={{fontSize:10,color:C.tl,fontFamily:MN}}>{s[1]}</span></div>;
+            })}
+          </div>
+        </div>
+      </Card>
+
+      <div style={SH}>Progress Bars (BarC)</div>
+      <Card anim style={{marginBottom:20}}>
+        <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:14,fontFamily:FB}}>Horizontal fill bars for utilization, simulation progress, and capacity metrics.</p>
+        <div style={{display:"flex",flexDirection:"column",gap:12,marginBottom:14}}>
+          {[
+            ["Nominal",87,C.tl,"Site utilization"],
+            ["Warning",45,C.am,"Degraded capacity"],
+            ["Critical",18,C.rd,"Below threshold"],
+            ["Progress",62,C.ac,"Simulation running"],
+            ["Complete",100,C.tl,"Task finished"]
+          ].map(function(b,i){
+            return (
+              <div key={i} style={{display:"flex",alignItems:"center",gap:12}}>
+                <div style={{width:80,fontSize:10,color:C.t3,fontFamily:FT}}>{b[0]}</div>
+                <div style={{flex:1}}><BarC pct={b[1]} color={b[2]}/></div>
+                <div style={{width:100,fontSize:10,color:C.t3,fontFamily:FB}}>{b[3]}</div>
+              </div>
+            );
+          })}
+        </div>
+        <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+          <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:4,fontFamily:FT}}>SPEC</div>
+          <p style={{fontSize:10,color:C.t2,fontFamily:FB,margin:0}}>Track: 3px height, tlB background, 2px radius. Fill: transitions width over 0.6s. Label: 11px, t2, tabular-nums, right-aligned.</p>
+        </div>
+      </Card>
+
+      <div style={SH}>Live Map (LiveMap)</div>
+      <Card anim style={{marginBottom:20}}>
+        <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:14,fontFamily:FB}}>Full-width SVG map with real-time satellite and ground station positioning. The primary spatial awareness component used in the Command Center.</p>
+        <div style={{marginBottom:14,borderRadius:8,overflow:"hidden",border:"1px solid "+C.bd}}>
+          <LiveMap/>
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+          <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:6,fontFamily:FT}}>Map Elements</div>
+            {[["Continent outlines","SVG paths, s2 fill, tl2 stroke, 0.35 opacity"],["Grid lines","Horizontal, tl at 0.04 opacity"],["Orbit paths","Dashed curves, tl at 0.1 opacity"],["Ground stations","5px circles, status-colored, with label"],["Satellites","2.5px circles with dashed link lines"],["Legend","Bottom-left, 10px, dot + label pairs"]].map(function(e,i){
+              return <div key={i} style={{display:"flex",gap:6,padding:"3px 0",fontSize:10}}><span style={{color:C.tl,fontFamily:FT,minWidth:100}}>{e[0]}</span><span style={{color:C.t3,fontFamily:FB}}>{e[1]}</span></div>;
+            })}
+          </div>
+          <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:6,fontFamily:FT}}>Behavior</div>
+            {[["Update interval","80ms (setInterval)"],["Satellite speed","LEO: 0.8, MEO: 0.3, GEO: 0.05"],["Position calc","Sine wave + orbit offset"],["Click handling","onSite(i), onSat(i) callbacks"],["LIVE indicator","Top-right, pulse animation"],["Degraded ring","Animated opacity on outer ring"]].map(function(e,i){
+              return <div key={i} style={{display:"flex",gap:6,padding:"3px 0",fontSize:10}}><span style={{color:C.tl,fontFamily:FT,minWidth:100}}>{e[0]}</span><span style={{color:C.t3,fontFamily:FB}}>{e[1]}</span></div>;
+            })}
+          </div>
+        </div>
+      </Card>
+
+      <div style={SH}>Correlation Graph</div>
+      <Card anim>
+        <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:14,fontFamily:FB}}>SVG node-and-edge graph used in the CorD (Correlate Detail) panel to show relationships between anomalies.</p>
+        <div style={{background:C.s2,borderRadius:8,padding:16,marginBottom:14}}>
+          <svg viewBox="0 0 500 100" style={{width:"100%",height:100}}>
+            <line x1="110" y1="50" x2="220" y2="30" stroke={C.am} strokeWidth="1" opacity="0.4" strokeDasharray="4,3"/>
+            <line x1="110" y1="50" x2="220" y2="70" stroke={C.ac} strokeWidth="0.8" opacity="0.3" strokeDasharray="4,3"/>
+            <line x1="280" y1="30" x2="390" y2="50" stroke={C.tl} strokeWidth="1.5" opacity="0.5"/>
+            <line x1="280" y1="70" x2="390" y2="50" stroke={C.tl} strokeWidth="1" opacity="0.3"/>
+            <circle cx="80" cy="50" r="24" fill={C.rdB} stroke={C.rd} strokeWidth="1.5"/>
+            <text x="80" y="53" textAnchor="middle" fill={C.rd} fontSize="10" fontFamily={FT}>AN-301</text>
+            <circle cx="250" cy="30" r="18" fill={C.amB} stroke={C.am} strokeWidth="1"/>
+            <text x="250" y="33" textAnchor="middle" fill={C.am} fontSize="9" fontFamily={FT}>AN-303</text>
+            <circle cx="250" cy="70" r="14" fill={C.acB} stroke={C.ac} strokeWidth="0.8"/>
+            <text x="250" y="73" textAnchor="middle" fill={C.ac} fontSize="9" fontFamily={FT}>AN-304</text>
+            <circle cx="420" cy="50" r="26" fill={C.tlB} stroke={C.tl} strokeWidth="1.5"/>
+            <text x="420" y="47" textAnchor="middle" fill={C.tl} fontSize="10" fontFamily={FT}>Root</text>
+            <text x="420" y="58" textAnchor="middle" fill={C.t3} fontSize="8" fontFamily={FB}>Cause</text>
+          </svg>
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+          {[
+            ["Nodes","Circles sized by severity/importance. Fill uses semantic B (background) variant, stroke uses foreground color."],
+            ["Edges","Lines connecting related anomalies. Dashed for correlation, solid for causal. Opacity indicates confidence."],
+            ["Root Cause","Largest node, teal-colored. The convergence point of the investigation graph."],
+            ["Labels","Anomaly IDs in FT font centered in each node. Secondary labels (type) below in FB font."]
+          ].map(function(r,i){
+            return (
+              <div key={i} style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+                <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>{r[0]}</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>{r[1]}</p>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+    </div>
+  );
+}
+
 // ─── DS: Motion ───
 function DSMotion({SH}){
   var playState = useState({});
@@ -2846,6 +3214,237 @@ function DSLayouts({SH}){
               <div key={i} style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
                 <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>{o[0]}</div>
                 <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>{o[1]}</p>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+// ─── DS: Usage Rules ───
+function DSUsageRules({SH}){
+  return (
+    <div className="fu" style={{maxWidth:900}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Usage Rules</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:24,fontFamily:FB,lineHeight:1.6}}>Consolidated do's and don'ts for applying the design system consistently across NorthStar.</p>
+
+      <div style={SH}>Color</div>
+      <Card anim style={{marginBottom:20}}>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.tlD}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:8,fontFamily:FT}}>Do</div>
+            {["Use semantic colors consistently: teal=nominal, amber=warning, red=critical","Use the B (background) variant at 4-8% opacity for fills","Pair every color-coded element with a text label","Use t1 for primary body text, t2 for secondary, t3 for muted captions","Use border color (bd) as default, semantic D variant for active states"].map(function(r,i){
+              return <div key={i} style={{display:"flex",gap:6,padding:"3px 0",fontSize:11,color:C.t1,fontFamily:FB}}><span style={{color:C.tl}}>+</span>{r}</div>;
+            })}
+          </div>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.rdD}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.rd,marginBottom:8,fontFamily:FT}}>Don't</div>
+            {["Use semantic foreground colors as background fills directly","Mix severity meanings (e.g., amber for success, teal for errors)","Use t3 for interactive or important text — it's too low contrast","Apply colored borders to cards without a semantic reason","Use more than 2 semantic colors in a single component"].map(function(r,i){
+              return <div key={i} style={{display:"flex",gap:6,padding:"3px 0",fontSize:11,color:C.t1,fontFamily:FB}}><span style={{color:C.rd}}>{"\u2212"}</span>{r}</div>;
+            })}
+          </div>
+        </div>
+      </Card>
+
+      <div style={SH}>Typography</div>
+      <Card anim style={{marginBottom:20}}>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.tlD}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:8,fontFamily:FT}}>Do</div>
+            {["Use GeistMono for headers, labels, IDs, timestamps, buttons, and KPIs","Use Pixelify Sans for body text, descriptions, and paragraphs","Use tabular-nums on all numeric displays for column alignment","Apply uppercase + letter-spacing on section headers and table header labels","Use the type scale consistently — don't invent new sizes"].map(function(r,i){
+              return <div key={i} style={{display:"flex",gap:6,padding:"3px 0",fontSize:11,color:C.t1,fontFamily:FB}}><span style={{color:C.tl}}>+</span>{r}</div>;
+            })}
+          </div>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.rdD}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.rd,marginBottom:8,fontFamily:FT}}>Don't</div>
+            {["Use Pixelify Sans for headers or data labels — it's for body text only","Go below 10px font size for any text","Use font-weight 700 on body text — reserve bold for page titles and KPIs","Mix fonts within a single label or value display","Use centered text in tables or data-dense areas"].map(function(r,i){
+              return <div key={i} style={{display:"flex",gap:6,padding:"3px 0",fontSize:11,color:C.t1,fontFamily:FB}}><span style={{color:C.rd}}>{"\u2212"}</span>{r}</div>;
+            })}
+          </div>
+        </div>
+      </Card>
+
+      <div style={SH}>Components</div>
+      <Card anim style={{marginBottom:20}}>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.tlD}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:8,fontFamily:FT}}>Do</div>
+            {["Limit to one primary (teal) button per visual group","Use Badge type consistently: success=nominal, critical=error, warning=caution","Place 3-5 KPIs per row at the top of screens","Use Card border-color to signal semantic state","Include a Back button and title on every detail panel","Use sm button variant in dense contexts (tables, copilot cards)"].map(function(r,i){
+              return <div key={i} style={{display:"flex",gap:6,padding:"3px 0",fontSize:11,color:C.t1,fontFamily:FB}}><span style={{color:C.tl}}>+</span>{r}</div>;
+            })}
+          </div>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.rdD}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.rd,marginBottom:8,fontFamily:FT}}>Don't</div>
+            {["Use multiple primary buttons in the same section","Nest cards more than one level deep","Use badges for interactive elements — they're display-only","Place KPIs in a vertical stack — always use horizontal flex row","Skip the anim prop on cards that appear on page load","Mix SlidingTabs and Chips in the same filter context"].map(function(r,i){
+              return <div key={i} style={{display:"flex",gap:6,padding:"3px 0",fontSize:11,color:C.t1,fontFamily:FB}}><span style={{color:C.rd}}>{"\u2212"}</span>{r}</div>;
+            })}
+          </div>
+        </div>
+      </Card>
+
+      <div style={SH}>Motion</div>
+      <Card anim style={{marginBottom:20}}>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.tlD}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:8,fontFamily:FT}}>Do</div>
+            {["Use fu (fade-up) for cards and sections entering the viewport","Use si (slide-in) with staggered delays for timeline/list items","Use gl (glow) only for the Copilot active indicator","Keep transition durations between 0.12s and 0.6s","Use ease-out for entrances, ease-in-out for continuous loops"].map(function(r,i){
+              return <div key={i} style={{display:"flex",gap:6,padding:"3px 0",fontSize:11,color:C.t1,fontFamily:FB}}><span style={{color:C.tl}}>+</span>{r}</div>;
+            })}
+          </div>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.rdD}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.rd,marginBottom:8,fontFamily:FT}}>Don't</div>
+            {["Apply continuous animations (gl, bo, pu) to more than 2-3 elements at once","Use bounce (bo) on anything other than primary CTAs","Animate elements that are already visible — entrances only","Use animation delays longer than 0.5s for staggered lists","Add hover effects to non-interactive elements"].map(function(r,i){
+              return <div key={i} style={{display:"flex",gap:6,padding:"3px 0",fontSize:11,color:C.t1,fontFamily:FB}}><span style={{color:C.rd}}>{"\u2212"}</span>{r}</div>;
+            })}
+          </div>
+        </div>
+      </Card>
+
+      <div style={SH}>Layout</div>
+      <Card anim>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.tlD}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:8,fontFamily:FT}}>Do</div>
+            {["Use fixed widths for navigation (168px) and copilot (300px) sidebars","Let the main content area flex to fill remaining space","Use CSS Grid for table layouts with explicit column widths","Wrap cards in padding:0 overflow:hidden for header-card patterns","Use gap for spacing between siblings, margin for section separation"].map(function(r,i){
+              return <div key={i} style={{display:"flex",gap:6,padding:"3px 0",fontSize:11,color:C.t1,fontFamily:FB}}><span style={{color:C.tl}}>+</span>{r}</div>;
+            })}
+          </div>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.rdD}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.rd,marginBottom:8,fontFamily:FT}}>Don't</div>
+            {["Use percentage widths for fixed panels — they should be absolute pixels","Set overflow:auto on the root app shell — only inner panels scroll","Add padding to cards that use the header-card pattern (use padding:0)","Use margin for spacing between flex children — use gap instead","Create layouts wider than the viewport — NorthStar is desktop-only, 1200px+"].map(function(r,i){
+              return <div key={i} style={{display:"flex",gap:6,padding:"3px 0",fontSize:11,color:C.t1,fontFamily:FB}}><span style={{color:C.rd}}>{"\u2212"}</span>{r}</div>;
+            })}
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+// ─── DS: Accessibility ───
+function DSAccessibility({SH}){
+  return (
+    <div className="fu" style={{maxWidth:900}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Accessibility</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:24,fontFamily:FB,lineHeight:1.6}}>Accessibility considerations for NorthStar's dark-theme, data-dense interface.</p>
+
+      <div style={SH}>Color Contrast (WCAG 2.1)</div>
+      <Card anim style={{marginBottom:20}}>
+        <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:14,fontFamily:FB}}>Contrast ratios measured against the primary background (#0F1419).</p>
+        <div style={{display:"flex",flexDirection:"column",gap:6}}>
+          {[
+            ["#FFFFFF","White on bg","15.4:1","AAA",C.tl,"Page titles, KPI values"],
+            [C.t1,"t1 on bg","11.2:1","AAA",C.tl,"Primary body text, labels"],
+            [C.t2,"t2 on bg","5.1:1","AA",C.am,"Secondary text, descriptions"],
+            [C.tl,"Teal on bg","7.8:1","AAA",C.tl,"Status text, links, active labels"],
+            [C.am,"Amber on bg","6.9:1","AA",C.tl,"Warning text, degraded status"],
+            [C.rd,"Red on bg","4.9:1","AA","rgba(255,77,90,0.6)","Critical text, error badges"],
+            [C.vi,"Violet on bg","4.5:1","AA","rgba(107,138,230,0.6)","Info text, accent elements"],
+            [C.li,"Lime on bg","13.2:1","AAA",C.tl,"Highlight text, emphasis"],
+            [C.t3,"t3 on bg","2.9:1","\u2013","rgba(255,77,90,0.4)","Captions only \u2014 not for critical info"]
+          ].map(function(r,i){
+            return (
+              <div key={i} style={{display:"flex",alignItems:"center",padding:"8px 12px",background:C.bg,borderRadius:6,border:"1px solid "+C.bd,gap:12}}>
+                <div style={{width:24,height:24,borderRadius:4,background:r[0],border:"1px solid "+C.bd,flexShrink:0}}/>
+                <div style={{width:100,fontSize:11,color:C.t1,fontFamily:FT}}>{r[1]}</div>
+                <div style={{width:60,fontSize:12,fontWeight:600,color:"#fff",fontFamily:MN}}>{r[2]}</div>
+                <div style={{width:50}}><Badge type={r[3]==="AAA"?"success":r[3]==="AA"?"warning":"neutral"}>{r[3]}</Badge></div>
+                <div style={{flex:1,fontSize:10,color:C.t3,fontFamily:FB}}>{r[5]}</div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      <div style={SH}>Color-Not-Only Encoding</div>
+      <Card anim style={{marginBottom:20}}>
+        <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:14,fontFamily:FB}}>Color is never the sole means of conveying information. Every color-coded element includes a text label.</p>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.tlD}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:8,fontFamily:FT}}>How NorthStar Complies</div>
+            {[
+              "Badges always contain text labels (Critical, Warning, Success)",
+              "Status dots on the map are accompanied by station/satellite names",
+              "The map legend pairs each color dot with its label",
+              "Table rows use Badge components (text + color) for status columns",
+              "Copilot recommendations state severity in text alongside the badge"
+            ].map(function(r,i){
+              return <div key={i} style={{display:"flex",gap:6,padding:"3px 0",fontSize:11,color:C.t1,fontFamily:FB}}><span style={{color:C.tl}}>+</span>{r}</div>;
+            })}
+          </div>
+          <div style={{padding:14,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:11,fontWeight:600,color:"#fff",marginBottom:8,fontFamily:FT}}>Examples</div>
+            <div style={{display:"flex",flexDirection:"column",gap:8}}>
+              <div style={{display:"flex",gap:4,alignItems:"center"}}><Badge type="critical">Critical</Badge><span style={{fontSize:11,color:C.t2,fontFamily:FB}}>Color + text label</span></div>
+              <div style={{display:"flex",gap:4,alignItems:"center"}}><Badge type="success">Online</Badge><span style={{fontSize:11,color:C.t2,fontFamily:FB}}>Color + text label</span></div>
+              <div style={{display:"flex",gap:6,alignItems:"center"}}>
+                <span style={{width:8,height:8,borderRadius:"50%",background:C.am,display:"inline-block"}}/>
+                <span style={{fontSize:11,color:C.t2,fontFamily:FB}}>Degraded</span>
+                <span style={{fontSize:10,color:C.t3,fontFamily:FB}}>(dot + text)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      <div style={SH}>Font Size Minimums</div>
+      <Card anim style={{marginBottom:20}}>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10}}>
+          {[
+            ["10px","Minimum","Table headers, uppercase labels, micro captions. Never used for interactive or critical content."],
+            ["11px","Small","Buttons, badges, form labels, timestamps. The smallest interactive text size."],
+            ["12px","Body","Standard body text for descriptions and table cells. The default readable size."]
+          ].map(function(f,i){
+            return (
+              <Card key={i}>
+                <div style={{fontSize:parseInt(f[0]),fontWeight:600,color:"#fff",marginBottom:4,fontFamily:FT}}>{f[0]}</div>
+                <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>{f[1]}</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>{f[2]}</p>
+              </Card>
+            );
+          })}
+        </div>
+      </Card>
+
+      <div style={SH}>Interactive Target Sizing</div>
+      <Card anim style={{marginBottom:20}}>
+        <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:14,fontFamily:FB}}>All interactive elements meet minimum target size guidelines for reliable click/tap interaction.</p>
+        <div style={{display:"flex",flexDirection:"column",gap:6}}>
+          {[
+            ["Button (default)","6px 14px padding","~30px height","Primary actions"],
+            ["Button (sm)","4px 11px padding","~24px height","Dense contexts, toolbars"],
+            ["Tab item","4px 12px padding","~26px height","Filter selection"],
+            ["Table row","8px 12px padding","~32px height","Row selection, full-width target"],
+            ["Nav item","7px 10px padding","~28px height","Sidebar navigation"],
+            ["Map marker","5px radius + 9px ring","~18px target","Click area on interactive map"]
+          ].map(function(t,i){
+            return (
+              <div key={i} style={{display:"flex",alignItems:"center",padding:"6px 12px",background:C.s2,borderRadius:6,border:"1px solid "+C.bd,gap:12}}>
+                <div style={{width:140,fontSize:11,fontWeight:600,color:"#fff",fontFamily:FT}}>{t[0]}</div>
+                <div style={{width:130,fontSize:10,color:C.tl,fontFamily:MN}}>{t[1]}</div>
+                <div style={{width:80,fontSize:10,color:C.t2,fontFamily:MN}}>{t[2]}</div>
+                <div style={{flex:1,fontSize:10,color:C.t3,fontFamily:FB}}>{t[3]}</div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      <div style={SH}>Keyboard & Focus</div>
+      <Card anim>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+          {[
+            ["Focus Visibility","Interactive elements use border-color transitions and background changes on hover/active states, providing visible focus indicators."],
+            ["Cursor Feedback","All clickable elements set cursor:pointer. Non-interactive cards use cursor:default. This provides immediate affordance signaling."],
+            ["Progressive Disclosure","Details/summary elements (Copilot reasoning) are natively keyboard-accessible via the HTML details element."],
+            ["State Communication","Loading states (progress bars, simulation), applied states (badges), and error states are communicated through color, text, and animation together."]
+          ].map(function(r,i){
+            return (
+              <div key={i} style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+                <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>{r[0]}</div>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>{r[1]}</p>
               </div>
             );
           })}
