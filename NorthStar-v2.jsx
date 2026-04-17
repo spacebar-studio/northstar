@@ -1542,7 +1542,19 @@ function DesignSystemPage(){
       {id:"elevation",la:"Elevation & Shadows"}
     ]},
     {cat:"Components",items:[
-      {id:"components",la:"Component Library"}
+      {id:"comp-badge",la:"Badge"},
+      {id:"comp-button",la:"Button"},
+      {id:"comp-tabs",la:"Sliding Tabs"},
+      {id:"comp-kpi",la:"KPI Card"},
+      {id:"comp-card",la:"Card"},
+      {id:"comp-table",la:"Table"},
+      {id:"comp-chips",la:"Chips / Filters"},
+      {id:"comp-bar",la:"Progress Bar"},
+      {id:"comp-chart",la:"Mini Chart"},
+      {id:"comp-detail",la:"Detail Panel"},
+      {id:"comp-mono",la:"Mono Text"},
+      {id:"comp-form",la:"Form Input"},
+      {id:"comp-copilot",la:"Copilot Card"}
     ]},
     {cat:"Data Visualization",items:[
       {id:"dataviz",la:"Charts & Maps"}
@@ -1603,7 +1615,19 @@ function DesignSystemPage(){
         {dsSec==="typography" && <DSTypography SH={SH}/>}
         {dsSec==="spacing" && <DSSpacing SH={SH}/>}
         {dsSec==="elevation" && <DSElevation SH={SH}/>}
-        {dsSec==="components" && <DSComponents SH={SH}/>}
+        {dsSec==="comp-badge" && <DSCompBadge SH={SH}/>}
+        {dsSec==="comp-button" && <DSCompButton SH={SH}/>}
+        {dsSec==="comp-tabs" && <DSCompTabs SH={SH}/>}
+        {dsSec==="comp-kpi" && <DSCompKPI SH={SH}/>}
+        {dsSec==="comp-card" && <DSCompCard SH={SH}/>}
+        {dsSec==="comp-table" && <DSCompTable SH={SH}/>}
+        {dsSec==="comp-chips" && <DSCompChips SH={SH}/>}
+        {dsSec==="comp-bar" && <DSCompBar SH={SH}/>}
+        {dsSec==="comp-chart" && <DSCompChart SH={SH}/>}
+        {dsSec==="comp-detail" && <DSCompDetail SH={SH}/>}
+        {dsSec==="comp-mono" && <DSCompMono SH={SH}/>}
+        {dsSec==="comp-form" && <DSCompForm SH={SH}/>}
+        {dsSec==="comp-copilot" && <DSCompCopilot SH={SH}/>}
         {dsSec==="dataviz" && <DSDataViz SH={SH}/>}
         {dsSec==="motion" && <DSMotion SH={SH}/>}
         {dsSec==="patterns" && <DSPatterns SH={SH}/>}
@@ -2151,29 +2175,290 @@ function DSElevation({SH}){
   );
 }
 
-// ─── DS: Components ───
-function DSComponents({SH}){
-  var subState = useState("badge");
-  var sub = subState[0];
-  var setSub = subState[1];
+// ─── DS: Individual Component Pages ───
+function DSCompBadge({SH}){
+  return (
+    <div className="fu" style={{maxWidth:960}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Badge</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:16,fontFamily:FB,lineHeight:1.6}}>Status and severity indicators with semantic color mapping.</p>
+      <div className="fi">
+        <Card anim style={{marginBottom:16}}>
+          <div style={SH}>Variants</div>
+          <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Used inline with text or as standalone labels.</p>
+          <div style={{marginBottom:16}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>All Types</div>
+            <div style={{display:"flex",gap:8,flexWrap:"wrap",alignItems:"center"}}>
+              <Badge type="success">Success</Badge>
+              <Badge type="warning">Warning</Badge>
+              <Badge type="critical">Critical</Badge>
+              <Badge type="info">Info</Badge>
+              <Badge type="cyan">Cyan</Badge>
+              <Badge type="neutral">Neutral</Badge>
+            </div>
+          </div>
+          <div style={{marginBottom:16}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>In Context</div>
+            <div style={{display:"flex",gap:12,alignItems:"center"}}>
+              <div style={{display:"flex",gap:4}}><Badge type="success">Online</Badge><Badge type="cyan">8 sats</Badge></div>
+              <div style={{display:"flex",gap:4}}><Badge type="critical">P0</Badge><span style={{fontSize:12,color:C.t1,fontFamily:FB}}>EagleWatch</span></div>
+              <div style={{display:"flex",gap:4}}><Badge type="warning">Degraded</Badge><Badge type="neutral">APAC</Badge></div>
+            </div>
+          </div>
+          <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+            <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use success for nominal/online states. Warning for degraded/caution. Critical for errors and P0 priority. Info/cyan for informational metadata. Neutral for inactive or classification labels.</p>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function DSCompButton({SH}){
+  return (
+    <div className="fu" style={{maxWidth:960}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Button</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:16,fontFamily:FB,lineHeight:1.6}}>Primary and secondary buttons with small variants.</p>
+      <div className="fi">
+        <Card anim style={{marginBottom:16}}>
+          <div style={SH}>Variants & States</div>
+          <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Hover over each to see interactive states.</p>
+          <div style={{marginBottom:20}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Primary</div>
+            <div style={{display:"flex",gap:8,alignItems:"center"}}>
+              <Btn primary>Primary Action</Btn>
+              <Btn primary sm>Small Primary</Btn>
+            </div>
+          </div>
+          <div style={{marginBottom:20}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Secondary (Default)</div>
+            <div style={{display:"flex",gap:8,alignItems:"center"}}>
+              <Btn>Secondary</Btn>
+              <Btn sm>Small</Btn>
+            </div>
+          </div>
+          <div style={{marginBottom:20}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Active State (Selected)</div>
+            <div style={{display:"flex",gap:8,alignItems:"center"}}>
+              <Btn active>Active</Btn>
+              <Btn sm active>Active Small</Btn>
+              <Btn>Inactive</Btn>
+            </div>
+          </div>
+          <div style={{marginBottom:16}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Button Groups</div>
+            <div style={{display:"flex",gap:4}}>
+              <Btn sm primary>Apply</Btn>
+              <Btn sm>Simulate</Btn>
+              <Btn sm>Edit</Btn>
+              <Btn sm>Cancel</Btn>
+            </div>
+          </div>
+          <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+            <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use primary (teal fill) for the single most important action. Use secondary (border only) for all other actions. Use sm variant in dense contexts like table rows, copilot cards, and toolbars. Max one primary button per visual group.</p>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function DSCompTabs({SH}){
+  var tabState = useState("Tab 1");
+  var tabActive = tabState[0];
+  var setTabActive = tabState[1];
+  return (
+    <div className="fu" style={{maxWidth:960}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Sliding Tabs</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:16,fontFamily:FB,lineHeight:1.6}}>Segmented control for filtering or switching views.</p>
+      <div className="fi">
+        <Card anim style={{marginBottom:16}}>
+          <div style={SH}>Interactive Demo</div>
+          <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Active tab shows a teal border ring. Click tabs below to interact.</p>
+          <div style={{marginBottom:20}}>
+            <SlidingTabs items={["Tab 1","Tab 2","Tab 3","Tab 4"]} active={tabActive} onSelect={setTabActive}/>
+            <div style={{marginTop:10,padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+              <span style={{fontSize:12,color:C.t1,fontFamily:FB}}>Selected: </span>
+              <span style={{fontSize:12,color:C.tl,fontWeight:600,fontFamily:FT}}>{tabActive}</span>
+            </div>
+          </div>
+          <div style={{marginBottom:16}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>In Context: Severity Filter</div>
+            <SlidingTabs items={["All","Critical","Warning","Info"]} active="All" onSelect={function(){}}/>
+          </div>
+          <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+            <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use for mutually exclusive filter sets with 2-6 options. Wraps when options overflow. The pill background container provides visual grouping. Not for navigation between pages.</p>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function DSCompKPI({SH}){
+  return (
+    <div className="fu" style={{maxWidth:960}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>KPI Card</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:16,fontFamily:FB,lineHeight:1.6}}>Key Performance Indicator cards for at-a-glance metrics.</p>
+      <div className="fi">
+        <Card anim style={{marginBottom:16}}>
+          <div style={SH}>Variants</div>
+          <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Animated on entry with fade-up. Each has label, value, and optional subtitle.</p>
+          <div style={{marginBottom:20}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Standard KPIs</div>
+            <div style={{display:"flex",gap:8}}>
+              <KPI label="Satellites" value="7/8" sub="tracked"/>
+              <KPI label="Sites" value="5/7" sub="1 degraded"/>
+              <KPI label="Throughput" value="4.8 Gbps" sub="Peak 6.2"/>
+              <KPI label="Incidents" value="6" sub="2 critical"/>
+            </div>
+          </div>
+          <div style={{marginBottom:16}}>
+            <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Without Subtitle</div>
+            <div style={{display:"flex",gap:8}}>
+              <KPI label="Status" value="Applied"/>
+              <KPI label="Confidence" value="94%"/>
+              <KPI label="Impact" value="Nominal"/>
+            </div>
+          </div>
+          <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+            <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Place KPI rows at the top of screens for instant situational awareness. Use 3-5 KPIs per row. Values should be concise (numbers, percentages, short words). Subtitles provide context without detail. Always use tabular-nums for numeric alignment.</p>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function DSCompCard({SH}){
+  return (
+    <div className="fu" style={{maxWidth:960}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Card</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:16,fontFamily:FB,lineHeight:1.6}}>Primary container component with static, clickable, and animated variants.</p>
+      <div className="fi">
+        <Card anim style={{marginBottom:16}}>
+          <div style={SH}>Variants</div>
+          <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Cards can be static, clickable (with hover lift), or animated on entry. Hover over the interactive cards below.</p>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:16}}>
+            <Card>
+              <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:4,fontFamily:FT}}>Static Card</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Default card with no interaction. Used for display content.</p>
+            </Card>
+            <Card onClick={function(){}} anim>
+              <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:4,fontFamily:FT}}>Clickable Card</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Hover to see border glow and lift effect.</p>
+            </Card>
+            <Card anim style={{borderColor:C.tlD}}>
+              <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:4,fontFamily:FT}}>Accent Border</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Teal border for emphasis or active state.</p>
+            </Card>
+          </div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:16}}>
+            <Card style={{borderColor:C.rdD}}>
+              <div style={{fontSize:12,fontWeight:600,color:C.rd,marginBottom:4,fontFamily:FT}}>Critical Border</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Red border for critical states.</p>
+            </Card>
+            <Card style={{borderColor:C.amD}}>
+              <div style={{fontSize:12,fontWeight:600,color:C.am,marginBottom:4,fontFamily:FT}}>Warning Border</div>
+              <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Amber border for warnings.</p>
+            </Card>
+            <Card style={{padding:0,overflow:"hidden"}}>
+              <div style={{padding:"10px 14px",borderBottom:"1px solid "+C.bd}}>
+                <span style={{fontSize:12,fontWeight:600,color:"#fff",fontFamily:FT}}>Header Card</span>
+              </div>
+              <div style={{padding:14}}>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Card with header section.</p>
+              </div>
+            </Card>
+          </div>
+          <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+            <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Cards are the primary grouping container. Use border-color for semantic state (teal=success, amber=warning, red=critical). Clickable cards get hover lift and border glow. Use padding:0 with overflow:hidden for header-card patterns. Animate entry with the anim prop.</p>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function DSCompTable({SH}){
   var hState = useState({});
   var hov = hState[0];
   var setHov = hState[1];
+  return (
+    <div className="fu" style={{maxWidth:960}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Table</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:16,fontFamily:FB,lineHeight:1.6}}>Grid-based table with header and interactive rows.</p>
+      <div className="fi">
+        <Card anim style={{marginBottom:16}}>
+          <div style={SH}>TH + TR Demo</div>
+          <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Rows highlight on hover and support active (selected) state. Click rows to see active state.</p>
+          <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
+            <TH cols={[{l:"ID",w:"80px"},{l:"Name"},{l:"Status",w:"90px"},{l:"Region",w:"100px"},{l:"Health",w:"80px"}]}/>
+            {[
+              ["NS-001","Sentinel-7A","Nominal","CONUS-W","98%"],
+              ["NS-003","Aegis-12","Degraded","GEO","72%"],
+              ["NS-005","Pathfinder-9","Critical","LEO","41%"]
+            ].map(function(r,i){
+              return (
+                <TR key={i} cols={[{w:"80px"},{},{w:"90px"},{w:"100px"},{w:"80px"}]}
+                  active={hov.tableRow===i} onClick={function(){setHov(Object.assign({},hov,{tableRow:hov.tableRow===i?null:i}));}}
+                  vals={[
+                    <Mono>{r[0]}</Mono>,
+                    <span style={{fontWeight:500}}>{r[1]}</span>,
+                    <Badge type={r[2]==="Nominal"?"success":r[2]==="Degraded"?"warning":"critical"}>{r[2]}</Badge>,
+                    <span style={{color:C.t2}}>{r[3]}</span>,
+                    <span>{r[4]}</span>
+                  ]}/>
+              );
+            })}
+          </Card>
+          <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+            <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Tables use CSS Grid for column alignment. TH defines column labels with uppercase styling. TR highlights on hover (s4 background) and shows acB background when active. Use Mono for IDs and timestamps. Use Badge for status columns. Column widths should be explicit for data-heavy columns.</p>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function DSCompChips({SH}){
+  var chipState = useState("All");
+  var chipActive = chipState[0];
+  var setChipActive = chipState[1];
+  return (
+    <div className="fu" style={{maxWidth:960}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Chips / Filters</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:16,fontFamily:FB,lineHeight:1.6}}>Inline filter pills built from small buttons.</p>
+      <div className="fi">
+        <Card anim style={{marginBottom:16}}>
+          <div style={SH}>Interactive Demo</div>
+          <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Click to toggle active state.</p>
+          <div style={{marginBottom:16}}>
+            <Chips items={["All","Critical","Warning","Info","Nominal"]} active={chipActive} set={setChipActive}/>
+            <div style={{marginTop:8,fontSize:11,color:C.t2,fontFamily:FB}}>Selected: <span style={{color:C.tl,fontWeight:600,fontFamily:FT}}>{chipActive}</span></div>
+          </div>
+          <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+            <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use chips for quick inline filtering (severity, type, category). Always include an "All" option. The active chip shows the acB background and acD border. Chips wrap on overflow. Prefer SlidingTabs for pill-contained filters, Chips for inline filter rows.</p>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function DSCompBar({SH}){
   var loadState = useState(false);
   var loading = loadState[0];
   var setLoading = loadState[1];
   var progState = useState(0);
   var simProg = progState[0];
   var setSimProg = progState[1];
-  var chipState = useState("All");
-  var chipActive = chipState[0];
-  var setChipActive = chipState[1];
-  var tabState = useState("Tab 1");
-  var tabActive = tabState[0];
-  var setTabActive = tabState[1];
-  var expState = useState(false);
-  var expanded = expState[0];
-  var setExpanded = expState[1];
 
   useEffect(function(){
     if(loading){
@@ -2187,468 +2472,240 @@ function DSComponents({SH}){
     }
   },[loading]);
 
-  var COMP_NAV = [
-    {id:"badge",la:"Badge"},{id:"button",la:"Button"},{id:"tabs",la:"Sliding Tabs"},{id:"kpi",la:"KPI Card"},
-    {id:"card",la:"Card"},{id:"table",la:"Table"},{id:"chips",la:"Chips/Filters"},{id:"bar",la:"Progress Bar"},
-    {id:"chart",la:"Mini Chart"},{id:"detail",la:"Detail Panel"},{id:"mono",la:"Mono Text"},
-    {id:"form",la:"Form Input"},{id:"copilot",la:"Copilot Card"}
-  ];
-
   return (
     <div className="fu" style={{maxWidth:960}}>
-      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Component Library</h1>
-      <p style={{fontSize:12,color:C.t2,marginBottom:16,fontFamily:FB,lineHeight:1.6}}>Interactive component catalog. Click on a component to explore its variants and states.</p>
-
-      <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:20}}>
-        {COMP_NAV.map(function(c){
-          return <Btn key={c.id} sm active={sub===c.id} onClick={function(){setSub(c.id);}}>{c.la}</Btn>;
-        })}
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Progress Bar</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:16,fontFamily:FB,lineHeight:1.6}}>Horizontal progress indicator with animated fill and percentage label.</p>
+      <div className="fi">
+        <Card anim style={{marginBottom:16}}>
+          <div style={SH}>Static Examples</div>
+          <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:20}}>
+            <div><div style={{fontSize:10,color:C.t3,marginBottom:3,fontFamily:FT}}>25%</div><BarC pct={25}/></div>
+            <div><div style={{fontSize:10,color:C.t3,marginBottom:3,fontFamily:FT}}>62%</div><BarC pct={62}/></div>
+            <div><div style={{fontSize:10,color:C.t3,marginBottom:3,fontFamily:FT}}>100%</div><BarC pct={100}/></div>
+            <div><div style={{fontSize:10,color:C.t3,marginBottom:3,fontFamily:FT}}>Warning (amber)</div><BarC pct={45} color={C.am}/></div>
+            <div><div style={{fontSize:10,color:C.t3,marginBottom:3,fontFamily:FT}}>Critical (red)</div><BarC pct={18} color={C.rd}/></div>
+          </div>
+          <div style={SH}>Live Animation</div>
+          <div style={{marginBottom:16}}>
+            <BarC pct={loading?simProg:0} color={simProg>=100?C.tl:C.ac}/>
+            <div style={{marginTop:8}}>
+              <Btn sm primary onClick={function(){setSimProg(0);setLoading(true);}}>
+                {loading?"Running...":"Start Simulation"}
+              </Btn>
+            </div>
+          </div>
+          <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+            <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use teal for standard progress, amber for warning thresholds, red for critical states. The bar transitions width over 0.6s for smooth animation. Always show the percentage label. Height is 3px for an unobtrusive presence.</p>
+          </div>
+        </Card>
       </div>
+    </div>
+  );
+}
 
-      {/* Badge */}
-      {sub==="badge" && (
-        <div className="fi">
-          <Card anim style={{marginBottom:16}}>
-            <div style={SH}>Badge</div>
-            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Status and severity indicators with semantic color mapping. Used inline with text or as standalone labels.</p>
-            <div style={{marginBottom:16}}>
-              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Variants</div>
-              <div style={{display:"flex",gap:8,flexWrap:"wrap",alignItems:"center"}}>
-                <Badge type="success">Success</Badge>
-                <Badge type="warning">Warning</Badge>
+function DSCompChart({SH}){
+  return (
+    <div className="fu" style={{maxWidth:960}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Mini Chart</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:16,fontFamily:FB,lineHeight:1.6}}>SVG-based sparkline chart for inline trend visualization.</p>
+      <div className="fi">
+        <Card anim style={{marginBottom:16}}>
+          <div style={SH}>Color Variants</div>
+          <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Supports threshold lines and custom colors.</p>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:16}}>
+            <Card>
+              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>Teal (Nominal)</div>
+              <MC data={[14.2,13.8,14.5,13.1,14.8,14.0,13.5,14.2,15.1,14.6,13.9,14.3]} color={C.tl}/>
+            </Card>
+            <Card>
+              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>With Threshold</div>
+              <MC data={[8.1,7.5,7.2,6.8,6.5,6.1,6.3,6.0,5.8,6.1,5.9,6.1]} color={C.am} thr={5}/>
+            </Card>
+            <Card>
+              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>Critical Trend</div>
+              <MC data={[5.2,4.8,4.1,3.7,3.2,2.8,2.5,2.3,2.1,2.3,2.0,2.3]} color={C.rd} thr={5}/>
+            </Card>
+            <Card>
+              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>Violet Accent</div>
+              <MC data={[10.5,10.8,10.2,10.6,10.9,10.3,10.7,10.1,10.5,10.4,10.8,10.5]} color={C.vi}/>
+            </Card>
+          </div>
+          <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+            <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use sparklines for telemetry trends in cards and detail panels. Default height is 55px. Threshold lines appear as dashed red lines. Color should match the semantic state of the data. Provide 8-12 data points for readable trends.</p>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function DSCompDetail({SH}){
+  var expState = useState(false);
+  var expanded = expState[0];
+  var setExpanded = expState[1];
+  return (
+    <div className="fu" style={{maxWidth:960}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Detail Panel</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:16,fontFamily:FB,lineHeight:1.6}}>Full-screen overlay for deep-dive views.</p>
+      <div className="fi">
+        <Card anim style={{marginBottom:16}}>
+          <div style={SH}>Interactive Preview</div>
+          <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Contains a back button, title, and flexible content area. Click "Open Detail" to see the panel pattern rendered inline.</p>
+          <div style={{marginBottom:16}}>
+            <Btn sm primary onClick={function(){setExpanded(!expanded);}}>{expanded?"Close Detail":"Open Detail Preview"}</Btn>
+          </div>
+          {expanded && (
+            <div className="fi" style={{border:"1px solid "+C.bd,borderRadius:10,overflow:"hidden",background:C.bg}}>
+              <div style={{padding:"16px 20px"}}>
+                <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:16}}>
+                  <button onClick={function(){setExpanded(false);}} style={{background:C.acB,border:"1px solid "+C.acD,borderRadius:6,padding:"4px 12px",color:C.ac,fontSize:11,fontWeight:500,cursor:"pointer",fontFamily:FT}}>Back</button>
+                  <h1 style={{fontSize:18,fontWeight:600,color:"#fff",fontFamily:FT}}>Detail: Sentinel-7A</h1>
+                </div>
+                <div style={{display:"flex",gap:8,marginBottom:12}}>
+                  <KPI label="Health" value="98%" sub="Nominal"/>
+                  <KPI label="Orbit" value="LEO" sub="550 km"/>
+                  <KPI label="Link" value="14.2 dB" sub="Margin"/>
+                </div>
+                <Card style={{borderColor:C.tlD,padding:12}}>
+                  <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>Telemetry</div>
+                  <MC data={[14.2,13.8,14.5,13.1,14.8,14.0,13.5,14.2,15.1,14.6,13.9,14.3]} color={C.tl}/>
+                </Card>
+              </div>
+            </div>
+          )}
+          <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd,marginTop:16}}>
+            <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+            <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Detail panels overlay the screen content. Always include a Back button and title. Use KPI row at top for key metrics. Content below can use any layout pattern (timeline, form, grid, charts). Panel fades in with the fi animation class.</p>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function DSCompMono({SH}){
+  return (
+    <div className="fu" style={{maxWidth:960}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Mono Text</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:16,fontFamily:FB,lineHeight:1.6}}>Monospace-styled inline text for IDs, timestamps, and technical values.</p>
+      <div className="fi">
+        <Card anim style={{marginBottom:16}}>
+          <div style={SH}>Examples</div>
+          <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:16}}>
+            <div style={{display:"flex",alignItems:"center",gap:12}}>
+              <span style={{width:80,fontSize:10,color:C.t3,fontFamily:FT}}>Timestamp</span>
+              <Mono>14:22:08</Mono>
+            </div>
+            <div style={{display:"flex",alignItems:"center",gap:12}}>
+              <span style={{width:80,fontSize:10,color:C.t3,fontFamily:FT}}>ID</span>
+              <Mono>NS-001</Mono>
+            </div>
+            <div style={{display:"flex",alignItems:"center",gap:12}}>
+              <span style={{width:80,fontSize:10,color:C.t3,fontFamily:FT}}>Command</span>
+              <Mono>GET_LINK_STATUS</Mono>
+            </div>
+            <div style={{display:"flex",alignItems:"center",gap:12}}>
+              <span style={{width:80,fontSize:10,color:C.t3,fontFamily:FT}}>Data Rate</span>
+              <Mono>150 Mbps</Mono>
+            </div>
+          </div>
+          <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+            <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use Mono for machine-generated values: IDs, timestamps, commands, data rates, hex codes. Rendered at 11px in t2 color. Provides visual distinction from human-readable body text.</p>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function DSCompForm({SH}){
+  return (
+    <div className="fu" style={{maxWidth:960}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Form Input</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:16,fontFamily:FB,lineHeight:1.6}}>Text inputs used in edit and configuration panels.</p>
+      <div className="fi">
+        <Card anim style={{marginBottom:16}}>
+          <div style={SH}>States</div>
+          <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Dark surface with subtle border.</p>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:16}}>
+            <div>
+              <div style={{fontSize:11,fontWeight:600,color:C.t1,marginBottom:3,fontFamily:FT}}>Filled</div>
+              <div style={{padding:"8px 12px",borderRadius:6,border:"1px solid "+C.bd,background:C.s2,fontSize:12,color:"#fff",fontFamily:FB}}>Sentinel-7A</div>
+            </div>
+            <div>
+              <div style={{fontSize:11,fontWeight:600,color:C.t1,marginBottom:3,fontFamily:FT}}>Placeholder</div>
+              <div style={{padding:"8px 12px",borderRadius:6,border:"1px solid "+C.bd,background:C.s2,fontSize:12,color:C.t3,fontFamily:FB}}>Enter value...</div>
+            </div>
+            <div>
+              <div style={{fontSize:11,fontWeight:600,color:C.t1,marginBottom:3,fontFamily:FT}}>Focus State</div>
+              <div style={{padding:"8px 12px",borderRadius:6,border:"1px solid "+C.tlD,background:C.s2,fontSize:12,color:"#fff",fontFamily:FB,boxShadow:"0 0 0 2px rgba(154,197,185,0.1)"}}>Active editing</div>
+            </div>
+            <div>
+              <div style={{fontSize:11,fontWeight:600,color:C.t1,marginBottom:3,fontFamily:FT}}>With Label</div>
+              <div style={{padding:"8px 12px",borderRadius:6,border:"1px solid "+C.bd,background:C.s2,fontSize:12,color:"#fff",fontFamily:FB}}>P1 - High</div>
+            </div>
+          </div>
+          <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+            <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Inputs use s2 background with bd border. Focus state shows teal border with subtle glow. Labels above inputs use 11px FT semibold. Place inputs in 2-column grids for edit/config panels. 14px margin between input groups.</p>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function DSCompCopilot({SH}){
+  return (
+    <div className="fu" style={{maxWidth:960}}>
+      <h1 style={{fontSize:22,fontWeight:700,color:"#fff",marginBottom:6,fontFamily:FT}}>Copilot Card</h1>
+      <p style={{fontSize:12,color:C.t2,marginBottom:16,fontFamily:FB,lineHeight:1.6}}>AI recommendation card used in the Copilot sidebar.</p>
+      <div className="fi">
+        <Card anim style={{marginBottom:16}}>
+          <div style={SH}>Severity Variants</div>
+          <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Contains severity badge, title, description, expandable reasoning, and action buttons.</p>
+          <div style={{maxWidth:320,marginBottom:16}}>
+            <Card anim style={{borderColor:C.rdD,padding:12,marginBottom:8}}>
+              <div style={{display:"flex",alignItems:"center",gap:4,marginBottom:5}}>
                 <Badge type="critical">Critical</Badge>
-                <Badge type="info">Info</Badge>
-                <Badge type="cyan">Cyan</Badge>
-                <Badge type="neutral">Neutral</Badge>
+                <span style={{fontSize:12,fontWeight:600,color:"#fff",fontFamily:FT}}>Reroute Pathfinder-9</span>
               </div>
-            </div>
-            <div style={{marginBottom:16}}>
-              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>In Context</div>
-              <div style={{display:"flex",gap:12,alignItems:"center"}}>
-                <div style={{display:"flex",gap:4}}><Badge type="success">Online</Badge><Badge type="cyan">8 sats</Badge></div>
-                <div style={{display:"flex",gap:4}}><Badge type="critical">P0</Badge><span style={{fontSize:12,color:C.t1,fontFamily:FB}}>EagleWatch</span></div>
-                <div style={{display:"flex",gap:4}}><Badge type="warning">Degraded</Badge><Badge type="neutral">APAC</Badge></div>
-              </div>
-            </div>
-            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
-              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
-              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use success for nominal/online states. Warning for degraded/caution. Critical for errors and P0 priority. Info/cyan for informational metadata. Neutral for inactive or classification labels.</p>
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {/* Button */}
-      {sub==="button" && (
-        <div className="fi">
-          <Card anim style={{marginBottom:16}}>
-            <div style={SH}>Button</div>
-            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Primary and secondary buttons with small variants. Hover over each to see interactive states.</p>
-            <div style={{marginBottom:20}}>
-              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Primary</div>
-              <div style={{display:"flex",gap:8,alignItems:"center"}}>
-                <Btn primary>Primary Action</Btn>
-                <Btn primary sm>Small Primary</Btn>
-              </div>
-            </div>
-            <div style={{marginBottom:20}}>
-              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Secondary (Default)</div>
-              <div style={{display:"flex",gap:8,alignItems:"center"}}>
-                <Btn>Secondary</Btn>
-                <Btn sm>Small</Btn>
-              </div>
-            </div>
-            <div style={{marginBottom:20}}>
-              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Active State (Selected)</div>
-              <div style={{display:"flex",gap:8,alignItems:"center"}}>
-                <Btn active>Active</Btn>
-                <Btn sm active>Active Small</Btn>
-                <Btn>Inactive</Btn>
-              </div>
-            </div>
-            <div style={{marginBottom:16}}>
-              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Button Groups</div>
-              <div style={{display:"flex",gap:4}}>
+              <p style={{fontSize:11,color:C.t1,lineHeight:1.5,marginBottom:6,fontFamily:FB}}>Darwin link margin critically low. Paumalu B-06 available with 14.1 dB margin.</p>
+              <details>
+                <summary style={{fontSize:10,color:C.tl,cursor:"pointer",fontWeight:500,fontFamily:FT}}>Why this recommendation</summary>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.4,marginTop:3,paddingLeft:6,borderLeft:"2px solid "+C.tlD,fontFamily:FB}}>Margin 2.3 dB {"<"} 5 dB threshold. Scintillation forecast 3+ hours.</p>
+              </details>
+              <div style={{display:"flex",gap:3,marginTop:6}}>
                 <Btn sm primary>Apply</Btn>
                 <Btn sm>Simulate</Btn>
-                <Btn sm>Edit</Btn>
-                <Btn sm>Cancel</Btn>
               </div>
-            </div>
-            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
-              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
-              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use primary (teal fill) for the single most important action. Use secondary (border only) for all other actions. Use sm variant in dense contexts like table rows, copilot cards, and toolbars. Max one primary button per visual group.</p>
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {/* Sliding Tabs */}
-      {sub==="tabs" && (
-        <div className="fi">
-          <Card anim style={{marginBottom:16}}>
-            <div style={SH}>Sliding Tabs</div>
-            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Segmented control for filtering or switching views. Active tab shows a teal border ring. Click tabs below to interact.</p>
-            <div style={{marginBottom:20}}>
-              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Interactive Demo</div>
-              <SlidingTabs items={["Tab 1","Tab 2","Tab 3","Tab 4"]} active={tabActive} onSelect={setTabActive}/>
-              <div style={{marginTop:10,padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
-                <span style={{fontSize:12,color:C.t1,fontFamily:FB}}>Selected: </span>
-                <span style={{fontSize:12,color:C.tl,fontWeight:600,fontFamily:FT}}>{tabActive}</span>
-              </div>
-            </div>
-            <div style={{marginBottom:16}}>
-              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>In Context: Severity Filter</div>
-              <SlidingTabs items={["All","Critical","Warning","Info"]} active="All" onSelect={function(){}}/>
-            </div>
-            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
-              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
-              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use for mutually exclusive filter sets with 2-6 options. Wraps when options overflow. The pill background container provides visual grouping. Not for navigation between pages.</p>
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {/* KPI */}
-      {sub==="kpi" && (
-        <div className="fi">
-          <Card anim style={{marginBottom:16}}>
-            <div style={SH}>KPI Card</div>
-            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Key Performance Indicator cards for at-a-glance metrics. Animated on entry with fade-up. Each has label, value, and optional subtitle.</p>
-            <div style={{marginBottom:20}}>
-              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Standard KPIs</div>
-              <div style={{display:"flex",gap:8}}>
-                <KPI label="Satellites" value="7/8" sub="tracked"/>
-                <KPI label="Sites" value="5/7" sub="1 degraded"/>
-                <KPI label="Throughput" value="4.8 Gbps" sub="Peak 6.2"/>
-                <KPI label="Incidents" value="6" sub="2 critical"/>
-              </div>
-            </div>
-            <div style={{marginBottom:16}}>
-              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Without Subtitle</div>
-              <div style={{display:"flex",gap:8}}>
-                <KPI label="Status" value="Applied"/>
-                <KPI label="Confidence" value="94%"/>
-                <KPI label="Impact" value="Nominal"/>
-              </div>
-            </div>
-            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
-              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
-              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Place KPI rows at the top of screens for instant situational awareness. Use 3-5 KPIs per row. Values should be concise (numbers, percentages, short words). Subtitles provide context without detail. Always use tabular-nums for numeric alignment.</p>
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {/* Card */}
-      {sub==="card" && (
-        <div className="fi">
-          <Card anim style={{marginBottom:16}}>
-            <div style={SH}>Card</div>
-            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Primary container component. Cards can be static, clickable (with hover lift), or animated on entry. Hover over the interactive cards below.</p>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:16}}>
-              <Card>
-                <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:4,fontFamily:FT}}>Static Card</div>
-                <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Default card with no interaction. Used for display content.</p>
-              </Card>
-              <Card onClick={function(){}} anim>
-                <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:4,fontFamily:FT}}>Clickable Card</div>
-                <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Hover to see border glow and lift effect.</p>
-              </Card>
-              <Card anim style={{borderColor:C.tlD}}>
-                <div style={{fontSize:12,fontWeight:600,color:"#fff",marginBottom:4,fontFamily:FT}}>Accent Border</div>
-                <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Teal border for emphasis or active state.</p>
-              </Card>
-            </div>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:16}}>
-              <Card style={{borderColor:C.rdD}}>
-                <div style={{fontSize:12,fontWeight:600,color:C.rd,marginBottom:4,fontFamily:FT}}>Critical Border</div>
-                <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Red border for critical states.</p>
-              </Card>
-              <Card style={{borderColor:C.amD}}>
-                <div style={{fontSize:12,fontWeight:600,color:C.am,marginBottom:4,fontFamily:FT}}>Warning Border</div>
-                <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Amber border for warnings.</p>
-              </Card>
-              <Card style={{padding:0,overflow:"hidden"}}>
-                <div style={{padding:"10px 14px",borderBottom:"1px solid "+C.bd}}>
-                  <span style={{fontSize:12,fontWeight:600,color:"#fff",fontFamily:FT}}>Header Card</span>
-                </div>
-                <div style={{padding:14}}>
-                  <p style={{fontSize:11,color:C.t2,lineHeight:1.4,margin:0,fontFamily:FB}}>Card with header section.</p>
-                </div>
-              </Card>
-            </div>
-            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
-              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
-              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Cards are the primary grouping container. Use border-color for semantic state (teal=success, amber=warning, red=critical). Clickable cards get hover lift and border glow. Use padding:0 with overflow:hidden for header-card patterns. Animate entry with the anim prop.</p>
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {/* Table */}
-      {sub==="table" && (
-        <div className="fi">
-          <Card anim style={{marginBottom:16}}>
-            <div style={SH}>Table (TH + TR)</div>
-            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Grid-based table with header and interactive rows. Rows highlight on hover and support active (selected) state. Click rows to see active state.</p>
-            <Card style={{padding:0,overflow:"hidden",marginBottom:16}}>
-              <TH cols={[{l:"ID",w:"80px"},{l:"Name"},{l:"Status",w:"90px"},{l:"Region",w:"100px"},{l:"Health",w:"80px"}]}/>
-              {[
-                ["NS-001","Sentinel-7A","Nominal","CONUS-W","98%"],
-                ["NS-003","Aegis-12","Degraded","GEO","72%"],
-                ["NS-005","Pathfinder-9","Critical","LEO","41%"]
-              ].map(function(r,i){
-                return (
-                  <TR key={i} cols={[{w:"80px"},{},{w:"90px"},{w:"100px"},{w:"80px"}]}
-                    active={hov.tableRow===i} onClick={function(){setHov(Object.assign({},hov,{tableRow:hov.tableRow===i?null:i}));}}
-                    vals={[
-                      <Mono>{r[0]}</Mono>,
-                      <span style={{fontWeight:500}}>{r[1]}</span>,
-                      <Badge type={r[2]==="Nominal"?"success":r[2]==="Degraded"?"warning":"critical"}>{r[2]}</Badge>,
-                      <span style={{color:C.t2}}>{r[3]}</span>,
-                      <span>{r[4]}</span>
-                    ]}/>
-                );
-              })}
             </Card>
-            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
-              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
-              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Tables use CSS Grid for column alignment. TH defines column labels with uppercase styling. TR highlights on hover (s4 background) and shows acB background when active. Use Mono for IDs and timestamps. Use Badge for status columns. Column widths should be explicit for data-heavy columns.</p>
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {/* Chips */}
-      {sub==="chips" && (
-        <div className="fi">
-          <Card anim style={{marginBottom:16}}>
-            <div style={SH}>Chips / Filter Buttons</div>
-            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Inline filter pills built from small buttons. Click to toggle active state.</p>
-            <div style={{marginBottom:16}}>
-              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Interactive Demo</div>
-              <Chips items={["All","Critical","Warning","Info","Nominal"]} active={chipActive} set={setChipActive}/>
-              <div style={{marginTop:8,fontSize:11,color:C.t2,fontFamily:FB}}>Selected: <span style={{color:C.tl,fontWeight:600,fontFamily:FT}}>{chipActive}</span></div>
-            </div>
-            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
-              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
-              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use chips for quick inline filtering (severity, type, category). Always include an "All" option. The active chip shows the acB background and acD border. Chips wrap on overflow. Prefer SlidingTabs for pill-contained filters, Chips for inline filter rows.</p>
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {/* Progress Bar */}
-      {sub==="bar" && (
-        <div className="fi">
-          <Card anim style={{marginBottom:16}}>
-            <div style={SH}>Progress Bar</div>
-            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Horizontal progress indicator with animated fill and percentage label. Click the button to see it animate.</p>
-            <div style={{marginBottom:16}}>
-              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Static Examples</div>
-              <div style={{display:"flex",flexDirection:"column",gap:10}}>
-                <div><div style={{fontSize:10,color:C.t3,marginBottom:3,fontFamily:FT}}>25%</div><BarC pct={25}/></div>
-                <div><div style={{fontSize:10,color:C.t3,marginBottom:3,fontFamily:FT}}>62%</div><BarC pct={62}/></div>
-                <div><div style={{fontSize:10,color:C.t3,marginBottom:3,fontFamily:FT}}>100%</div><BarC pct={100}/></div>
-                <div><div style={{fontSize:10,color:C.t3,marginBottom:3,fontFamily:FT}}>Warning (amber)</div><BarC pct={45} color={C.am}/></div>
-                <div><div style={{fontSize:10,color:C.t3,marginBottom:3,fontFamily:FT}}>Critical (red)</div><BarC pct={18} color={C.rd}/></div>
+            <Card anim style={{borderColor:C.acD,padding:12}}>
+              <div style={{display:"flex",alignItems:"center",gap:4,marginBottom:5}}>
+                <Badge type="info">Info</Badge>
+                <span style={{fontSize:12,fontWeight:600,color:"#fff",fontFamily:FT}}>Optimize Cape beams</span>
               </div>
-            </div>
-            <div style={{marginBottom:16}}>
-              <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:8,fontFamily:FT}}>Live Animation</div>
-              <BarC pct={loading?simProg:0} color={simProg>=100?C.tl:C.ac}/>
-              <div style={{marginTop:8}}>
-                <Btn sm primary onClick={function(){setSimProg(0);setLoading(true);}}>
-                  {loading?"Running...":"Start Simulation"}
-                </Btn>
+              <p style={{fontSize:11,color:C.t1,lineHeight:1.5,marginBottom:6,fontFamily:FB}}>11/18 beams active. Rebalance frees 3 for ShieldNet.</p>
+              <details>
+                <summary style={{fontSize:10,color:C.tl,cursor:"pointer",fontWeight:500,fontFamily:FT}}>Why this recommendation</summary>
+                <p style={{fontSize:11,color:C.t2,lineHeight:1.4,marginTop:3,paddingLeft:6,borderLeft:"2px solid "+C.tlD,fontFamily:FB}}>B-12,14,16 on completed passes. ShieldNet needs 2 at 15:00.</p>
+              </details>
+              <div style={{display:"flex",gap:3,marginTop:6}}>
+                <Btn sm primary>Apply</Btn>
+                <Btn sm>Simulate</Btn>
               </div>
-            </div>
-            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
-              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
-              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use teal for standard progress, amber for warning thresholds, red for critical states. The bar transitions width over 0.6s for smooth animation. Always show the percentage label. Height is 3px for an unobtrusive presence.</p>
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {/* Mini Chart */}
-      {sub==="chart" && (
-        <div className="fi">
-          <Card anim style={{marginBottom:16}}>
-            <div style={SH}>Mini Chart (Sparkline)</div>
-            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>SVG-based sparkline chart for inline trend visualization. Supports threshold lines and custom colors.</p>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:16}}>
-              <Card>
-                <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>Teal (Nominal)</div>
-                <MC data={[14.2,13.8,14.5,13.1,14.8,14.0,13.5,14.2,15.1,14.6,13.9,14.3]} color={C.tl}/>
-              </Card>
-              <Card>
-                <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>With Threshold</div>
-                <MC data={[8.1,7.5,7.2,6.8,6.5,6.1,6.3,6.0,5.8,6.1,5.9,6.1]} color={C.am} thr={5}/>
-              </Card>
-              <Card>
-                <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>Critical Trend</div>
-                <MC data={[5.2,4.8,4.1,3.7,3.2,2.8,2.5,2.3,2.1,2.3,2.0,2.3]} color={C.rd} thr={5}/>
-              </Card>
-              <Card>
-                <div style={{fontSize:11,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>Violet Accent</div>
-                <MC data={[10.5,10.8,10.2,10.6,10.9,10.3,10.7,10.1,10.5,10.4,10.8,10.5]} color={C.vi}/>
-              </Card>
-            </div>
-            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
-              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
-              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use sparklines for telemetry trends in cards and detail panels. Default height is 55px. Threshold lines appear as dashed red lines. Color should match the semantic state of the data. Provide 8-12 data points for readable trends.</p>
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {/* Detail Panel */}
-      {sub==="detail" && (
-        <div className="fi">
-          <Card anim style={{marginBottom:16}}>
-            <div style={SH}>Detail Panel (DP)</div>
-            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Full-screen overlay for deep-dive views. Contains a back button, title, and flexible content area. Click "Open Detail" to see the panel pattern rendered inline.</p>
-            <div style={{marginBottom:16}}>
-              <Btn sm primary onClick={function(){setExpanded(!expanded);}}>{expanded?"Close Detail":"Open Detail Preview"}</Btn>
-            </div>
-            {expanded && (
-              <div className="fi" style={{border:"1px solid "+C.bd,borderRadius:10,overflow:"hidden",background:C.bg}}>
-                <div style={{padding:"16px 20px"}}>
-                  <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:16}}>
-                    <button onClick={function(){setExpanded(false);}} style={{background:C.acB,border:"1px solid "+C.acD,borderRadius:6,padding:"4px 12px",color:C.ac,fontSize:11,fontWeight:500,cursor:"pointer",fontFamily:FT}}>Back</button>
-                    <h1 style={{fontSize:18,fontWeight:600,color:"#fff",fontFamily:FT}}>Detail: Sentinel-7A</h1>
-                  </div>
-                  <div style={{display:"flex",gap:8,marginBottom:12}}>
-                    <KPI label="Health" value="98%" sub="Nominal"/>
-                    <KPI label="Orbit" value="LEO" sub="550 km"/>
-                    <KPI label="Link" value="14.2 dB" sub="Margin"/>
-                  </div>
-                  <Card style={{borderColor:C.tlD,padding:12}}>
-                    <div style={{fontSize:11,fontWeight:600,color:C.tl,marginBottom:4,fontFamily:FT}}>Telemetry</div>
-                    <MC data={[14.2,13.8,14.5,13.1,14.8,14.0,13.5,14.2,15.1,14.6,13.9,14.3]} color={C.tl}/>
-                  </Card>
-                </div>
-              </div>
-            )}
-            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd,marginTop:16}}>
-              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
-              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Detail panels overlay the screen content. Always include a Back button and title. Use KPI row at top for key metrics. Content below can use any layout pattern (timeline, form, grid, charts). Panel fades in with the fi animation class.</p>
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {/* Mono */}
-      {sub==="mono" && (
-        <div className="fi">
-          <Card anim style={{marginBottom:16}}>
-            <div style={SH}>Mono Text</div>
-            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Monospace-styled inline text for IDs, timestamps, and technical values.</p>
-            <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:16}}>
-              <div style={{display:"flex",alignItems:"center",gap:12}}>
-                <span style={{width:80,fontSize:10,color:C.t3,fontFamily:FT}}>Timestamp</span>
-                <Mono>14:22:08</Mono>
-              </div>
-              <div style={{display:"flex",alignItems:"center",gap:12}}>
-                <span style={{width:80,fontSize:10,color:C.t3,fontFamily:FT}}>ID</span>
-                <Mono>NS-001</Mono>
-              </div>
-              <div style={{display:"flex",alignItems:"center",gap:12}}>
-                <span style={{width:80,fontSize:10,color:C.t3,fontFamily:FT}}>Command</span>
-                <Mono>GET_LINK_STATUS</Mono>
-              </div>
-              <div style={{display:"flex",alignItems:"center",gap:12}}>
-                <span style={{width:80,fontSize:10,color:C.t3,fontFamily:FT}}>Data Rate</span>
-                <Mono>150 Mbps</Mono>
-              </div>
-            </div>
-            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
-              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
-              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Use Mono for machine-generated values: IDs, timestamps, commands, data rates, hex codes. Rendered at 11px in t2 color. Provides visual distinction from human-readable body text.</p>
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {/* Form Input */}
-      {sub==="form" && (
-        <div className="fi">
-          <Card anim style={{marginBottom:16}}>
-            <div style={SH}>Form Input</div>
-            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>Text inputs used in edit and configuration panels. Dark surface with subtle border.</p>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:16}}>
-              <div>
-                <div style={{fontSize:11,fontWeight:600,color:C.t1,marginBottom:3,fontFamily:FT}}>Filled</div>
-                <div style={{padding:"8px 12px",borderRadius:6,border:"1px solid "+C.bd,background:C.s2,fontSize:12,color:"#fff",fontFamily:FB}}>Sentinel-7A</div>
-              </div>
-              <div>
-                <div style={{fontSize:11,fontWeight:600,color:C.t1,marginBottom:3,fontFamily:FT}}>Placeholder</div>
-                <div style={{padding:"8px 12px",borderRadius:6,border:"1px solid "+C.bd,background:C.s2,fontSize:12,color:C.t3,fontFamily:FB}}>Enter value...</div>
-              </div>
-              <div>
-                <div style={{fontSize:11,fontWeight:600,color:C.t1,marginBottom:3,fontFamily:FT}}>Focus State</div>
-                <div style={{padding:"8px 12px",borderRadius:6,border:"1px solid "+C.tlD,background:C.s2,fontSize:12,color:"#fff",fontFamily:FB,boxShadow:"0 0 0 2px rgba(154,197,185,0.1)"}}>Active editing</div>
-              </div>
-              <div>
-                <div style={{fontSize:11,fontWeight:600,color:C.t1,marginBottom:3,fontFamily:FT}}>With Label</div>
-                <div style={{padding:"8px 12px",borderRadius:6,border:"1px solid "+C.bd,background:C.s2,fontSize:12,color:"#fff",fontFamily:FB}}>P1 - High</div>
-              </div>
-            </div>
-            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
-              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
-              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Inputs use s2 background with bd border. Focus state shows teal border with subtle glow. Labels above inputs use 11px FT semibold. Place inputs in 2-column grids for edit/config panels. 14px margin between input groups.</p>
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {/* Copilot Card */}
-      {sub==="copilot" && (
-        <div className="fi">
-          <Card anim style={{marginBottom:16}}>
-            <div style={SH}>Copilot Card</div>
-            <p style={{fontSize:12,color:C.t1,lineHeight:1.6,marginBottom:16,fontFamily:FB}}>AI recommendation card used in the Copilot sidebar. Contains severity badge, title, description, expandable reasoning, and action buttons.</p>
-            <div style={{maxWidth:320,marginBottom:16}}>
-              <Card anim style={{borderColor:C.rdD,padding:12,marginBottom:8}}>
-                <div style={{display:"flex",alignItems:"center",gap:4,marginBottom:5}}>
-                  <Badge type="critical">Critical</Badge>
-                  <span style={{fontSize:12,fontWeight:600,color:"#fff",fontFamily:FT}}>Reroute Pathfinder-9</span>
-                </div>
-                <p style={{fontSize:11,color:C.t1,lineHeight:1.5,marginBottom:6,fontFamily:FB}}>Darwin link margin critically low. Paumalu B-06 available with 14.1 dB margin.</p>
-                <details>
-                  <summary style={{fontSize:10,color:C.tl,cursor:"pointer",fontWeight:500,fontFamily:FT}}>Why this recommendation</summary>
-                  <p style={{fontSize:11,color:C.t2,lineHeight:1.4,marginTop:3,paddingLeft:6,borderLeft:"2px solid "+C.tlD,fontFamily:FB}}>Margin 2.3 dB {"<"} 5 dB threshold. Scintillation forecast 3+ hours.</p>
-                </details>
-                <div style={{display:"flex",gap:3,marginTop:6}}>
-                  <Btn sm primary>Apply</Btn>
-                  <Btn sm>Simulate</Btn>
-                </div>
-              </Card>
-              <Card anim style={{borderColor:C.acD,padding:12}}>
-                <div style={{display:"flex",alignItems:"center",gap:4,marginBottom:5}}>
-                  <Badge type="info">Info</Badge>
-                  <span style={{fontSize:12,fontWeight:600,color:"#fff",fontFamily:FT}}>Optimize Cape beams</span>
-                </div>
-                <p style={{fontSize:11,color:C.t1,lineHeight:1.5,marginBottom:6,fontFamily:FB}}>11/18 beams active. Rebalance frees 3 for ShieldNet.</p>
-                <details>
-                  <summary style={{fontSize:10,color:C.tl,cursor:"pointer",fontWeight:500,fontFamily:FT}}>Why this recommendation</summary>
-                  <p style={{fontSize:11,color:C.t2,lineHeight:1.4,marginTop:3,paddingLeft:6,borderLeft:"2px solid "+C.tlD,fontFamily:FB}}>B-12,14,16 on completed passes. ShieldNet needs 2 at 15:00.</p>
-                </details>
-                <div style={{display:"flex",gap:3,marginTop:6}}>
-                  <Btn sm primary>Apply</Btn>
-                  <Btn sm>Simulate</Btn>
-                </div>
-              </Card>
-            </div>
-            <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
-              <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
-              <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Copilot cards live in the 300px right sidebar. Border color matches severity (red=critical, amber=warning, default=info). The "Why this recommendation" uses a details/summary pattern for progressive disclosure. Always provide Apply and Simulate actions. The copilot indicator uses a gl (glow) animated dot.</p>
-            </div>
-          </Card>
-        </div>
-      )}
+            </Card>
+          </div>
+          <div style={{padding:12,background:C.s2,borderRadius:8,border:"1px solid "+C.bd}}>
+            <div style={{fontSize:10,fontWeight:600,color:C.t3,marginBottom:6,fontFamily:FT}}>USAGE RULES</div>
+            <p style={{fontSize:11,color:C.t2,lineHeight:1.5,margin:0,fontFamily:FB}}>Copilot cards live in the 300px right sidebar. Border color matches severity (red=critical, amber=warning, default=info). The "Why this recommendation" uses a details/summary pattern for progressive disclosure. Always provide Apply and Simulate actions. The copilot indicator uses a gl (glow) animated dot.</p>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 }
