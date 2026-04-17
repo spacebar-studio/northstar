@@ -1533,7 +1533,7 @@ function DesignSystemPage(){
   var setNavHov = hovState[1];
 
   var DS_CATS = [
-    {cat:null,items:[{id:"overview",la:"Overview"}]},
+    {cat:"Overview",items:[{id:"overview",la:"Introduction"}]},
     {cat:"Foundations",items:[
       {id:"principles",la:"Design Principles"},
       {id:"colors",la:"Color Palette"},
