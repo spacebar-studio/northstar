@@ -3002,18 +3002,18 @@ function AINativePage(){
   );
 }
 
-var tourTabs = ["Overview","Demo","Process","Design System","Docs","AI-Native","Field Notes","Memento"];
+var tourTabs = ["Overview","Demo","Process","AI-Native","Design System","Docs","Field Notes","Memento"];
 var tourDescs = [
   "Product overview with problem statement, solution, design principles, the value of design, and an interactive demo preview.",
   "Fully interactive prototype with 21 screens across 7 domains. Click any element to explore detail pages.",
   "Complete design process documentation with the 20/60/20 AI approach, IA, user journeys, and step-by-step process.",
+  "How NorthStar embeds intelligence into the operator experience with Copilot recommendations and AI-driven resilience.",
   "Interactive design system with color palette, typography, spacing, component library, motion design, patterns, and layout documentation.",
   "Screen-by-screen documentation with descriptions, category and page filters.",
-  "How NorthStar embeds intelligence into the operator experience with Copilot recommendations and AI-driven resilience.",
   "Reflections on the space infrastructure industry, design thinking, and the ground segment opportunity.",
   "A personal postcard to the Northwood Space team with a letter of interest."
 ];
-var tourKeys = ["overview","demo","process","designsystem","docs","ainative","fieldnotes","memento"];
+var tourKeys = ["overview","demo","process","ainative","designsystem","docs","fieldnotes","memento"];
 
 export default function NorthStarV2(){
   var pageState = useState("overview");
