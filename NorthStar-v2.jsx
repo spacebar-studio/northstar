@@ -1051,7 +1051,7 @@ function PostcardBack({onClose}){
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:12}}>
             <div style={{display:"flex",gap:6}}>
               <a href="https://designsbytulcy.weebly.com" target="_blank" rel="noopener noreferrer" style={{padding:"5px 12px",borderRadius:4,background:C.s2,color:C.t1,fontSize:10,fontWeight:600,textDecoration:"none",fontFamily:FT}}>Portfolio</a>
-              <a href="https://drive.google.com/file/d/1aNOeYXecp7sdbNagqNeKU9ZGkPWM-2A5/view?usp=sharing" target="_blank" rel="noopener noreferrer" style={{padding:"5px 12px",borderRadius:4,background:C.s2,color:C.t1,fontSize:10,fontWeight:600,textDecoration:"none",fontFamily:FT}}>Resume</a>
+              <a href="https://drive.google.com/file/d/1hd8ukITE0qk4Tdhq4abGTq3fDf51-6PJ/view?usp=sharing" target="_blank" rel="noopener noreferrer" style={{padding:"5px 12px",borderRadius:4,background:C.s2,color:C.t1,fontSize:10,fontWeight:600,textDecoration:"none",fontFamily:FT}}>Resume</a>
               <a href="https://www.linkedin.com/in/tulcypatel" target="_blank" rel="noopener noreferrer" style={{padding:"5px 12px",borderRadius:4,background:C.s2,color:C.t1,fontSize:10,fontWeight:600,textDecoration:"none",fontFamily:FT}}>LinkedIn</a>
             </div>
             <div style={{width:64,height:72,border:"2px dashed #999",borderRadius:4,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",background:"rgba(154,197,185,0.06)",padding:4}}>
@@ -1152,7 +1152,7 @@ function MementoPage(){
                     <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",padding:"14px 20px",borderBottom:"1px solid "+C.bd}}>
                       <div style={{display:"flex",gap:6}}>
                         <a href="https://designsbytulcy.weebly.com" target="_blank" rel="noopener noreferrer" style={{padding:"5px 12px",borderRadius:4,background:C.s2,color:C.t1,fontSize:10,fontWeight:600,textDecoration:"none",fontFamily:FT}}>Portfolio</a>
-                        <a href="https://drive.google.com/file/d/1aNOeYXecp7sdbNagqNeKU9ZGkPWM-2A5/view?usp=sharing" target="_blank" rel="noopener noreferrer" style={{padding:"5px 12px",borderRadius:4,background:C.s2,color:C.t1,fontSize:10,fontWeight:600,textDecoration:"none",fontFamily:FT}}>Resume</a>
+                        <a href="https://drive.google.com/file/d/1hd8ukITE0qk4Tdhq4abGTq3fDf51-6PJ/view?usp=sharing" target="_blank" rel="noopener noreferrer" style={{padding:"5px 12px",borderRadius:4,background:C.s2,color:C.t1,fontSize:10,fontWeight:600,textDecoration:"none",fontFamily:FT}}>Resume</a>
                         <a href="https://www.linkedin.com/in/tulcypatel" target="_blank" rel="noopener noreferrer" style={{padding:"5px 12px",borderRadius:4,background:C.s2,color:C.t1,fontSize:10,fontWeight:600,textDecoration:"none",fontFamily:FT}}>LinkedIn</a>
                       </div>
                       <div style={{width:80,height:96,border:"2px solid "+C.tl,borderRadius:6,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",background:C.tlB,padding:4,position:"relative"}}>
